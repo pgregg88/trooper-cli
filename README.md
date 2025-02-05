@@ -422,10 +422,10 @@ Files are named using this pattern:
 
 ### Code Quality Tools
 
-The project uses the following tools to maintain code quality:
+We use two main tools to maintain code quality:
 
 1. **Pylint**
-   - Code style and error checking
+   - Code style checking and error detection
    - Configuration in `.pylintrc`
    - Run with:
 
@@ -435,7 +435,7 @@ The project uses the following tools to maintain code quality:
 
 2. **MyPy**
    - Static type checking
-   - Ensures type safety
+   - Helps catch type-related errors early
    - Run with:
 
      ```bash
