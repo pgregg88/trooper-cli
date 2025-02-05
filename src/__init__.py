@@ -2,6 +2,4 @@
 
 __version__ = "0.1.0"
 
-from . import audio
-from . import cli
-from . import quotes 
+from . import audio, cli, quotes

@@ -15,7 +15,11 @@ dependencies = [
     "sounddevice",
     "loguru",
     "pyyaml",
+    "python-dotenv",
 ]
 
+[tool.setuptools]
+packages = {find = {where = ["src"]}}
+
 [project.scripts]
-trooper = "src.cli.trooper:main" 
+trooper = "cli.trooper:main" 

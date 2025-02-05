@@ -35,11 +35,11 @@ project_root = Path(__file__).parent.parent.parent
 if str(project_root) not in sys.path:
     sys.path.append(str(project_root))
 
-from ..audio import AudioError
-from ..audio.effects import StormtrooperEffect
-from ..audio.polly import PollyClient
-from ..audio.processor import process_and_play_text
-from ..quotes import QuoteManager
+from audio import AudioError
+from audio.effects import StormtrooperEffect
+from audio.polly import PollyClient
+from audio.processor import process_and_play_text
+from quotes import QuoteManager
 
 # Type alias for sounddevice device info
 DeviceInfo = Dict[str, Any]
