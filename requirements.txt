@@ -1,0 +1,36 @@
+# Core dependencies
+setuptools>=75.8.0
+boto3==1.36.11
+numpy==2.2.2
+scipy==1.15.1
+soundfile==0.13.1
+sounddevice==0.5.1
+loguru==0.7.3
+pyyaml==6.0.2
+python-dotenv==1.0.1  # For environment variable management
+cffi==1.17.1  # Required by sounddevice
+
+# Development dependencies
+# Linting and Type Checking
+pylint==3.3.4  # Code linting and style checking
+platformdirs==4.3.6  # Required by pylint
+astroid==3.3.8  # Required by pylint
+dill==0.3.9  # Required by pylint
+isort==6.0.0  # Required by pylint
+mccabe==0.7.0  # Required by pylint
+tomlkit==0.13.2  # Required by pylint
+mypy==1.8.0  # Static type checking
+
+# Testing
+pytest==8.0.0  # Testing framework
+pytest-cov==4.1.0  # Code coverage reporting
+pytest-mock==3.12.0  # Mocking support for pytest
+
+# Security
+bandit==1.7.7  # Security linting
+
+# Documentation
+pdoc3==0.10.0  # API documentation generator
+
+# Development Workflow
+pre-commit==3.6.0  # Git hooks for code quality checks

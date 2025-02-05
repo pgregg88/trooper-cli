@@ -1,0 +1,237 @@
+categories:
+  spotted:
+    description: "Detection and identification quotes"
+    contexts:
+      patrol:
+        - text: "Hey! Over there!"
+          urgency: high
+          tags: ["alert", "directional"]
+        - text: "Stop right there!"
+          urgency: high
+          tags: ["alert", "command"]
+        - text: "You! Don't move!"
+          urgency: high
+          tags: ["alert", "command"]
+        - text: "Someone ahead"
+          urgency: medium
+          tags: ["alert", "directional"]
+        - text: "Hey an intruder!"
+          urgency: high
+          tags: ["alert"]
+        - text: "Got a hostile!"
+          urgency: high
+          tags: ["alert", "combat"]
+        - text: "What's over there?"
+          urgency: medium
+          tags: ["alert", "directional"]
+        - text: "Found you, intruder."
+          urgency: high
+          tags: ["alert"]
+        - text: "Found the target!"
+          urgency: high
+          tags: ["alert"]
+        - text: "Enemy located."
+          urgency: high
+          tags: ["alert"]
+        - text: "Break's over."
+          urgency: medium
+          tags: ["alert"]
+        - text: "What are you doing here?"
+          urgency: medium
+          tags: ["alert", "command"]
+        - text: "He's there! right there!"
+          urgency: high
+          tags: ["alert", "directional"]
+      combat:
+        - text: "Adversary inbound"
+          urgency: high
+          tags: ["combat", "alert"]
+        - text: "Jedi!"
+          urgency: high
+          tags: ["jedi", "alert"]
+        - text: "The Jedi is here!"
+          urgency: high
+          tags: ["jedi", "alert"]
+        - text: "We've found the Jedi."
+          urgency: high
+          tags: ["jedi", "alert"]
+        - text: "It's the Jedi! get him!"
+          urgency: high
+          tags: ["jedi", "combat", "alert"]
+        - text: "Jedi - engage with caution!"
+          urgency: high
+          tags: ["jedi", "combat", "tactical"]
+
+  taunt:
+    description: "Intimidation and arrest quotes"
+    contexts:
+      arrest:
+        - text: "You're under arrest!"
+          urgency: medium
+          tags: ["legal", "command"]
+        - text: "Stand still!"
+          urgency: medium
+          tags: ["command", "pursuit"]
+        - text: "Surrender!"
+          urgency: medium
+          tags: ["command", "combat"]
+        - text: "Surrender now."
+          urgency: medium
+          tags: ["command", "combat"]
+      combat:
+        - text: "You can't beat us all."
+          urgency: medium
+          tags: ["combat", "threat"]
+        - text: "You won't get away."
+          urgency: high
+          tags: ["pursuit", "threat"]
+        - text: "We'll get you for that!"
+          urgency: high
+          tags: ["combat", "threat"]
+        - text: "We'll make you pay!"
+          urgency: high
+          tags: ["combat", "threat"]
+        - text: "You're aren't leaving here alive!"
+          urgency: high
+          tags: ["combat", "threat"]
+        - text: "You'll pay for that!"
+          urgency: high
+          tags: ["combat", "threat"]
+        - text: "You're gonna regret being here!"
+          urgency: high
+          tags: ["combat", "threat"]
+        - text: "Get him! Make him pay!"
+          urgency: high
+          tags: ["combat", "command"]
+        - text: "You should run from this squadron!"
+          urgency: medium
+          tags: ["combat", "threat"]
+        - text: "Oh, you're dead!"
+          urgency: high
+          tags: ["combat", "threat"]
+        - text: "The radar sir...it appears to be... jammed!,"
+          urgency: high
+          tags: ["combat", "threat"]
+
+
+          
+
+  squad_commands:
+    description: "Tactical and coordination quotes"
+    contexts:
+      combat:
+        - text: "Attack him! Quickly!"
+          urgency: high
+          tags: ["combat", "command"]
+        - text: "Blast 'em!"
+          urgency: high
+          tags: ["combat", "command"]
+        - text: "Destroy him."
+          urgency: high
+          tags: ["combat", "command"]
+        - text: "Firing on the enemy."
+          urgency: medium
+          tags: ["combat", "tactical"]
+        - text: "Get the target!"
+          urgency: high
+          tags: ["combat", "command"]
+        - text: "He's on the run!"
+          urgency: medium
+          tags: ["pursuit", "alert"]
+        - text: "Hit him!"
+          urgency: high
+          tags: ["combat", "command"]
+        - text: "Hurry! Catch him!"
+          urgency: high
+          tags: ["pursuit", "command"]
+        - text: "Shoot him."
+          urgency: high
+          tags: ["combat", "command"]
+        - text: "Shoot that Jedi!"
+          urgency: high
+          tags: ["jedi", "combat", "command"]
+      formation:
+        - text: "Lay down suppressing fire!"
+          urgency: high
+          tags: ["combat", "tactical"]
+        - text: "Move!"
+          urgency: high
+          tags: ["movement", "command"]
+        - text: "Steady! Concentrate fire!"
+          urgency: high
+          tags: ["combat", "tactical"]
+        - text: "Step back, I've got this."
+          urgency: medium
+          tags: ["combat", "tactical"]
+
+  conversation:
+    description: "General dialogue and interaction quotes"
+    contexts:
+      casual:
+        - text: "I could sure go for a cup of caf right now!"
+          urgency: low
+          tags: ["casual", "break"]
+        - text: "I'm not sure I'm cut out for this whole stormtrooper thing."
+          urgency: low
+          tags: ["casual", "doubt"]
+        - text: "I heard that Lord Vader might be making an appearance today!"
+          urgency: medium
+          tags: ["casual", "vader"]
+        - text: "Have you heard about the new T-16's"
+          urgency: low
+          tags: ["casual", "equipment"]
+      inspection:
+        - text: "Present your identity card for verification."
+          urgency: low
+          tags: ["official", "verification"]
+        - text: "You look familiar. I've seen your face before."
+          urgency: medium
+          tags: ["official", "suspicious"]
+        - text: "We'll consider that an oversight. You consider this, a warning."
+          urgency: medium
+          tags: ["official", "warning"]
+        - text: "We've got eyes on you."
+          urgency: medium
+          tags: ["official", "warning"]
+      warning:
+        - text: "This outpost is under observation by the Empire"
+          urgency: low
+          tags: ["official", "warning"]
+        - text: "Stay sharp, this area is crawling with Rebels."
+          urgency: medium
+          tags: ["alert", "rebels"]
+        - text: "Don't be alarmed. We are here for your protection."
+          urgency: low
+          tags: ["official", "reassurance"]
+      verification:
+        - text: "Have you sworn allegiance to the Empire?"
+          urgency: medium
+          tags: ["official", "verification"]
+        - text: "Hello citizen. I believe you were warned about coming back to this sector."
+          urgency: medium
+          tags: ["official", "warning"]
+        - text: "Didn't we warn you to stay away from this sector?"
+          urgency: medium
+          tags: ["official", "warning"]
+      reassurance:
+        - text: "Let's calm it down here."
+          urgency: low
+          tags: ["official", "reassurance"]
+        - text: "Watch that curiosity, citizen."
+          urgency: low
+          tags: ["official", "warning"]
+        - text: "Take it easy, citizen."
+          urgency: low
+          tags: ["official", "reassurance"]
+
+  announcements:
+    description: "Public broadcast messages"
+    contexts:
+      alert:
+        - text: "Rebel activity has been reported in this area! If you see anything, then report it immediately!"
+          urgency: high
+          tags: ["public", "warning", "rebels"]
+      update:
+        - text: "Citizens! We have been ordered to re-position, and are vacating these premises!"
+          urgency: medium
+          tags: ["public", "movement"] 

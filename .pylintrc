@@ -1,0 +1,67 @@
+[MASTER]
+# Add the project root directory to the Python path
+init-hook='import sys; sys.path.append(".")'
+
+# Use multiple processes to speed up Pylint (use "0" for auto)
+jobs=0
+
+# List of plugins to load
+load-plugins=
+
+# Allow loading modules/packages from top level directory
+ignore=CVS,setup.py
+
+[MESSAGES CONTROL]
+# Disable specific warnings
+disable=C0111,  # missing-docstring
+        C0103,  # invalid-name
+        C0303,  # trailing-whitespace
+        W0511,  # fixme
+        R0903,  # too-few-public-methods
+        R0913,  # too-many-arguments
+        R0914,  # too-many-locals
+        W0621,  # redefined-outer-name
+        W0622,  # redefined-builtin
+        W0703,  # broad-except
+        E1101,  # no-member (often false-positives)
+        C0111,  # missing-docstring
+        C0116,  # missing-function-docstring
+        C0115,  # missing-class-docstring
+        C0114   # missing-module-docstring
+
+[REPORTS]
+# Set the output format
+output-format=text
+
+# Include a brief explanation of each error
+msg-template={path}:{line}: [{msg_id}({symbol}), {obj}] {msg}
+
+[FORMAT]
+# Maximum number of characters on a single line
+max-line-length=120
+
+[BASIC]
+# Regular expression which should only match function or class names
+function-rgx=[a-z_][a-z0-9_]{2,50}$
+class-rgx=[A-Z_][a-zA-Z0-9_]+$
+
+# Good variable names
+good-names=i,j,k,ex,Run,_,fd,fp,id,ip
+
+[SIMILARITIES]
+# Minimum lines number of a similarity
+min-similarity-lines=4
+
+[TYPECHECK]
+# List of module names for which member attributes should not be checked
+ignored-modules=numpy,tensorflow,torch,cv2,setuptools
+
+# List of classes names for which member attributes should not be checked
+ignored-classes=SQLObject,optparse.Values,thread._local,_thread._local
+
+[VARIABLES]
+# A regular expression matching the name of dummy variables
+dummy-variables-rgx=_$|dummy
+
+# List of additional names to consider as builtins
+additional-builtins= 

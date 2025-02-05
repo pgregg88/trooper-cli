@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "trooper"
+version = "0.1.0"
+description = "Stormtrooper Voice Assistant with motion detection and audio effects"
+requires-python = ">=3.8"
+dependencies = [
+    "boto3",
+    "numpy",
+    "scipy",
+    "soundfile",
+    "sounddevice",
+    "loguru",
+    "pyyaml",
+]
+
+[project.scripts]
+trooper = "src.cli.trooper:main" 

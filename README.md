@@ -1,0 +1,487 @@
+# Trooper Voice Assistant
+
+A command-line tool that converts text to speech with a Stormtrooper voice effect and manages a collection of pre-configured quotes.
+
+## Features
+
+- Text-to-speech using Amazon Polly's neural voices
+- Stormtrooper voice effect processing
+- Volume control (1-11)
+- Multiple voice contexts (general, combat, alert, patrol)
+- Urgency levels (low, normal, high)
+- Pre-configured quotes system with YAML configuration
+- Audio file management and caching
+- Command-line interface
+
+## Installation
+
+### Prerequisites
+
+1. Python 3.11.2 (recommended) or higher
+2. pip (Python package installer)
+3. pyenv (Python version manager)
+4. AWS account with Polly access (neural voices enabled)
+5. Audio output device
+
+### Installing pyenv
+
+1. **macOS (using Homebrew)**
+
+   ```bash
+   # Install Homebrew if not already installed
+   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+   # Install pyenv
+   brew install pyenv
+
+   # Add pyenv to your shell configuration
+   echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.zshrc
+   echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.zshrc
+   echo 'eval "$(pyenv init -)"' >> ~/.zshrc
+
+   # Reload shell configuration
+   source ~/.zshrc
+   ```
+
+2. **Linux**
+
+   ```bash
+   # Install dependencies
+   sudo apt-get update
+   sudo apt-get install -y make build-essential libssl-dev zlib1g-dev \
+   libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm \
+   libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+
+   # Install pyenv
+   curl https://pyenv.run | bash
+
+   # Add pyenv to your shell configuration
+   echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
+   echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
+   echo 'eval "$(pyenv init -)"' >> ~/.bashrc
+
+   # Reload shell configuration
+   source ~/.bashrc
+   ```
+
+3. **Windows**
+
+   ```powershell
+   # Using PowerShell (Run as Administrator)
+
+   # Install pyenv-win using PowerShell
+   Invoke-WebRequest -UseBasicParsing -Uri "https://raw.githubusercontent.com/pyenv-win/pyenv-win/master/pyenv-win/install-pyenv-win.ps1" -OutFile "./install-pyenv-win.ps1"; &"./install-pyenv-win.ps1"
+
+   # After installation, close and reopen PowerShell, then verify installation:
+   pyenv --version
+
+   # If you get execution policy errors, you may need to run:
+   Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+   # Common issues and fixes:
+   # 1. If pyenv command is not found after installation:
+   #    - Check if these environment variables are set:
+   #      PYENV: %USERPROFILE%\.pyenv\pyenv-win
+   #      PYENV_HOME: %USERPROFILE%\.pyenv\pyenv-win
+   #      Path: includes %USERPROFILE%\.pyenv\pyenv-win\bin and %USERPROFILE%\.pyenv\pyenv-win\shims
+   
+   # 2. If you need to set environment variables manually:
+   [System.Environment]::SetEnvironmentVariable('PYENV', $env:USERPROFILE + "\.pyenv\pyenv-win", 'User')
+   [System.Environment]::SetEnvironmentVariable('PYENV_HOME', $env:USERPROFILE + "\.pyenv\pyenv-win", 'User')
+   $path = [System.Environment]::GetEnvironmentVariable('Path', 'User')
+   [System.Environment]::SetEnvironmentVariable('Path', $path + ";" + $env:USERPROFILE + "\.pyenv\pyenv-win\bin;" + $env:USERPROFILE + "\.pyenv\pyenv-win\shims", 'User')
+   ```
+
+### Step-by-Step Installation
+
+1. **Clone the Repository**
+
+   ```bash
+   git clone <repository-url>
+   cd trooper
+   ```
+
+2. **Set Up Python Environment**
+
+   ```bash
+   # Install Python 3.11.2 if not already installed
+   pyenv install 3.11.2
+
+   # Set local Python version
+   pyenv local 3.11.2
+
+   # Verify Python version
+   python --version  # Should show Python 3.11.2
+
+   # If you get a "command not found" error after installing pyenv:
+   # 1. Make sure you've reloaded your shell configuration
+   # 2. Try opening a new terminal window
+   # 3. Verify pyenv is in your PATH: echo $PATH
+   ```
+
+3. **Create and Activate Virtual Environment**
+
+   ```bash
+   # Create virtual environment
+   python -m venv .venv
+
+   # Activate it
+   # On macOS/Linux:
+   source .venv/bin/activate
+   # On Windows:
+   .venv\Scripts\activate
+
+   # Verify you're using the virtual environment
+   which python  # Should point to .venv/bin/python
+   ```
+
+4. **Install the Package**
+
+   ```bash
+   # Install in development mode
+   pip install -e .
+
+   # If you get permission errors:
+   # 1. Make sure your virtual environment is activated
+   # 2. Try: pip install --user -e .
+   ```
+
+5. **Configure AWS Credentials**
+
+   The tool requires AWS credentials with access to Amazon Polly neural voices. Configure these in one of these ways:
+
+   a. Using AWS CLI with a specific profile (recommended):
+
+   ```bash
+   # Install AWS CLI if not already installed
+   pip install awscli
+
+   # Configure a specific profile for trooper
+   aws configure --profile trooper
+
+   # Set the profile in your environment
+   export AWS_PROFILE=trooper
+   # Or add to your shell configuration:
+   echo 'export AWS_PROFILE=trooper' >> ~/.zshrc  # for zsh
+   echo 'export AWS_PROFILE=trooper' >> ~/.bashrc  # for bash
+   ```
+
+   b. Environment variables:
+
+   ```bash
+   export AWS_ACCESS_KEY_ID="your_access_key"
+   export AWS_SECRET_ACCESS_KEY="your_secret_key"
+   export AWS_DEFAULT_REGION="us-east-1"  # Region must support neural voices
+   ```
+
+   c. Credentials file:
+
+   ```ini
+   # ~/.aws/credentials
+   [trooper]
+   aws_access_key_id = your_access_key
+   aws_secret_access_key = your_secret_key
+   region = us-east-1  # Region must support neural voices
+   ```
+
+6. **Verify Installation**
+
+   ```bash
+   # Check if trooper command is available
+   which trooper  # Should point to .venv/bin/trooper
+
+   # Check help
+   trooper --help
+
+   # Common issues:
+   # 1. Command not found: Make sure virtual environment is activated
+   # 2. Import errors: Try reinstalling the package
+   # 3. AWS errors: Verify credentials and region
+   ```
+
+### Troubleshooting
+
+1. **Python Version Issues**
+
+   ```bash
+   # List available Python versions
+   pyenv versions
+
+   # Show current Python version
+   pyenv version
+
+   # If Python version is not changing:
+   pyenv rehash
+   exec "$SHELL"  # Reload shell
+   ```
+
+2. **Virtual Environment Issues**
+
+   ```bash
+   # If venv creation fails:
+   python -m pip install --upgrade pip
+   python -m pip install --upgrade virtualenv
+
+   # If activation fails:
+   # 1. Remove existing venv
+   rm -rf .venv
+   # 2. Create new venv
+   python -m venv .venv
+   ```
+
+3. **AWS Configuration Issues**
+
+   ```bash
+   # Test AWS configuration
+   aws polly describe-voices --engine neural --profile trooper
+
+   # If region doesn't support neural voices, try:
+   aws configure set region us-east-1 --profile trooper
+   ```
+
+## Usage
+
+### Basic Commands
+
+1. **Basic Text-to-Speech**
+
+   ```bash
+   trooper say 'Stop right there!'
+   ```
+
+2. **Adjust Volume (1-11)**
+
+   ```bash
+   trooper say -v 11 'Intruder alert!'
+   ```
+
+3. **Set Urgency and Context**
+
+   ```bash
+   trooper say --volume 11 --urgency high --context combat 'Enemy spotted!'
+   ```
+
+4. **Generate Without Playing**
+
+   ```bash
+   trooper say --no-play --keep 'All clear'
+   ```
+
+### Quotes System
+
+The `process-quotes` command generates audio files for pre-configured quotes:
+
+1. **Process All Quotes**
+
+   ```bash
+   trooper process-quotes
+   ```
+
+2. **Regenerate All Quotes**
+
+   ```bash
+   trooper process-quotes --clean
+   ```
+
+3. **Use Custom Quotes File**
+
+   ```bash
+   trooper process-quotes --quotes-file custom_quotes.yaml
+   ```
+
+### Quotes Configuration
+
+Quotes are configured in YAML format (`config/quotes.yaml`):
+
+```yaml
+quotes:
+  - text: "Stop right there!"
+    category: patrol
+    context: spotted_patrol
+    urgency: high
+
+  - text: "All clear, resuming patrol."
+    category: patrol
+    context: status_update
+    urgency: low
+```
+
+### Audio File Organization
+
+Generated audio files are organized in two directories:
+
+- `assets/audio/polly_raw/`: Raw audio files from Amazon Polly
+- `assets/audio/processed/`: Processed audio files with Stormtrooper effect
+
+Files are named using this pattern:
+`{voice}_{engine}_{category}_{context}_{text_preview}_processed.wav`
+
+### Command Options
+
+#### Say Command
+
+- `-v, --volume`: Set volume level (1-11, default: 5)
+- `-u, --urgency`: Set urgency level (low, normal, high)
+- `-c, --context`: Set voice context (general, combat, alert, patrol)
+- `--no-play`: Generate audio without playing
+- `--keep`: Keep generated audio files
+
+#### Process-Quotes Command
+
+- `--quotes-file`: Path to custom quotes YAML file
+- `--clean`: Delete existing files before processing
+
+## Troubleshooting Commands
+
+### Common Issues
+
+1. **Command Not Found**
+
+   ```bash
+   # Solution: Make sure virtual environment is activated
+   source .venv/bin/activate  # macOS/Linux
+   .venv\Scripts\activate     # Windows
+   ```
+
+2. **Import Errors**
+
+   ```bash
+   # Solution: Reinstall the package
+   pip uninstall trooper
+   pip install -e .
+   ```
+
+3. **Audio Device Issues**
+   - Check if your system's audio device is working
+   - Try adjusting volume
+   - Check system audio settings
+
+   ```bash
+   # Test audio
+   trooper say --volume 5 'Test'
+   ```
+
+4. **AWS Polly Issues**
+   - Verify AWS credentials are properly configured
+   - Check AWS IAM permissions for Polly
+   - Ensure region supports neural voices
+   - Check AWS service quotas and limits
+
+   ```bash
+   # Test AWS configuration
+   aws polly describe-voices --engine neural
+   ```
+
+5. **Quote Processing Issues**
+   - Check YAML file syntax
+   - Verify audio directories exist and are writable
+   - Check disk space for audio files
+   - Use `--clean` flag to regenerate problematic files
+
+### Audio Quality Issues
+
+1. **Volume Too Low**
+
+   ```bash
+   # Increase volume (max 11)
+   trooper say -v 11 'Test volume'
+   ```
+
+2. **Audio Distortion**
+
+   ```bash
+   # Try lower volume
+   trooper say -v 5 'Test audio'
+   ```
+
+3. **Playback Issues**
+
+   ```bash
+   # Generate file without playing
+   trooper say --no-play --keep 'Test'
+   # Then play with system audio player
+   ```
+
+## Development
+
+### Development Setup
+
+1. **Install Development Dependencies**
+
+   ```bash
+   # After activating your virtual environment
+   pip install -r requirements.txt
+   ```
+
+2. **Configure IDE (VS Code)**
+   - Open the project in VS Code
+   - Select the Python interpreter from your virtual environment
+   - Install recommended VS Code extensions:
+     - Python
+     - Pylance
+
+### Code Quality Tools
+
+The project uses the following tools to maintain code quality:
+
+1. **Pylint**
+   - Code style and error checking
+   - Configuration in `.pylintrc`
+   - Run with:
+
+     ```bash
+     pylint src/
+     ```
+
+2. **MyPy**
+   - Static type checking
+   - Ensures type safety
+   - Run with:
+
+     ```bash
+     mypy src/
+     ```
+
+### VS Code Integration
+
+The project includes VS Code settings (`.vscode/settings.json`) that configure:
+
+- Python interpreter path
+- Linting with Pylint
+- Type checking with MyPy
+- Auto-formatting on save
+- Import organization
+
+### Development Best Practices
+
+1. **Type Hints**
+   - Use type hints for all function parameters and return values
+   - Example:
+
+     ```python
+     def process_audio(data: np.ndarray, sample_rate: int) -> np.ndarray:
+         ...
+     ```
+
+2. **Documentation**
+   - Add docstrings to all functions and classes
+   - Follow Google docstring format
+   - Include examples in docstrings for complex functions
+
+3. **Error Handling**
+   - Use custom exceptions where appropriate
+   - Log errors with loguru
+   - Provide helpful error messages
+
+4. **Code Organization**
+   - Keep modules focused and single-purpose
+   - Use clear, descriptive names
+   - Follow Python naming conventions
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
