@@ -1,6 +1,6 @@
 """Setup file for Stormtrooper Voice Assistant."""
 
-from setuptools import setup, find_namespace_packages
+from setuptools import find_namespace_packages, setup
 
 setup(
     name="trooper",
@@ -15,6 +15,7 @@ setup(
         "sounddevice",
         "loguru",
         "pyyaml",
+        "python-dotenv",
     ],
     entry_points={
         "console_scripts": [

@@ -22,10 +22,9 @@ Example Usage:
 
 import argparse
 import os
-import shlex
 import sys
 from pathlib import Path
-from typing import List, Optional, Tuple
+from typing import Any, Dict, Tuple, cast
 
 import numpy as np
 import soundfile as sf
@@ -42,6 +41,8 @@ from ..audio.polly import PollyClient
 from ..audio.processor import process_and_play_text
 from ..quotes import QuoteManager
 
+# Type alias for sounddevice device info
+DeviceInfo = Dict[str, Any]
 
 def setup_directories(clean: bool = False) -> Tuple[Path, Path]:
     """Create and verify required directories exist.
@@ -211,11 +212,12 @@ def handle_list_devices(args: argparse.Namespace) -> int:
         print("\nAvailable Audio Devices:")
         print("------------------------")
         for i, device in enumerate(devices):
-            if device['max_output_channels'] > 0:  # Only show output devices
+            device_info = cast(DeviceInfo, device)
+            if device_info.get('max_output_channels', 0) > 0:  # Only show output devices
                 print(f"\nDevice ID: {i}")
-                print(f"Name: {device['name']}")
-                print(f"Sample Rates: {device['default_samplerate']} Hz")
-                print(f"Channels: {device['max_output_channels']}")
+                print(f"Name: {device_info.get('name', 'Unknown')}")
+                print(f"Sample Rates: {device_info.get('default_samplerate', 0)} Hz")
+                print(f"Channels: {device_info.get('max_output_channels', 0)}")
                 if i == sd.default.device[1]:
                     print("(Default Output Device)")
         return 0
@@ -248,7 +250,7 @@ def handle_config(args: argparse.Namespace) -> int:
         env_file = find_dotenv()
         if not env_file:
             env_file = str(project_root / ".env")
-            with open(env_file, "w") as f:
+            with open(env_file, "w", encoding='utf-8') as f:
                 f.write("# Trooper CLI Configuration\n")
         
         # Load current configuration
@@ -262,11 +264,11 @@ def handle_config(args: argparse.Namespace) -> int:
             # Verify device exists
             import sounddevice as sd
             try:
-                device_info = sd.query_devices(args.device_id)
-                if device_info['max_output_channels'] > 0:
+                device_info = cast(DeviceInfo, sd.query_devices(args.device_id))
+                if device_info.get('max_output_channels', 0) > 0:
                     # Set the device ID in .env
                     set_key(env_file, "TROOPER_AUDIO_DEVICE", str(args.device_id))
-                    print(f"Audio device set to: {device_info['name']}")
+                    print(f"Audio device set to: {device_info.get('name', 'Unknown')}")
                     return 0
                 else:
                     logger.error(f"Device {args.device_id} is not an output device")
@@ -283,8 +285,8 @@ def handle_config(args: argparse.Namespace) -> int:
                 try:
                     import sounddevice as sd
                     device_id = int(os.environ["TROOPER_AUDIO_DEVICE"])
-                    device_info = sd.query_devices(device_id)
-                    print(f"Audio Device: {device_info['name']} (ID: {device_id})")
+                    device_info = cast(DeviceInfo, sd.query_devices(device_id))
+                    print(f"Audio Device: {device_info.get('name', 'Unknown')} (ID: {device_id})")
                 except Exception:
                     print(f"Audio Device: {os.environ['TROOPER_AUDIO_DEVICE']} (Invalid)")
             else:
@@ -313,6 +315,151 @@ def handle_config(args: argparse.Namespace) -> int:
         
     except Exception as e:
         logger.error(f"Configuration error: {str(e)}")
+        return 2
+
+def handle_update(args: argparse.Namespace) -> int:
+    """Handle the 'update' command.
+    
+    This function manages software updates from GitHub.
+    It can:
+    - Check for available updates
+    - Pull and install updates
+    - Show update status
+    
+    Args:
+        args: Parsed command line arguments containing:
+            - action: The update action to perform (check, pull, status)
+            
+    Returns:
+        Exit code (0 for success, non-zero for error)
+    """
+    try:
+        import subprocess
+        from datetime import datetime
+
+        import pkg_resources
+        
+        def get_git_info() -> tuple[str, str]:
+            """Get current git branch and commit."""
+            try:
+                branch = subprocess.check_output(
+                    ["git", "rev-parse", "--abbrev-ref", "HEAD"],
+                    cwd=str(project_root)
+                ).decode().strip()
+                
+                commit = subprocess.check_output(
+                    ["git", "rev-parse", "--short", "HEAD"],
+                    cwd=str(project_root)
+                ).decode().strip()
+                
+                return branch, commit
+            except subprocess.CalledProcessError:
+                return "unknown", "unknown"
+        
+        def get_remote_info() -> tuple[str, str, bool]:
+            """Get remote branch info and check if updates available."""
+            try:
+                # Fetch latest without merging
+                subprocess.run(
+                    ["git", "fetch", "origin", "main"],
+                    cwd=str(project_root),
+                    check=True,
+                    capture_output=True
+                )
+                
+                # Get latest remote commit
+                remote_commit = subprocess.check_output(
+                    ["git", "rev-parse", "--short", "origin/main"],
+                    cwd=str(project_root)
+                ).decode().strip()
+                
+                # Get commit count difference
+                diff_count = subprocess.check_output(
+                    ["git", "rev-list", "--count", "HEAD..origin/main"],
+                    cwd=str(project_root)
+                ).decode().strip()
+                
+                return "main", remote_commit, int(diff_count) > 0
+                
+            except subprocess.CalledProcessError as e:
+                logger.error(f"Failed to get remote info: {e}")
+                return "unknown", "unknown", False
+        
+        # Get current version and git info
+        version = pkg_resources.get_distribution("trooper").version
+        branch, commit = get_git_info()
+        
+        if args.action == "check":
+            # Check for updates
+            remote_branch, remote_commit, has_updates = get_remote_info()
+            
+            print("\nUpdate Status:")
+            print("-------------")
+            print(f"Current Version: {version}")
+            print(f"Local Branch: {branch} ({commit})")
+            print(f"Remote Branch: {remote_branch} ({remote_commit})")
+            
+            if has_updates:
+                print("\nUpdates are available!")
+                print("Run 'trooper update pull' to install updates")
+            else:
+                print("\nYou are up to date!")
+            
+            return 0
+            
+        elif args.action == "pull":
+            # Pull and install updates
+            print("\nChecking for updates...")
+            remote_branch, remote_commit, has_updates = get_remote_info()
+            
+            if not has_updates:
+                print("Already up to date!")
+                return 0
+            
+            print("\nPulling updates...")
+            try:
+                # Pull latest changes
+                subprocess.run(
+                    ["git", "pull", "origin", "main"],
+                    cwd=str(project_root),
+                    check=True
+                )
+                
+                print("\nReinstalling package...")
+                # Reinstall package
+                subprocess.run(
+                    ["pip", "install", "-e", "."],
+                    cwd=str(project_root),
+                    check=True
+                )
+                
+                print("\nUpdate complete!")
+                print("Please restart any running instances of trooper")
+                return 0
+                
+            except subprocess.CalledProcessError as e:
+                logger.error(f"Update failed: {e}")
+                return 1
+            
+        elif args.action == "status":
+            # Show current status
+            last_commit_date = subprocess.check_output(
+                ["git", "log", "-1", "--format=%cd", "--date=local"],
+                cwd=str(project_root)
+            ).decode().strip()
+            
+            print("\nInstallation Status:")
+            print("------------------")
+            print(f"Version: {version}")
+            print(f"Branch: {branch}")
+            print(f"Commit: {commit}")
+            print(f"Last Updated: {last_commit_date}")
+            return 0
+            
+        return 1
+        
+    except Exception as e:
+        logger.error(f"Update error: {str(e)}")
         return 2
 
 def create_parser() -> argparse.ArgumentParser:
@@ -363,6 +510,15 @@ Examples:
   
   # Initialize configuration:
   trooper config init
+  
+  # Check for updates:
+  trooper update check
+  
+  # Install updates:
+  trooper update pull
+  
+  # Show update status:
+  trooper update status
   
   # Process quotes from YAML:
   trooper process-quotes
@@ -444,7 +600,7 @@ Note: If your text contains special characters, wrap it in single quotes (')
     )
     
     # 'devices' command
-    devices_parser = subparsers.add_parser(
+    subparsers.add_parser(
         "devices",
         help="List available audio output devices",
         formatter_class=argparse.RawDescriptionHelpFormatter
@@ -474,15 +630,45 @@ Note: If your text contains special characters, wrap it in single quotes (')
     )
     
     # 'config show' command
-    show_parser = config_subparsers.add_parser(
+    config_subparsers.add_parser(
         "show",
         help="Show current configuration"
     )
     
     # 'config init' command
-    init_parser = config_subparsers.add_parser(
+    config_subparsers.add_parser(
         "init",
         help="Create new configuration file with defaults"
+    )
+
+    # 'update' command
+    update_parser = subparsers.add_parser(
+        "update",
+        help="Manage software updates",
+        formatter_class=argparse.RawDescriptionHelpFormatter
+    )
+    
+    update_subparsers = update_parser.add_subparsers(
+        dest="action",
+        help="Update action to perform"
+    )
+    
+    # 'update check' command
+    update_subparsers.add_parser(
+        "check",
+        help="Check for available updates"
+    )
+    
+    # 'update pull' command
+    update_subparsers.add_parser(
+        "pull",
+        help="Pull and install updates"
+    )
+    
+    # 'update status' command
+    update_subparsers.add_parser(
+        "status",
+        help="Show current version and update status"
     )
 
     return parser
@@ -586,6 +772,8 @@ def main() -> int:
         return handle_list_devices(args)
     elif args.command == "config":
         return handle_config(args)
+    elif args.command == "update":
+        return handle_update(args)
     
     return 0
 

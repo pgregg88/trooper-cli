@@ -566,3 +566,41 @@ The configuration file (`.env`) stores:
 - `AWS_DEFAULT_REGION`: AWS region for Polly (must support neural voices)
 
 You can also edit the `.env` file directly with any text editor.
+
+### Software Updates
+
+The tool includes built-in update management through the `update` command:
+
+1. **Check for Updates**
+
+   ```bash
+   # Check if updates are available
+   trooper update check
+   ```
+
+2. **Install Updates**
+
+   ```bash
+   # Pull and install latest updates
+   trooper update pull
+   ```
+
+3. **View Status**
+
+   ```bash
+   # Show current version and update status
+   trooper update status
+   ```
+
+The update system:
+
+- Checks GitHub for new versions
+- Safely pulls updates
+- Reinstalls the package automatically
+- Maintains your local configuration
+
+Note: After updating, you may need to:
+
+1. Restart any running instances of trooper
+2. Reactivate your virtual environment
+3. Check the changelog for breaking changes

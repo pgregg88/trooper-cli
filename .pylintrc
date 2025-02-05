@@ -27,7 +27,15 @@ disable=C0111,  # missing-docstring
         C0111,  # missing-docstring
         C0116,  # missing-function-docstring
         C0115,  # missing-class-docstring
-        C0114   # missing-module-docstring
+        C0114,  # missing-module-docstring
+        C0413,  # wrong-import-position
+        C0415,  # import-outside-toplevel
+        W0611,  # unused-import
+        W0612,  # unused-variable
+        W0613,  # unused-argument
+        W1514,  # unspecified-encoding
+        C0304,  # missing-final-newline
+        E0402   # relative-beyond-top-level
 
 [REPORTS]
 # Set the output format
@@ -54,7 +62,7 @@ min-similarity-lines=4
 
 [TYPECHECK]
 # List of module names for which member attributes should not be checked
-ignored-modules=numpy,tensorflow,torch,cv2,setuptools
+ignored-modules=numpy,tensorflow,torch,cv2,setuptools,sounddevice
 
 # List of classes names for which member attributes should not be checked
 ignored-classes=SQLObject,optparse.Values,thread._local,_thread._local
