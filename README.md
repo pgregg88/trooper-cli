@@ -331,6 +331,51 @@ Files are named using this pattern:
 - `--quotes-file`: Path to custom quotes YAML file
 - `--clean`: Delete existing files before processing
 
+### Audio Device Configuration
+
+The tool supports multiple ways to select the audio output device:
+
+1. **List Available Devices**
+
+   ```bash
+   # Show all available audio output devices
+   trooper devices
+   ```
+
+2. **Environment Variable**
+
+   ```bash
+   # Set the audio device by ID (from 'trooper devices' output)
+   export TROOPER_AUDIO_DEVICE=1
+   
+   # Test the selected device
+   trooper say 'Testing audio device'
+   ```
+
+3. **Automatic Selection**
+   If no device is specified, the tool will try:
+   1. Use `TROOPER_AUDIO_DEVICE` if set
+   2. Use system default output device
+   3. Fall back to first available output device
+
+Common audio device issues:
+
+1. **Wrong Output Device**
+
+   ```bash
+   # List available devices
+   trooper devices
+   
+   # Set the correct device ID
+   export TROOPER_AUDIO_DEVICE=1  # Replace with your desired device ID
+   ```
+
+2. **No Audio Output**
+   - Verify the device exists: `trooper devices`
+   - Check system volume
+   - Try a different device ID
+   - Verify audio file generation: `trooper say --no-play --keep 'Test'`
+
 ## Troubleshooting Commands
 
 ### Common Issues
@@ -485,3 +530,39 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
+
+### Configuration Management
+
+The tool supports persistent configuration through a `.env` file. You can manage settings using the `config` command:
+
+1. **Initialize Configuration**
+
+   ```bash
+   # Create a new .env file with default settings
+   trooper config init
+   ```
+
+2. **Set Audio Device**
+
+   ```bash
+   # List available devices
+   trooper devices
+   
+   # Set the audio device by ID
+   trooper config device 1
+   ```
+
+3. **View Configuration**
+
+   ```bash
+   # Show current settings
+   trooper config show
+   ```
+
+The configuration file (`.env`) stores:
+
+- `TROOPER_AUDIO_DEVICE`: Audio output device ID
+- `AWS_PROFILE`: AWS profile for Polly access
+- `AWS_DEFAULT_REGION`: AWS region for Polly (must support neural voices)
+
+You can also edit the `.env` file directly with any text editor.

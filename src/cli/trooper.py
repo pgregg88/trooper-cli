@@ -20,25 +20,28 @@ Example Usage:
     $ trooper process-quotes --clean
 """
 
-import sys
-import shlex
 import argparse
+import os
+import shlex
+import sys
 from pathlib import Path
-from typing import Optional, List, Tuple
-from loguru import logger
+from typing import List, Optional, Tuple
+
 import numpy as np
 import soundfile as sf
+from loguru import logger
 
 # Add project root to Python path
 project_root = Path(__file__).parent.parent.parent
 if str(project_root) not in sys.path:
     sys.path.append(str(project_root))
 
-from ..audio.processor import process_and_play_text
 from ..audio import AudioError
-from ..quotes import QuoteManager
-from ..audio.polly import PollyClient
 from ..audio.effects import StormtrooperEffect
+from ..audio.polly import PollyClient
+from ..audio.processor import process_and_play_text
+from ..quotes import QuoteManager
+
 
 def setup_directories(clean: bool = False) -> Tuple[Path, Path]:
     """Create and verify required directories exist.
@@ -190,6 +193,128 @@ def handle_process_quotes(args: argparse.Namespace) -> int:
         logger.error(f"Failed to process quotes: {str(e)}")
         return 2
 
+def handle_list_devices(args: argparse.Namespace) -> int:
+    """Handle the 'devices' command.
+    
+    Lists all available audio output devices and their capabilities.
+    
+    Args:
+        args: Parsed command line arguments (unused)
+        
+    Returns:
+        Exit code (0 for success, non-zero for error)
+    """
+    try:
+        import sounddevice as sd
+        devices = sd.query_devices()
+        
+        print("\nAvailable Audio Devices:")
+        print("------------------------")
+        for i, device in enumerate(devices):
+            if device['max_output_channels'] > 0:  # Only show output devices
+                print(f"\nDevice ID: {i}")
+                print(f"Name: {device['name']}")
+                print(f"Sample Rates: {device['default_samplerate']} Hz")
+                print(f"Channels: {device['max_output_channels']}")
+                if i == sd.default.device[1]:
+                    print("(Default Output Device)")
+        return 0
+        
+    except Exception as e:
+        logger.error(f"Failed to list audio devices: {str(e)}")
+        return 1
+
+def handle_config(args: argparse.Namespace) -> int:
+    """Handle the 'config' command.
+    
+    This function manages the configuration settings for the tool.
+    It can:
+    - Set audio device
+    - Show current configuration
+    - Initialize a new .env file
+    
+    Args:
+        args: Parsed command line arguments containing:
+            - action: The config action to perform (device, show, init)
+            - device_id: Optional device ID when action is 'device'
+            
+    Returns:
+        Exit code (0 for success, non-zero for error)
+    """
+    try:
+        from dotenv import find_dotenv, load_dotenv, set_key
+
+        # Find or create .env file
+        env_file = find_dotenv()
+        if not env_file:
+            env_file = str(project_root / ".env")
+            with open(env_file, "w") as f:
+                f.write("# Trooper CLI Configuration\n")
+        
+        # Load current configuration
+        load_dotenv(env_file)
+        
+        if args.action == "device":
+            if args.device_id is None:
+                logger.error("Device ID is required for 'device' action")
+                return 1
+                
+            # Verify device exists
+            import sounddevice as sd
+            try:
+                device_info = sd.query_devices(args.device_id)
+                if device_info['max_output_channels'] > 0:
+                    # Set the device ID in .env
+                    set_key(env_file, "TROOPER_AUDIO_DEVICE", str(args.device_id))
+                    print(f"Audio device set to: {device_info['name']}")
+                    return 0
+                else:
+                    logger.error(f"Device {args.device_id} is not an output device")
+                    return 1
+            except Exception as e:
+                logger.error(f"Invalid device ID {args.device_id}: {str(e)}")
+                return 1
+                
+        elif args.action == "show":
+            # Show current configuration
+            print("\nCurrent Configuration:")
+            print("---------------------")
+            if os.environ.get("TROOPER_AUDIO_DEVICE"):
+                try:
+                    import sounddevice as sd
+                    device_id = int(os.environ["TROOPER_AUDIO_DEVICE"])
+                    device_info = sd.query_devices(device_id)
+                    print(f"Audio Device: {device_info['name']} (ID: {device_id})")
+                except Exception:
+                    print(f"Audio Device: {os.environ['TROOPER_AUDIO_DEVICE']} (Invalid)")
+            else:
+                print("Audio Device: Not configured (using system default)")
+                
+            print(f"AWS Profile: {os.environ.get('AWS_PROFILE', 'Not configured')}")
+            print(f"AWS Region: {os.environ.get('AWS_DEFAULT_REGION', 'Not configured')}")
+            return 0
+            
+        elif args.action == "init":
+            # Create new .env with defaults
+            defaults = {
+                "TROOPER_AUDIO_DEVICE": "",  # Empty means use system default
+                "AWS_PROFILE": "trooper",
+                "AWS_DEFAULT_REGION": "us-east-1"
+            }
+            
+            for key, value in defaults.items():
+                if not os.environ.get(key):
+                    set_key(env_file, key, value)
+                    
+            print(f"Created configuration file: {env_file}")
+            return 0
+            
+        return 1
+        
+    except Exception as e:
+        logger.error(f"Configuration error: {str(e)}")
+        return 2
+
 def create_parser() -> argparse.ArgumentParser:
     """Create argument parser for CLI.
     
@@ -226,6 +351,18 @@ Examples:
   
   # Generate without playing:
   trooper say --no-play --keep 'All clear'
+  
+  # List available audio devices:
+  trooper devices
+  
+  # Configure audio device:
+  trooper config device 1
+  
+  # Show current configuration:
+  trooper config show
+  
+  # Initialize configuration:
+  trooper config init
   
   # Process quotes from YAML:
   trooper process-quotes
@@ -306,6 +443,48 @@ Note: If your text contains special characters, wrap it in single quotes (')
         help="Delete existing files before processing"
     )
     
+    # 'devices' command
+    devices_parser = subparsers.add_parser(
+        "devices",
+        help="List available audio output devices",
+        formatter_class=argparse.RawDescriptionHelpFormatter
+    )
+
+    # 'config' command
+    config_parser = subparsers.add_parser(
+        "config",
+        help="Configure tool settings",
+        formatter_class=argparse.RawDescriptionHelpFormatter
+    )
+    
+    config_subparsers = config_parser.add_subparsers(
+        dest="action",
+        help="Configuration action to perform"
+    )
+    
+    # 'config device' command
+    device_parser = config_subparsers.add_parser(
+        "device",
+        help="Set audio output device"
+    )
+    device_parser.add_argument(
+        "device_id",
+        type=int,
+        help="Device ID (from 'trooper devices' output)"
+    )
+    
+    # 'config show' command
+    show_parser = config_subparsers.add_parser(
+        "show",
+        help="Show current configuration"
+    )
+    
+    # 'config init' command
+    init_parser = config_subparsers.add_parser(
+        "init",
+        help="Create new configuration file with defaults"
+    )
+
     return parser
 
 def handle_say(args: argparse.Namespace) -> int:
@@ -403,6 +582,10 @@ def main() -> int:
         return handle_say(args)
     elif args.command == "process-quotes":
         return handle_process_quotes(args)
+    elif args.command == "devices":
+        return handle_list_devices(args)
+    elif args.command == "config":
+        return handle_config(args)
     
     return 0
 

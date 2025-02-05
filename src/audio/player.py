@@ -1,13 +1,16 @@
 """Audio playback functionality."""
 
+import os
 import platform
-from typing import Optional, Dict, Any, Union, cast, TypedDict, Tuple
+from typing import Any, Dict, Optional, Tuple, TypedDict, Union, cast
+
 import numpy as np
-from numpy.typing import NDArray
-from scipy import signal
 import sounddevice as sd
 import soundfile as sf
 from loguru import logger
+from numpy.typing import NDArray
+from scipy import signal
+
 
 class DeviceInfo(TypedDict, total=False):
     """Type definition for sounddevice device info."""
@@ -28,11 +31,18 @@ class AudioPlayer:
     MAX_VOLUME = 11
     DEFAULT_VOLUME = 5
     
-    def __init__(self):
-        """Initialize the audio player."""
+    def __init__(self, device_id: Optional[int] = None):
+        """Initialize the audio player.
+        
+        Args:
+            device_id: Optional specific device ID to use. If None, will try:
+                     1. TROOPER_AUDIO_DEVICE environment variable
+                     2. System default device
+                     3. First available output device
+        """
         self.system = platform.system()
         self.volume = self.DEFAULT_VOLUME
-        self._configure_device()
+        self._configure_device(device_id)
         logger.info(f"Initialized audio player on {self.system}")
         
     def set_volume(self, volume: float) -> None:
@@ -52,20 +62,33 @@ class AudioPlayer:
         """
         return self.volume
         
-    def _configure_device(self) -> None:
-        """Configure audio device based on platform."""
+    def _configure_device(self, device_id: Optional[int] = None) -> None:
+        """Configure audio device based on platform and preferences.
+        
+        Args:
+            device_id: Optional specific device ID to use
+        """
         try:
-            if self.system == 'Darwin':  # macOS
-                # Use system default output device
-                device_id = self._get_default_device()
-            else:  # Linux/Raspberry Pi
-                # Use device 0 (usually the USB audio device)
-                device_id = 0
+            # Try to get device ID from various sources
+            selected_device = device_id
+            
+            if selected_device is None:
+                # Try environment variable
+                env_device = os.environ.get('TROOPER_AUDIO_DEVICE')
+                if env_device is not None:
+                    try:
+                        selected_device = int(env_device)
+                    except ValueError:
+                        logger.warning(f"Invalid TROOPER_AUDIO_DEVICE value: {env_device}")
+            
+            if selected_device is None:
+                # Try system default or first available
+                selected_device = self._get_default_device()
                 
-            # Verify device exists
-            if device_id is not None:
-                device_info = cast(Optional[DeviceInfo], sd.query_devices(device_id))
-                if device_info is not None:
+            # Verify device exists and is valid
+            if selected_device is not None:
+                device_info = cast(Optional[DeviceInfo], sd.query_devices(selected_device))
+                if device_info is not None and device_info.get('max_output_channels', 0) > 0:
                     logger.info(f"Using audio device: {device_info.get('name', 'Unknown')}")
                     
                     # Use device's sample rate or fallback to default
@@ -74,19 +97,33 @@ class AudioPlayer:
                     )
                     logger.info(f"Using sample rate: {sample_rate} Hz")
                     
-                    # Configure device with safe defaults
-                    # Note: Ignoring type errors here as sounddevice's types are incomplete
-                    sd.default.device = (None, device_id)  # type: ignore
+                    # Configure device
+                    sd.default.device = (None, selected_device)  # type: ignore
                     sd.default.samplerate = sample_rate  # type: ignore
                     sd.default.channels = (None, 1)  # type: ignore
                 else:
-                    logger.warning(f"Device {device_id} not found")
+                    logger.warning(f"Device {selected_device} not found or is not an output device")
+                    self._fallback_to_first_output()
             else:
                 logger.warning("No suitable audio device found")
+                self._fallback_to_first_output()
                 
         except sd.PortAudioError as e:
             logger.error(f"Failed to configure audio device: {e}")
             raise
+            
+    def _fallback_to_first_output(self) -> None:
+        """Try to find and use the first available output device."""
+        try:
+            devices = sd.query_devices()
+            for i, device in enumerate(devices):
+                device_info = cast(DeviceInfo, device)
+                if device_info.get('max_output_channels', 0) > 0:
+                    logger.info(f"Falling back to first available output device: {device_info.get('name', 'Unknown')}")
+                    self._configure_device(i)
+                    return
+        except Exception as e:
+            logger.error(f"Failed to find fallback device: {e}")
             
     def _get_supported_rate(self, preferred_rate: float) -> int:
         """Get the closest supported sample rate.
