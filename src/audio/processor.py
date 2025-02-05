@@ -23,7 +23,8 @@ Example:
 
 import sys
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Tuple, Union
+
 import numpy as np
 import soundfile as sf
 from loguru import logger
@@ -33,9 +34,10 @@ project_root = Path(__file__).parent.parent.parent
 if str(project_root) not in sys.path:
     sys.path.append(str(project_root))
 
-from src.audio.polly import PollyClient
+from src.audio import AudioError, AudioPlayer
 from src.audio.effects import StormtrooperEffect
-from src.audio import AudioPlayer, AudioError
+from src.audio.polly import PollyClient
+
 
 def process_and_play_text(
     text: str,
@@ -87,22 +89,14 @@ def process_and_play_text(
         ... )
     """
     try:
-        # Setup directories
-        temp_dir = project_root / "assets" / "audio" / "temp"
-        temp_dir.mkdir(parents=True, exist_ok=True)
-        
-        # Clean text for filename
-        clean_text = "_".join(text.split()[:3]).lower()
-        clean_text = "".join(c for c in clean_text if c.isalnum() or c == "_")
-        
-        # Generate filenames
-        base_name = f"temp_{clean_text}"
-        raw_path = temp_dir / f"{base_name}_raw.wav"
-        processed_path = temp_dir / f"{base_name}_processed.wav"
-        
         # Initialize components
         polly = PollyClient()
         effect = StormtrooperEffect()
+        player = AudioPlayer() if play_immediately else None
+        
+        # Set volume if provided
+        if player and volume is not None:
+            player.set_volume(volume)
         
         # Generate raw audio
         logger.info(f"Generating TTS for: {text}")
@@ -119,29 +113,43 @@ def process_and_play_text(
         audio_data = np.frombuffer(pcm_data, dtype=np.int16)
         audio_float = audio_data.astype(np.float32) / 32768.0
         
-        # Save raw audio
-        sf.write(str(raw_path), audio_float, 16000, format='WAV', subtype='FLOAT')
-        
-        # Apply effects
+        # Apply effects in memory
         logger.info("Applying Stormtrooper effect...")
-        effect.process_file(
-            str(raw_path),
-            str(processed_path)
-        )
+        processed_data = effect.process_audio_data(audio_float, 16000, urgency)
         
-        # Play if requested
-        if play_immediately:
-            logger.info("Playing processed audio...")
-            player = AudioPlayer()
-            if volume is not None:
-                player.set_volume(volume)
-            player.play_file(str(processed_path))
-        
-        # Cleanup if requested
-        if cleanup:
-            raw_path.unlink(missing_ok=True)
+        # If we need to save the file or play it, we need a temporary file
+        if not play_immediately and not cleanup:
+            # Setup directories for saving
+            temp_dir = project_root / "assets" / "audio" / "temp"
+            temp_dir.mkdir(parents=True, exist_ok=True)
             
-        return processed_path
+            # Clean text for filename
+            clean_text = "_".join(text.split()[:3]).lower()
+            clean_text = "".join(c for c in clean_text if c.isalnum() or c == "_")
+            
+            # Generate output path
+            output_path = temp_dir / f"temp_{clean_text}_processed.wav"
+            
+            # Save processed audio
+            sf.write(str(output_path), processed_data, 16000, format='WAV', subtype='PCM_16')
+            logger.info(f"Saved processed audio to: {output_path}")
+            
+            return output_path
+        
+        # For immediate playback without keeping the file, use a temporary file
+        if play_immediately:
+            import tempfile
+            with tempfile.NamedTemporaryFile(suffix='.wav', delete=False) as temp_file:
+                temp_path = Path(temp_file.name)
+                sf.write(str(temp_path), processed_data, 16000, format='WAV', subtype='PCM_16')
+                player.play_file(str(temp_path))
+                if cleanup:
+                    temp_path.unlink(missing_ok=True)
+                return temp_path
+        
+        # If we get here, we're not playing and not keeping the file
+        # Return a dummy path since the function needs to return something
+        return Path("memory_only")
             
     except Exception as e:
         raise AudioError(f"Error processing audio: {str(e)}") 

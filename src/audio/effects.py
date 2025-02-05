@@ -1,15 +1,17 @@
 """Audio effects processing for Stormtrooper voice."""
 
-from pathlib import Path
-from typing import Optional, Union, Tuple
-from dataclasses import dataclass
 import random
-from loguru import logger
-import numpy as np
-from scipy import signal
-import soundfile as sf
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Optional, Tuple, Union
 
-from src.quotes import UrgencyLevel, URGENCY_EFFECTS
+import numpy as np
+import soundfile as sf
+from loguru import logger
+from scipy import signal
+
+from src.quotes import URGENCY_EFFECTS, UrgencyLevel
+
 
 @dataclass
 class EffectParams:
@@ -84,6 +86,35 @@ class StormtrooperEffect:
         """
         return URGENCY_EFFECTS[self.current_urgency.value]
         
+    def process_audio_data(self, data: np.ndarray, sample_rate: int, urgency: Optional[Union[UrgencyLevel, str]] = None) -> np.ndarray:
+        """Process audio data in memory with Stormtrooper effects.
+        
+        Args:
+            data: Input audio data as numpy array
+            sample_rate: Sample rate of the audio data
+            urgency: Optional urgency level for effects
+            
+        Returns:
+            Processed audio data
+        """
+        if urgency:
+            self.set_urgency(urgency)
+            
+        try:
+            self.sample_rate = sample_rate
+            
+            # Convert to mono if stereo
+            if len(data.shape) > 1:
+                data = np.mean(data, axis=1)
+            
+            # Process audio
+            processed = self._process_audio(data)
+            return processed
+            
+        except Exception as e:
+            logger.error(f"Failed to process audio data: {str(e)}")
+            raise
+        
     def process_file(self, input_path: Union[str, Path], output_path: Optional[Union[str, Path]] = None, urgency: Optional[Union[UrgencyLevel, str]] = None) -> str:
         """Process an audio file with Stormtrooper effects.
         
@@ -107,12 +138,8 @@ class StormtrooperEffect:
             data, sample_rate = sf.read(str(input_path))
             self.sample_rate = sample_rate
             
-            # Convert to mono if stereo
-            if len(data.shape) > 1:
-                data = np.mean(data, axis=1)
-            
-            # Process audio
-            processed = self._process_audio(data)
+            # Process the audio data
+            processed = self.process_audio_data(data, sample_rate)
             
             # Generate output path if not provided
             if output_path is None:

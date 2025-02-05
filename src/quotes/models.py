@@ -4,11 +4,22 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import List, Optional
 
+
 class UrgencyLevel(str, Enum):
     """Urgency levels for quotes."""
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
+
+    @classmethod
+    def _missing_(cls, value: str) -> Optional["UrgencyLevel"]:
+        """Handle string value lookup, supporting both 'normal' and 'medium'."""
+        try:
+            if value == "normal":
+                return cls.MEDIUM
+            return cls(value)
+        except ValueError:
+            return None
 
 class QuoteCategory(str, Enum):
     """Categories of quotes."""

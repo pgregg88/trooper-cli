@@ -555,9 +555,9 @@ Note: If your text contains special characters, wrap it in single quotes (')
     
     say_parser.add_argument(
         "-u", "--urgency",
-        choices=["low", "normal", "high"],
+        choices=["low", "normal", "medium", "high"],
         default="normal",
-        help="Voice urgency level (default: normal)"
+        help="Voice urgency level (default: normal, 'normal' and 'medium' are equivalent)"
     )
     
     say_parser.add_argument(
