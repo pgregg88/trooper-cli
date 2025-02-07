@@ -41,9 +41,14 @@ from audio.polly import PollyClient
 from audio.processor import process_and_play_text
 from quotes import QuoteManager
 from src.openai import get_stormtrooper_response
+from src.openai.conversation import clear_history, load_history, save_history
 
 # Type alias for sounddevice device info
 DeviceInfo = Dict[str, Any]
+
+# Store conversation context
+_last_user_input = None
+_last_response = None
 
 def setup_directories(clean: bool = False) -> Tuple[Path, Path]:
     """Create and verify required directories exist.
@@ -478,13 +483,36 @@ def handle_ask(args: argparse.Namespace) -> int:
             - volume: Optional volume level (1-11)
             - urgency: Voice urgency level
             - context: Voice context
+            - reset: Whether to clear conversation history
+            - debug: Whether to show debug information
             
     Returns:
         Exit code (0 for success, non-zero for error)
     """
     try:
-        # Get AI response
-        response = get_stormtrooper_response(args.text, cliff_clavin_mode=args.cliff_clavin_mode)
+        # Clear history if requested
+        if args.reset:
+            clear_history()
+            if args.debug:
+                logger.info("Conversation history cleared")
+        
+        # Load conversation history
+        previous_input, previous_response = load_history()
+        if args.debug and (previous_input or previous_response):
+            logger.info("Using conversation history:")
+            logger.info(f"Previous input: {previous_input}")
+            logger.info(f"Previous response: {previous_response}")
+        
+        # Get AI response with context
+        response, new_user_input, new_response = get_stormtrooper_response(
+            args.text,
+            cliff_clavin_mode=args.cliff_clavin_mode,
+            previous_user_input=previous_input,
+            previous_response=previous_response
+        )
+        
+        # Save the new context
+        save_history(new_user_input, new_response)
         
         # Process and play the response
         process_and_play_text(
@@ -746,6 +774,18 @@ Note: If your text contains special characters, wrap it in single quotes (')
         choices=["general", "combat", "alert", "patrol"],
         default="general",
         help="Voice context (default: general)"
+    )
+
+    ask_parser.add_argument(
+        "--reset",
+        action="store_true",
+        help="Clear conversation history before processing"
+    )
+
+    ask_parser.add_argument(
+        "--debug",
+        action="store_true",
+        help="Show debug information about conversation history"
     )
 
     return parser
