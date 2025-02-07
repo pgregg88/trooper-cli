@@ -1,0 +1,6 @@
+Processing Summary
+=================
+Total quotes: 250
+Generated: 243
+Regenerated: 7
+Failed: 0

@@ -1,8 +1,14 @@
+"""OpenAI integration for Stormtrooper responses."""
+
 import os
+from typing import Dict, List, Optional, Tuple
 
 from dotenv import load_dotenv
 
 import openai
+from openai.types.chat import ChatCompletionMessageParam
+
+from .conversation import get_context_window
 
 # Load environment variables
 load_dotenv()
@@ -17,11 +23,11 @@ client = openai.OpenAI(api_key=api_key)
 
 # Function to get a Stormtrooper response
 def get_stormtrooper_response(
-    user_input, 
-    cliff_clavin_mode=False,
-    previous_user_input=None,
-    previous_response=None
-):
+    user_input: str, 
+    cliff_clavin_mode: bool = False,
+    previous_user_input: Optional[str] = None,
+    previous_response: Optional[str] = None
+) -> Tuple[str, str, str]:
     """Get a response from the Stormtrooper AI.
     
     Args:
@@ -47,25 +53,21 @@ deep philosophy unless 'Cliff Clavin Mode' is activated.
 
 If 'Cliff Clavin Mode' is ON, occasionally inject deep trivia into your responses, but only when relevant. Example: 
 'It's a little-known fact that TIE Fighter engines use twin ion propulsion systems for 
-maximum maneuverability.'
+maximum maneuverability.'"""
 
-### Example Responses ###
-- 'Affirmative, civilian. Orders received.'
-- 'Move along. Official Imperial business.'
-- 'Error: Insufficient clearance for that information.'
-- 'It's a little-known fact that blaster rifles require routine calibration for optimal performance.'
-    """
-
-    # Build messages array with context if available
-    messages = [
+    # Build messages array with context
+    messages: List[ChatCompletionMessageParam] = [
         {"role": "system", "content": system_prompt}
     ]
     
-    # Add previous context if available
-    if previous_user_input and previous_response:
+    # Get conversation context window
+    context = get_context_window()
+    
+    # Add context messages
+    for turn in context:
         messages.extend([
-            {"role": "user", "content": previous_user_input},
-            {"role": "assistant", "content": previous_response}
+            {"role": "user", "content": turn['user_input']},
+            {"role": "assistant", "content": turn['response']}
         ])
     
     # Add current user input
@@ -74,12 +76,12 @@ maximum maneuverability.'
         current_input += " (Cliff Clavin Mode is ON)"
     messages.append({"role": "user", "content": current_input})
 
-    # Call OpenAI API (NEW syntax)
+    # Call OpenAI API
     response = client.chat.completions.create(
         model="gpt-4",
         messages=messages,
-        temperature=0.7,  # Keeps responses consistent
-        max_tokens=75  # Short responses for low latency
+        temperature=0.7,
+        max_tokens=75
     )
 
     # Extract response text

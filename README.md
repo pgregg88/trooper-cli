@@ -261,11 +261,57 @@ A command-line tool that converts text to speech with a Stormtrooper voice effec
    trooper say --volume 11 --urgency high --context combat 'Enemy spotted!'
    ```
 
-4. **Generate Without Playing**
+### Quote Sequences
+
+The `sequence` command plays a series of related quotes with proper timing and transitions:
+
+1. **Basic Sequence**
 
    ```bash
-   trooper say --no-play --keep 'All clear'
+   # Play 3 combat quotes
+   trooper sequence -c combat
+
+   # Play 5 patrol quotes
+   trooper sequence -c patrol -n 5
    ```
+
+2. **Filtered Sequences**
+
+   ```bash
+   # Play quotes with specific tags
+   trooper sequence -c combat --tags alert tactical
+
+   # Play quotes from specific context
+   trooper sequence -c patrol --context inspection
+   ```
+
+3. **Sequence Options**
+
+   - `-c, --category`: Quote category (combat, patrol, etc.)
+   - `--context`: Specific context within category
+   - `-n, --count`: Number of quotes (default: 3)
+   - `-v, --volume`: Volume level (1-11)
+   - `--tags`: Filter quotes by tags
+
+4. **Examples**
+
+   ```bash
+   # High-volume combat sequence
+   trooper sequence -c combat -v 11 -n 4
+
+   # Patrol sequence with specific tags
+   trooper sequence -c patrol --tags alert warning -n 3
+
+   # Mixed category sequence
+   trooper sequence --tags imperial threat
+   ```
+
+The sequence system automatically:
+
+- Avoids repeating recent quotes
+- Maintains appropriate pauses between quotes
+- Respects quote relationships (can_follow rules)
+- Manages audio file cleanup
 
 ### Quotes System
 
@@ -604,3 +650,123 @@ Note: After updating, you may need to:
 1. Restart any running instances of trooper
 2. Reactivate your virtual environment
 3. Check the changelog for breaking changes
+
+## Audio Files
+
+Audio files for the Stormtrooper voice assistant are organized in the `audio/` directory, with subdirectories matching the categories in `quotes.yaml`:
+
+```bash
+audio/
+├── combat/
+├── patrol/
+├── humor/
+├── monologues/
+└── stall/
+```
+
+Each audio file should be referenced in `quotes.yaml` using the `audio_file` field, which specifies the path relative to the `audio/` directory. For example:
+
+```yaml
+categories:
+  combat:
+    contexts:
+      attack:
+        - text: "For the Empire!"
+          urgency: high
+          tags: ["aggressive"]
+          audio_file: "combat/for_the_empire.wav"
+```
+
+## Quote Sequence Rules
+
+Quotes can be configured with sequence rules to control their playback:
+
+- `audio_file`: Path to the WAV file relative to the `audio/` directory
+- `can_follow`: List of quote IDs that this quote can follow
+- `min_pause`: Minimum pause in seconds before playing this quote
+- `max_pause`: Maximum pause in seconds before playing this quote
+
+Example:
+
+```yaml
+- text: "Did you hear something?"
+  urgency: medium
+  tags: ["suspicious"]
+  audio_file: "patrol/hear_something.wav"
+  can_follow: ["patrol_start", "footsteps"]
+  min_pause: 2
+  max_pause: 5
+```
+
+## Validation
+
+The `validate.py` script checks the structure and content of `quotes.yaml`, ensuring:
+
+1. All required fields are present (text, urgency, tags)
+2. Valid urgency levels (low, medium, high, normal)
+3. Tags are provided as lists
+4. Optional sequence fields have correct types:
+   - `audio_file`: string
+   - `can_follow`: list
+   - `min_pause`: number
+   - `max_pause`: number
+
+Run validation with:
+
+```bash
+python3 validate.py
+```
+
+## Chat Mode
+
+The chat mode provides an interactive conversation interface with the Stormtrooper:
+
+```bash
+# Start chat mode
+trooper chat start
+
+# Start in Cliff Clavin mode
+trooper chat start --cliff-mode
+
+# Toggle Cliff mode during session
+trooper chat mode
+```
+
+### Chat Features
+
+- Interactive conversation
+- Context preservation
+- Mode switching
+- Audio response playback
+- Clean exit with Ctrl+C
+
+### Cliff Clavin Mode
+
+When enabled, the Stormtrooper will occasionally include obscure Star Wars trivia in responses.
+
+## Performance Optimization
+
+### Audio Caching
+
+The system automatically caches processed audio to improve response times:
+
+- Up to 10 most recent responses cached
+- Automatic cache cleanup
+- Memory usage monitoring
+- Device verification
+
+### Error Handling
+
+The system includes robust error handling for:
+
+- Audio device issues (falls back to default device)
+- Network interruptions
+- Memory constraints
+- File system errors
+
+### Best Practices
+
+1. Use consistent volume levels
+2. Clear chat history when switching contexts
+3. Monitor memory usage for long sessions
+4. Use appropriate urgency levels for context

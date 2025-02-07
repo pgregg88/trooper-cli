@@ -21,27 +21,37 @@ Example Usage:
 """
 
 import argparse
+import logging
 import os
 import sys
+from dataclasses import dataclass, field
+from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, Tuple, cast
+from typing import Any, Dict, List, Tuple, cast
 
 import numpy as np
 import soundfile as sf
-from loguru import logger
+
+# Configure logging
+logger = logging.getLogger(__name__)
 
 # Add project root to Python path
 project_root = Path(__file__).parent.parent.parent
 if str(project_root) not in sys.path:
     sys.path.append(str(project_root))
 
+# Define log directory
+log_dir = project_root / "logs"
+
 from audio import AudioError
 from audio.effects import StormtrooperEffect
 from audio.polly import PollyClient
-from audio.processor import process_and_play_text
-from quotes import QuoteManager
+from audio.processor import (process_and_play_sequence, process_and_play_text,
+                             sequence_controller)
+from quotes import QuoteCategory, QuoteManager
 from src.openai import get_stormtrooper_response
 from src.openai.conversation import clear_history, load_history, save_history
+from src.quotes.models import Quote
 
 # Type alias for sounddevice device info
 DeviceInfo = Dict[str, Any]
@@ -49,6 +59,46 @@ DeviceInfo = Dict[str, Any]
 # Store conversation context
 _last_user_input = None
 _last_response = None
+
+def setup_logging(verbose: bool = False) -> None:
+    """Configure logging for the application."""
+    log_level = logging.DEBUG if verbose else logging.INFO
+    
+    # Create logs directory if it doesn't exist
+    log_dir = project_root / "logs"
+    log_dir.mkdir(exist_ok=True)
+    
+    # Create formatters
+    console_formatter = logging.Formatter('%(message)s')
+    file_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    
+    # Console handler
+    console_handler = logging.StreamHandler()
+    console_handler.setLevel(log_level)
+    console_handler.setFormatter(console_formatter)
+    
+    # File handler
+    log_file = log_dir / f"trooper_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
+    file_handler = logging.FileHandler(log_file)
+    file_handler.setLevel(logging.DEBUG)  # Always log debug to file
+    file_handler.setFormatter(file_formatter)
+    
+    # Configure root logger
+    root_logger = logging.getLogger()
+    root_logger.setLevel(logging.DEBUG)
+    root_logger.addHandler(console_handler)
+    root_logger.addHandler(file_handler)
+    
+    logger.info(f"Logging to: {log_file}")
+
+@dataclass
+class ProcessingStats:
+    """Track quote processing statistics."""
+    total: int = 0
+    generated: int = 0
+    regenerated: int = 0
+    skipped: List[Dict[str, str]] = field(default_factory=list)
+    failed: int = 0
 
 def setup_directories(clean: bool = False) -> Tuple[Path, Path]:
     """Create and verify required directories exist.
@@ -127,13 +177,10 @@ def handle_process_quotes(args: argparse.Namespace) -> int:
         quote_manager = QuoteManager(quotes_file)
         polly = PollyClient()
         effect = StormtrooperEffect()
+        stats = ProcessingStats()
         
-        total_quotes = len(quote_manager.quotes)
-        generated = 0
-        skipped = 0
-        failed = 0
-        
-        logger.info(f"Processing {total_quotes} quotes...")
+        stats.total = len(quote_manager.quotes)
+        logger.info(f"Processing {stats.total} quotes...")
         
         # Process each quote
         for quote in quote_manager.quotes:
@@ -146,15 +193,23 @@ def handle_process_quotes(args: argparse.Namespace) -> int:
                 raw_path = polly_raw_dir / f"{base_name}.wav"
                 processed_path = processed_dir / f"{base_name}_processed.wav"
                 
-                # Skip if processed file exists and is newer than raw file
-                if processed_path.exists():
+                # Skip only if not in clean mode and file exists and is newer
+                if not args.clean and processed_path.exists():
                     if not raw_path.exists() or processed_path.stat().st_mtime > raw_path.stat().st_mtime:
                         logger.debug(f"Skipping {base_name} - already processed")
-                        skipped += 1
+                        stats.skipped.append({
+                            'text': quote.text,
+                            'category': quote.category.value,
+                            'context': quote.context,
+                            'path': str(processed_path)
+                        })
                         continue
                 
+                # Track if we're regenerating
+                is_regenerating = processed_path.exists()
+                
                 # Generate raw audio if needed
-                if not raw_path.exists():
+                if not raw_path.exists() or args.clean:
                     logger.info(f"Generating audio for: {quote.text}")
                     pcm_data = polly.generate_speech(
                         text=quote.text,
@@ -179,22 +234,44 @@ def handle_process_quotes(args: argparse.Namespace) -> int:
                     urgency=quote.urgency
                 )
                 
-                generated += 1
+                if is_regenerating:
+                    stats.regenerated += 1
+                    logger.debug(f"Regenerated: {base_name}")
+                else:
+                    stats.generated += 1
+                    logger.debug(f"Generated: {base_name}")
                 
             except Exception as e:
                 logger.error(f"Failed to process quote: {quote.text}")
                 logger.error(f"Error: {str(e)}")
-                failed += 1
+                stats.failed += 1
                 continue
+        
+        # Save summary
+        summary_path = log_dir / f"processing_summary_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
+        with open(summary_path, 'w') as f:
+            f.write(f"Processing Summary\n")
+            f.write(f"=================\n")
+            f.write(f"Total quotes: {stats.total}\n")
+            f.write(f"Generated: {stats.generated}\n")
+            f.write(f"Regenerated: {stats.regenerated}\n")
+            f.write(f"Failed: {stats.failed}\n")
+            if stats.skipped:
+                f.write(f"\nSkipped Files:\n")
+                for skip in stats.skipped:
+                    f.write(f"- {skip['text']} ({skip['category']}/{skip['context']})\n")
+                    f.write(f"  Path: {skip['path']}\n")
         
         # Summary
         logger.info("\nProcessing complete:")
-        logger.info(f"Total quotes: {total_quotes}")
-        logger.info(f"Generated: {generated}")
-        logger.info(f"Skipped: {skipped}")
-        logger.info(f"Failed: {failed}")
+        logger.info(f"Total quotes: {stats.total}")
+        logger.info(f"Generated: {stats.generated}")
+        logger.info(f"Regenerated: {stats.regenerated}")
+        logger.info(f"Skipped: {len(stats.skipped)}")
+        logger.info(f"Failed: {stats.failed}")
+        logger.info(f"\nSummary saved to: {summary_path}")
         
-        return 0 if failed == 0 else 1
+        return 0 if stats.failed == 0 else 1
         
     except Exception as e:
         logger.error(f"Failed to process quotes: {str(e)}")
@@ -468,6 +545,73 @@ def handle_update(args: argparse.Namespace) -> int:
         logger.error(f"Update error: {str(e)}")
         return 2
 
+def handle_chat(args: argparse.Namespace) -> int:
+    """Handle the 'chat' command.
+    
+    Args:
+        args: Parsed command line arguments
+        
+    Returns:
+        Exit code (0 for success, non-zero for error)
+    """
+    try:
+        if args.action == "start":
+            # Initialize chat mode
+            cliff_mode = args.cliff_mode
+            print("\nChat mode started. Type 'exit' to quit.")
+            print("Cliff Clavin mode:", "ON" if cliff_mode else "OFF")
+            
+            while True:
+                try:
+                    user_input = input("\nYou: ").strip()
+                    if user_input.lower() == 'exit':
+                        break
+                        
+                    # Load conversation history
+                    previous_input, previous_response = load_history()
+                    if args.verbose:
+                        logger.debug(f"Previous context: {previous_input} -> {previous_response}")
+                        
+                    # Get AI response with context
+                    response, new_input, new_response = get_stormtrooper_response(
+                        user_input,
+                        cliff_clavin_mode=cliff_mode,
+                        previous_user_input=previous_input,
+                        previous_response=previous_response
+                    )
+                    
+                    # Save new context
+                    save_history(new_input, new_response)
+                    if args.verbose:
+                        logger.debug(f"New context: {new_input} -> {new_response}")
+                    
+                    # Process and play response
+                    process_and_play_text(
+                        text=response,
+                        urgency="normal",
+                        context="general"
+                    )
+                    
+                except KeyboardInterrupt:
+                    print("\nChat session ended.")
+                    break
+                    
+            return 0
+            
+        elif args.action == "mode":
+            # Toggle Cliff mode
+            current_mode = os.environ.get("TROOPER_CLIFF_MODE", "0")
+            new_mode = "1" if current_mode == "0" else "0"
+            os.environ["TROOPER_CLIFF_MODE"] = new_mode
+            print(f"Cliff Clavin mode: {'ON' if new_mode == '1' else 'OFF'}")
+            return 0
+            
+        return 1
+        
+    except Exception as e:
+        logger.error(f"Chat error: {e}")
+        return 2
+
 def handle_ask(args: argparse.Namespace) -> int:
     """Handle the 'ask' command.
     
@@ -528,6 +672,53 @@ def handle_ask(args: argparse.Namespace) -> int:
         logger.error(f"Failed to process ask command: {str(e)}")
         return 1
 
+def handle_sequence(args: argparse.Namespace) -> int:
+    """Handle the 'sequence' command.
+    
+    Args:
+        args: Parsed command line arguments
+        
+    Returns:
+        Exit code (0 for success, non-zero for error)
+    """
+    try:
+        if args.action == "stop":
+            if sequence_controller.is_playing:
+                sequence_controller.stop_sequence()
+                return 0
+            logger.warning("No sequence playing")
+            return 1
+            
+        # Initialize quote manager
+        quotes_file = Path("config/quotes.yaml")
+        quote_manager = QuoteManager(quotes_file)
+        
+        # Select sequence
+        category = QuoteCategory(args.category) if args.category else None
+        sequence = quote_manager.select_sequence(
+            category=category,
+            context=args.context,
+            count=args.count,
+            tags=args.tags
+        )
+        
+        if not sequence:
+            logger.error("No matching quotes found for sequence")
+            return 1
+            
+        # Start sequence playback
+        sequence_controller.start_sequence(
+            quotes=sequence,
+            volume=args.volume,
+            cleanup=True
+        )
+        
+        return 0
+        
+    except Exception as e:
+        logger.error(f"Failed to play sequence: {e}")
+        return 1
+
 def create_parser() -> argparse.ArgumentParser:
     """Create argument parser for CLI.
     
@@ -553,47 +744,20 @@ def create_parser() -> argparse.ArgumentParser:
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  # Basic usage (use single quotes around text):
+  # Basic text-to-speech:
   trooper say 'Stop right there!'
   
-  # With volume (1-11):
-  trooper say -v 11 'Intruder alert!'
+  # Start chat mode:
+  trooper chat start
   
-  # Full options:
-  trooper say --volume 11 --urgency high --context combat 'Enemy spotted!'
+  # Toggle Cliff mode:
+  trooper chat mode
   
-  # Generate without playing:
-  trooper say --no-play --keep 'All clear'
+  # Play a sequence of quotes:
+  trooper sequence -c combat -n 3
   
-  # List available audio devices:
-  trooper devices
-  
-  # Configure audio device:
-  trooper config device 1
-  
-  # Show current configuration:
-  trooper config show
-  
-  # Initialize configuration:
-  trooper config init
-  
-  # Check for updates:
-  trooper update check
-  
-  # Install updates:
-  trooper update pull
-  
-  # Show update status:
-  trooper update status
-  
-  # Process quotes from YAML:
+  # Process all quotes:
   trooper process-quotes
-  
-  # Process quotes with custom config:
-  trooper process-quotes --quotes-file custom_quotes.yaml --clean
-  
-Note: If your text contains special characters, wrap it in single quotes (')
-      For Windows users, use double quotes (") instead.
 """
     )
     
@@ -788,6 +952,110 @@ Note: If your text contains special characters, wrap it in single quotes (')
         help="Show debug information about conversation history"
     )
 
+    # 'sequence' command
+    sequence_parser = subparsers.add_parser(
+        "sequence",
+        help="Play a sequence of quotes",
+        description="Play a sequence of Stormtrooper quotes with specified options.",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  # Play 3 combat quotes:
+  trooper sequence -c combat
+
+  # Play 5 patrol quotes:
+  trooper sequence -c patrol -n 5
+
+  # Play quotes with specific tags:
+  trooper sequence -c combat --tags alert tactical
+
+  # Play quotes with custom volume:
+  trooper sequence -c patrol -v 11
+  
+  # Stop current sequence:
+  trooper sequence stop
+"""
+    )
+    
+    sequence_subparsers = sequence_parser.add_subparsers(
+        dest="action",
+        help="Sequence action to perform"
+    )
+    
+    # 'sequence play' command (default)
+    play_parser = sequence_subparsers.add_parser(
+        "play",
+        help="Play a sequence of quotes"
+    )
+    
+    play_parser.add_argument(
+        "-c", "--category",
+        choices=[c.value for c in QuoteCategory],
+        help="Quote category"
+    )
+    
+    play_parser.add_argument(
+        "--context",
+        help="Quote context within category"
+    )
+    
+    play_parser.add_argument(
+        "-n", "--count",
+        type=int,
+        default=3,
+        help="Number of quotes in sequence (default: 3)"
+    )
+    
+    play_parser.add_argument(
+        "-v", "--volume",
+        type=float,
+        choices=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+        help="Volume level (1-11, default: 5)"
+    )
+    
+    play_parser.add_argument(
+        "--tags",
+        nargs="+",
+        help="Filter quotes by tags"
+    )
+    
+    # 'sequence stop' command
+    sequence_subparsers.add_parser(
+        "stop",
+        help="Stop current sequence"
+    )
+
+    # 'chat' command
+    chat_parser = subparsers.add_parser(
+        "chat",
+        help="Interactive chat mode",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        description="Start an interactive chat session with the Stormtrooper."
+    )
+    
+    chat_subparsers = chat_parser.add_subparsers(
+        dest="action",
+        help="Chat action to perform"
+    )
+    
+    # 'chat start' command
+    start_parser = chat_subparsers.add_parser(
+        "start",
+        help="Start chat session"
+    )
+    
+    start_parser.add_argument(
+        "--cliff-mode",
+        action="store_true",
+        help="Start in Cliff Clavin mode"
+    )
+    
+    # 'chat mode' command
+    mode_parser = chat_subparsers.add_parser(
+        "mode",
+        help="Toggle Cliff Clavin mode"
+    )
+
     return parser
 
 def handle_say(args: argparse.Namespace) -> int:
@@ -870,12 +1138,19 @@ def main() -> int:
     """
     parser = create_parser()
     
+    # Global options
+    parser.add_argument('-v', '--verbose', action='store_true',
+                       help='Enable verbose logging')
+    
     try:
         args = parser.parse_args()
     except Exception as e:
         logger.error("Error parsing arguments. Make sure to wrap text in quotes!")
         logger.error("Example: trooper say 'Stop right there!'")
         return 1
+    
+    # Setup logging first
+    setup_logging(args.verbose)
     
     if not args.command:
         parser.print_help()
@@ -893,6 +1168,10 @@ def main() -> int:
         return handle_update(args)
     elif args.command == "ask":
         return handle_ask(args)
+    elif args.command == "sequence":
+        return handle_sequence(args)
+    elif args.command == "chat":
+        return handle_chat(args)
     
     return 0
 

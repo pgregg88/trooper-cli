@@ -3,9 +3,12 @@
 import os
 from pathlib import Path
 from typing import Optional
+
 import boto3
 from loguru import logger
+
 from src.quotes import UrgencyLevel
+
 
 class PollyClient:
     """AWS Polly client for text-to-speech synthesis."""
@@ -74,19 +77,16 @@ class PollyClient:
         
         return urgency_template.format(text=text)
     
-    def generate_speech(self, text: str, output_path: Optional[str] = None, 
-                       urgency: str = 'medium', context: str = 'patrol') -> bytes | str:
+    def generate_speech(self, text: str, urgency: str = 'medium', context: str = 'patrol') -> bytes:
         """Generate speech from text using Polly.
         
         Args:
             text: The text to convert to speech
-            output_path: Optional path to save the audio file
             urgency: Urgency level for SSML template
             context: Context for SSML template
             
         Returns:
-            Raw PCM audio data if no output_path is provided,
-            otherwise returns the path to the saved file as string
+            Raw PCM audio data as bytes
         """
         try:
             # Apply SSML templates
@@ -105,18 +105,7 @@ class PollyClient:
             if "AudioStream" not in response:
                 raise ValueError("No AudioStream in Polly response")
             
-            audio_data = response['AudioStream'].read()
-            
-            if output_path:
-                path = Path(output_path)
-                path.parent.mkdir(parents=True, exist_ok=True)
-                
-                with open(path, 'wb') as f:
-                    f.write(audio_data)
-                logger.info(f"Saved audio to: {path}")
-                return str(path)
-            
-            return audio_data
+            return response['AudioStream'].read()
             
         except Exception as e:
             logger.error(f"Failed to generate speech: {str(e)}")

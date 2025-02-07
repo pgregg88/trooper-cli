@@ -1,58 +1,54 @@
 """Quote management and selection functionality."""
 
 import random
+from collections import deque
 from pathlib import Path
-from typing import List, Optional, Dict, Set
+from typing import Deque, Dict, List, Optional, Set
+
 import yaml
 from loguru import logger
 
-from .models import Quote, QuoteCategory, UrgencyLevel
-from .constants import CONTEXTS, COMMON_TAGS
+from .constants import COMMON_TAGS, CONTEXTS
+from .models import Quote, QuoteCategory, SequenceRules, UrgencyLevel
+
 
 class QuoteManager:
     """Manager for Stormtrooper quotes."""
     
-    def __init__(self, quotes_file: Optional[Path] = None):
+    def __init__(self, quotes_file: Path):
         """Initialize the quote manager.
         
         Args:
-            quotes_file: Optional path to quotes YAML file
+            quotes_file: Path to quotes YAML file
         """
+        self.quotes_file = quotes_file
         self.quotes: List[Quote] = []
-        self.recent_quotes: List[str] = []  # Track recently used quotes
-        self.max_recent = 10  # Max number of quotes to track as recent
-        
-        if quotes_file:
-            self.load_quotes(quotes_file)
+        self._quote_history: Deque[Quote] = deque(maxlen=10)  # Track recent quotes
+        self._sequence_rules = SequenceRules()  # Default rules
+        self._load_quotes()
     
-    def load_quotes(self, file_path: Path) -> None:
-        """Load quotes from a YAML file.
-        
-        Args:
-            file_path: Path to quotes YAML file
-        """
+    def _load_quotes(self) -> None:
+        """Load quotes from YAML file."""
         try:
-            with open(file_path, 'r') as f:
+            with open(self.quotes_file, "r", encoding="utf-8") as f:
                 data = yaml.safe_load(f)
             
-            for category_name, category_data in data['categories'].items():
-                category = QuoteCategory(category_name)
+            if not data or "categories" not in data:
+                raise ValueError("Invalid quotes file format")
                 
-                for context_name, quotes in category_data['contexts'].items():
+            self.quotes = []
+            for category, cat_data in data["categories"].items():
+                if "contexts" not in cat_data:
+                    continue
+                    
+                for context, quotes in cat_data["contexts"].items():
                     for quote_data in quotes:
-                        quote = Quote(
-                            text=quote_data['text'],
-                            category=category,
-                            context=context_name,
-                            urgency=UrgencyLevel(quote_data['urgency']),
-                            tags=quote_data['tags']
-                        )
-                        self.quotes.append(quote)
-            
-            logger.info(f"Loaded {len(self.quotes)} quotes from {file_path}")
-            
+                        quote_data["category"] = category
+                        quote_data["context"] = context
+                        self.quotes.append(Quote.from_dict(quote_data))
+                        
         except Exception as e:
-            logger.error(f"Failed to load quotes from {file_path}: {str(e)}")
+            logger.error(f"Failed to load quotes: {e}")
             raise
     
     def get_quotes(
@@ -97,7 +93,8 @@ class QuoteManager:
             ]
             
         if exclude_recent:
-            filtered = [q for q in filtered if q.text not in self.recent_quotes]
+            recent_texts = {q.text for q in self._quote_history}
+            filtered = [q for q in filtered if q.text not in recent_texts]
             
         return filtered
     
@@ -156,15 +153,125 @@ class QuoteManager:
             return None
             
         quote = random.choice(matching_quotes)
-        self._mark_quote_used(quote)
+        self._quote_history.append(quote)
         return quote
     
-    def _mark_quote_used(self, quote: Quote) -> None:
-        """Mark a quote as recently used.
+    def select_quote(
+        self,
+        category: Optional[QuoteCategory] = None,
+        context: Optional[str] = None,
+        tags: Optional[List[str]] = None,
+        avoid_recent: bool = True
+    ) -> Optional[Quote]:
+        """Select a quote matching the given criteria.
         
         Args:
-            quote: Quote that was used
+            category: Optional category to filter by
+            context: Optional context to filter by
+            tags: Optional list of tags to filter by
+            avoid_recent: Whether to avoid recently used quotes
+            
+        Returns:
+            Selected quote or None if no matching quotes found
         """
-        self.recent_quotes.append(quote.text)
-        if len(self.recent_quotes) > self.max_recent:
-            self.recent_quotes.pop(0)  # Remove oldest quote 
+        # Filter quotes
+        candidates = self.quotes
+        
+        if category:
+            candidates = [q for q in candidates if q.category == category]
+            
+        if context:
+            candidates = [q for q in candidates if q.context == context]
+            
+        if tags:
+            candidates = [q for q in candidates if any(tag in q.tags for tag in tags)]
+            
+        if avoid_recent:
+            recent_texts = {q.text for q in self._quote_history}
+            candidates = [q for q in candidates if q.text not in recent_texts]
+            
+        if not candidates:
+            return None
+            
+        # Select quote
+        quote = random.choice(candidates)
+        self._quote_history.append(quote)
+        return quote
+        
+    def select_sequence(
+        self,
+        category: Optional[QuoteCategory] = None,
+        context: Optional[str] = None,
+        count: int = 3,
+        tags: Optional[List[str]] = None
+    ) -> List[Quote]:
+        """Select a sequence of quotes matching the criteria.
+        
+        Args:
+            category: Optional category to filter by
+            context: Optional context to filter by
+            count: Number of quotes to select
+            tags: Optional list of tags to filter by
+            
+        Returns:
+            List of selected quotes
+        """
+        sequence: List[Quote] = []
+        used_texts: Set[str] = set()
+        
+        for _ in range(count):
+            # Get candidates that can follow the last quote
+            candidates = self.quotes
+            
+            if category:
+                candidates = [q for q in candidates if q.category == category]
+                
+            if context:
+                candidates = [q for q in candidates if q.context == context]
+                
+            if tags:
+                candidates = [q for q in candidates if any(tag in q.tags for tag in tags)]
+                
+            # Filter by sequence rules
+            if sequence:
+                last_quote = sequence[-1]
+                if last_quote.can_follow:
+                    candidates = [q for q in candidates if q.category.value in last_quote.can_follow]
+                    
+            # Remove already used quotes
+            candidates = [q for q in candidates if q.text not in used_texts]
+            
+            if not candidates:
+                break
+                
+            # Select quote
+            quote = random.choice(candidates)
+            sequence.append(quote)
+            used_texts.add(quote.text)
+            self._quote_history.append(quote)
+            
+        return sequence
+        
+    def get_pause_duration(self, quote: Quote) -> float:
+        """Get the pause duration after a quote.
+        
+        Args:
+            quote: Quote to get pause duration for
+            
+        Returns:
+            Pause duration in seconds
+        """
+        if quote.min_pause == quote.max_pause:
+            return quote.min_pause
+            
+        return random.uniform(quote.min_pause, quote.max_pause)
+        
+    @property
+    def sequence_rules(self) -> SequenceRules:
+        """Get the current sequence rules."""
+        return self._sequence_rules
+        
+    @sequence_rules.setter
+    def sequence_rules(self, rules: SequenceRules) -> None:
+        """Set new sequence rules."""
+        self._sequence_rules = rules 

@@ -3,8 +3,10 @@
 import json
 import os
 from pathlib import Path
-from typing import Optional, Tuple
+from typing import Dict, List, Optional, Tuple
 
+# Maximum number of turns to keep in history
+MAX_HISTORY_TURNS = 3
 
 def get_history_file() -> Path:
     """Get the path to the history file."""
@@ -27,9 +29,32 @@ def load_history() -> Tuple[Optional[str], Optional[str]]:
     try:
         with open(history_file, 'r', encoding='utf-8') as f:
             data = json.load(f)
-            return data.get('last_user_input'), data.get('last_response')
+            history = data.get('history', [])
+            if not history:
+                return None, None
+            # Return the most recent turn
+            return history[-1].get('user_input'), history[-1].get('response')
     except (json.JSONDecodeError, IOError):
         return None, None
+
+def get_context_window() -> List[Dict[str, str]]:
+    """Get the conversation context window.
+    
+    Returns:
+        List of conversation turns, each containing user_input and response
+    """
+    history_file = get_history_file()
+    if not history_file.exists():
+        return []
+        
+    try:
+        with open(history_file, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+            history = data.get('history', [])
+            # Return up to MAX_HISTORY_TURNS most recent turns
+            return history[-MAX_HISTORY_TURNS:]
+    except (json.JSONDecodeError, IOError):
+        return []
 
 def save_history(user_input: str, response: str) -> None:
     """Save the conversation history to disk.
@@ -39,15 +64,29 @@ def save_history(user_input: str, response: str) -> None:
         response: The assistant's last response
     """
     history_file = get_history_file()
-    data = {
-        'last_user_input': user_input,
-        'last_response': response
-    }
     
+    # Load existing history
     try:
+        if history_file.exists():
+            with open(history_file, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                history = data.get('history', [])
+        else:
+            history = []
+            
+        # Add new turn
+        history.append({
+            'user_input': user_input,
+            'response': response
+        })
+        
+        # Keep only the most recent turns
+        history = history[-MAX_HISTORY_TURNS:]
+        
+        # Save updated history
         with open(history_file, 'w', encoding='utf-8') as f:
-            json.dump(data, f, indent=2)
-    except IOError:
+            json.dump({'history': history}, f, indent=2)
+    except (json.JSONDecodeError, IOError):
         pass  # Fail silently if we can't save history
 
 def clear_history() -> None:

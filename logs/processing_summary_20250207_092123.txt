@@ -1,0 +1,21 @@
+Processing Summary
+=================
+Total quotes: 250
+Generated: 243
+Failed: 0
+
+Skipped Files:
+- Enough with the mute act—I'm not in the mood for your theatrics. Who are you? (taunt/interrogation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_taunt_interrogation_enough_with_the_processed.wav
+- I'm not here to listen to your excuses. Tell me your business, or you'll be taken in. (taunt/interrogation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_taunt_interrogation_im_not_here_processed.wav
+- I'm not here to indulge your silence. Your explanation is required—speak now! (taunt/interrogation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_taunt_interrogation_im_not_here_processed.wav
+- This isn't a polite conversation; it's a command. Answer me, or I'll enforce compliance. (taunt/interrogation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_taunt_interrogation_this_isnt_a_processed.wav
+- I'm not in the habit of taking fools lightly. (stall/dismissive)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_dismissive_im_not_in_processed.wav
+- Stay where you are; I'm confirming our target. (stall/processing_combat)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_combat_stay_where_you_processed.wav
+- Why don't TIE Fighters ever win races? Because they always have a bad throttle response. (humor/equipment_jokes)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_humor_equipment_jokes_why_dont_tie_processed.wav
