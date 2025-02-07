@@ -28,6 +28,9 @@ class QuoteCategory(str, Enum):
     SQUAD_COMMANDS = "squad_commands"
     CONVERSATION = "conversation"
     ANNOUNCEMENTS = "announcements"
+    STALL = "stall"
+    HUMOR = "humor"
+    MONOLOGUES = "monologues"
 
 @dataclass
 class Quote:

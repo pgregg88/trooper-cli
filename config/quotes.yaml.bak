@@ -383,130 +383,7 @@ categories:
           urgency: medium
           tags: ["stall", "dismissive"]
 
-      processing_combat:
-        - text: "Stay where you are while I assess the situation."
-          urgency: high
-          tags: ["stall", "combat", "tactical"]
-        - text: "Don't move a muscle until I sort this out."
-          urgency: high
-          tags: ["stall", "combat", "command"]
-        - text: "Hold your ground; I'm evaluating our options."
-          urgency: high
-          tags: ["stall", "combat", "tactical"]
-        - text: "Freeze—I'm gauging your threat level."
-          urgency: high
-          tags: ["stall", "combat", "tactical"]
-        - text: "Keep still; I'm deciding our next move."
-          urgency: high
-          tags: ["stall", "combat", "tactical"]
-        - text: "Stand fast while I review the battlefield."
-          urgency: high
-          tags: ["stall", "combat", "tactical"]
-        - text: "Don't even think of shifting positions."
-          urgency: high
-          tags: ["stall", "combat", "command"]
-        - text: "Stay put—I'm locking onto the target."
-          urgency: high
-          tags: ["stall", "combat", "tactical"]
-        - text: "Hold tight; I'm recalibrating our strategy."
-          urgency: high
-          tags: ["stall", "combat", "tactical"]
-        - text: "Freeze—I'm scanning for your weakness."
-          urgency: high
-          tags: ["stall", "combat", "tactical"]
-        - text: "Stay alert; I'm determining the best approach."
-          urgency: high
-          tags: ["stall", "combat", "tactical"]
-        - text: "Hold your fire; I'm mapping our advantage."
-          urgency: high
-          tags: ["stall", "combat", "tactical"]
-        - text: "Stand down momentarily—I'm verifying our cover."
-          urgency: high
-          tags: ["stall", "combat", "tactical"]
-        - text: "Don't move; I'm pinpointing your error."
-          urgency: high
-          tags: ["stall", "combat", "tactical"]
-        - text: "Stay in position while I calculate our odds."
-          urgency: high
-          tags: ["stall", "combat", "tactical"]
-        - text: "Freeze—I'm assessing your tactics."
-          urgency: high
-          tags: ["stall", "combat", "tactical"]
-        - text: "Hold fast; I'm aligning our assault."
-          urgency: high
-          tags: ["stall", "combat", "tactical"]
-        - text: "Don't budge—I'm finalizing our plan."
-          urgency: high
-          tags: ["stall", "combat", "tactical"]
-        - text: "Stay where you are; I'm confirming our target."
-          urgency: high
-          tags: ["stall", "combat", "tactical"]
-        - text: "Keep your position; I'm securing our flank."
-          urgency: high
-          tags: ["stall", "combat", "tactical"]
-      
-      processing_radio:
-        - text: "Command, do you copy…"
-          urgency: medium
-          tags: ["stall", "radio", "official"]
-        - text: "Checking with base…"
-          urgency: medium
-          tags: ["stall", "radio", "official"]
-        - text: "Radio, confirm status…"
-          urgency: medium
-          tags: ["stall", "radio", "official"]
-        - text: "I'm pinging headquarters…"
-          urgency: medium
-          tags: ["stall", "radio", "official"]
-        - text: "Hold—I'm contacting command."
-          urgency: medium
-          tags: ["stall", "radio", "official"]
-        - text: "Base, report in…"
-          urgency: medium
-          tags: ["stall", "radio", "official"]
-        - text: "Let me reach out to HQ."
-          urgency: medium
-          tags: ["stall", "radio", "official"]
-        - text: "Initiating comms with command."
-          urgency: medium
-          tags: ["stall", "radio", "official"]
-        - text: "Hailing base…"
-          urgency: medium
-          tags: ["stall", "radio", "official"]
-        - text: "Command, respond…"
-          urgency: medium
-          tags: ["stall", "radio", "official"]
-        - text: "I'm reaching out to command."
-          urgency: medium
-          tags: ["stall", "radio", "official"]
-        - text: "Base, do you read me?"
-          urgency: medium
-          tags: ["stall", "radio", "official"]
-        - text: "Communications check…"
-          urgency: medium
-          tags: ["stall", "radio", "official"]
-        - text: "Verifying with central command."
-          urgency: medium
-          tags: ["stall", "radio", "official"]
-        - text: "Checking in with HQ…"
-          urgency: medium
-          tags: ["stall", "radio", "official"]
-        - text: "Base, confirm your status."
-          urgency: medium
-          tags: ["stall", "radio", "official"]
-        - text: "Command, please acknowledge."
-          urgency: medium
-          tags: ["stall", "radio", "official"]
-        - text: "Sending status update to base."
-          urgency: medium
-          tags: ["stall", "radio", "official"]
-        - text: "In radio contact—awaiting orders."
-          urgency: medium
-          tags: ["stall", "radio", "official"]
-        - text: "Awaiting command instructions."
-          urgency: medium
-          tags: ["stall", "radio", "official"]
-      
+      # Replace the placeholder sections with actual content
       processing_short:
         - text: "Hold it…"
           urgency: low
@@ -569,6 +446,68 @@ categories:
           urgency: low
           tags: ["stall", "short"]
       
+      processing_combat:
+        - text: "Stay where you are while I assess the situation."
+          urgency: high
+          tags: ["stall", "combat", "tactical"]
+        - text: "Don't move a muscle until I sort this out."
+          urgency: high
+          tags: ["stall", "combat", "command"]
+        - text: "Hold your ground; I'm evaluating our options."
+          urgency: high
+          tags: ["stall", "combat", "tactical"]
+        - text: "Freeze—I'm gauging your threat level."
+          urgency: high
+          tags: ["stall", "combat", "tactical"]
+        - text: "Keep still; I'm deciding our next move."
+          urgency: high
+          tags: ["stall", "combat", "tactical"]
+        - text: "Stand fast while I review the battlefield."
+          urgency: high
+          tags: ["stall", "combat", "tactical"]
+        - text: "Don't even think of shifting positions."
+          urgency: high
+          tags: ["stall", "combat", "command"]
+        - text: "Stay put—I'm locking onto the target."
+          urgency: high
+          tags: ["stall", "combat", "tactical"]
+        - text: "Hold tight; I'm recalibrating our strategy."
+          urgency: high
+          tags: ["stall", "combat", "tactical"]
+        - text: "Freeze—I'm scanning for your weakness."
+          urgency: high
+          tags: ["stall", "combat", "tactical"]
+        - text: "Stay alert; I'm determining the best approach."
+          urgency: high
+          tags: ["stall", "combat", "tactical"]
+        - text: "Hold your fire; I'm mapping our advantage."
+          urgency: high
+          tags: ["stall", "combat", "tactical"]
+        - text: "Stand down momentarily—I'm verifying our cover."
+          urgency: high
+          tags: ["stall", "combat", "tactical"]
+        - text: "Don't move; I'm pinpointing your error."
+          urgency: high
+          tags: ["stall", "combat", "tactical"]
+        - text: "Stay in position while I calculate our odds."
+          urgency: high
+          tags: ["stall", "combat", "tactical"]
+        - text: "Freeze—I'm assessing your tactics."
+          urgency: high
+          tags: ["stall", "combat", "tactical"]
+        - text: "Hold fast; I'm aligning our assault."
+          urgency: high
+          tags: ["stall", "combat", "tactical"]
+        - text: "Don't budge—I'm finalizing our plan."
+          urgency: high
+          tags: ["stall", "combat", "tactical"]
+        - text: "Stay where you are; I'm confirming our target."
+          urgency: high
+          tags: ["stall", "combat", "tactical"]
+        - text: "Keep your position; I'm securing our flank."
+          urgency: high
+          tags: ["stall", "combat", "tactical"]
+      
       processing_verification:
         - text: "Let me verify that…"
           urgency: low
@@ -630,26 +569,72 @@ categories:
         - text: "Processing your credentials."
           urgency: low
           tags: ["stall", "verification", "official"]
+      
+      processing_radio:
+        - text: "Command, do you copy…"
+          urgency: medium
+          tags: ["stall", "radio", "official"]
+        - text: "Checking with base…"
+          urgency: medium
+          tags: ["stall", "radio", "official"]
+        - text: "Radio, confirm status…"
+          urgency: medium
+          tags: ["stall", "radio", "official"]
+        - text: "I'm pinging headquarters…"
+          urgency: medium
+          tags: ["stall", "radio", "official"]
+        - text: "Hold—I'm contacting command."
+          urgency: medium
+          tags: ["stall", "radio", "official"]
+        - text: "Base, report in…"
+          urgency: medium
+          tags: ["stall", "radio", "official"]
+        - text: "Let me reach out to HQ."
+          urgency: medium
+          tags: ["stall", "radio", "official"]
+        - text: "Initiating comms with command."
+          urgency: medium
+          tags: ["stall", "radio", "official"]
+        - text: "Hailing base…"
+          urgency: medium
+          tags: ["stall", "radio", "official"]
+        - text: "Command, respond…"
+          urgency: medium
+          tags: ["stall", "radio", "official"]
+        - text: "I'm reaching out to command."
+          urgency: medium
+          tags: ["stall", "radio", "official"]
+        - text: "Base, do you read me?"
+          urgency: medium
+          tags: ["stall", "radio", "official"]
+        - text: "Communications check…"
+          urgency: medium
+          tags: ["stall", "radio", "official"]
+        - text: "Verifying with central command."
+          urgency: medium
+          tags: ["stall", "radio", "official"]
+        - text: "Checking in with HQ…"
+          urgency: medium
+          tags: ["stall", "radio", "official"]
+        - text: "Base, confirm your status."
+          urgency: medium
+          tags: ["stall", "radio", "official"]
+        - text: "Command, please acknowledge."
+          urgency: medium
+          tags: ["stall", "radio", "official"]
+        - text: "Sending status update to base."
+          urgency: medium
+          tags: ["stall", "radio", "official"]
+        - text: "In radio contact—awaiting orders."
+          urgency: medium
+          tags: ["stall", "radio", "official"]
+        - text: "Awaiting command instructions."
+          urgency: medium
+          tags: ["stall", "radio", "official"] 
 
-  humor:
+  jokes:
     description: "Star Wars lore-based humor for Cliff Clavin mode"
     contexts:
-      dad_jokes:
-        - text: "Why did Darth Vader turn off one of the ship's engines? Because he preferred to deal in absolutes."
-          urgency: low
-          tags: ["humor", "dad_joke", "vader", "sith"]
-        - text: "How does Admiral Ackbar like his coffee? IT'S A FRAP!"
-          urgency: low
-          tags: ["humor", "dad_joke", "ackbar", "food"]
-        - text: "What's a Jedi's favorite part of a meal? The Force-fed dessert."
-          urgency: low
-          tags: ["humor", "dad_joke", "force", "food"]
-        - text: "What's a Sith Lord's favorite breakfast? Darth Toast."
-          urgency: low
-          tags: ["humor", "dad_joke", "sith", "food"]
-        - text: "What's Emperor Palpatine's favorite type of music? Heavy Sith Metal."
-          urgency: low
-          tags: ["humor", "dad_joke", "palpatine", "sith"]
       equipment_jokes:
         - text: "Why don't TIE Fighters have shields? Because the Empire's health plan doesn't cover pre-existing conditions!"
           urgency: low
@@ -657,25 +642,16 @@ categories:
         - text: "What's a Stormtrooper's favorite snack? Imperial Troopers - they're a bit like Triscuits, but they always miss the taste."
           urgency: low
           tags: ["humor", "equipment", "stormtrooper"]
-        - text: "Why do stormtroopers only use iPhones? Because they can't find the Androids they're looking for."
+        - text: "Why did the Imperial quartermaster hate the new E-11 blaster shipment? Too many attachment issues!"
           urgency: low
-          tags: ["humor", "dad_joke", "stormtrooper", "droids", "tech"]
-        - text: "Why don't TIE Fighters ever win races? Because they always have a bad throttle response."
+          tags: ["humor", "equipment", "weapons", "e11"]
+        - text: "What's a TIE pilot's least favorite part of the ship? The ion cannon-t fit in the cockpit!"
           urgency: low
-          tags: ["humor", "dad_joke", "tie_fighter", "tech"]
-      deep_lore_jokes:
-        - text: "Why don't Bothans tell jokes? Too many of them died to bring you the punchline!"
+          tags: ["humor", "equipment", "tie_fighter", "pilot"]
+        - text: "Why do AT-AT drivers hate snow days? They keep getting tripped up on their morning commute!"
           urgency: low
-          tags: ["humor", "deep_lore", "bothans", "death_star"]
-        - text: "What's a Kaminoan's favorite weather? When it rains, it clones!"
-          urgency: low
-          tags: ["humor", "deep_lore", "kamino", "clones"]
-        - text: "Why did the Neimoidian cross the trade route? To avoid the taxation of trade routes!"
-          urgency: low
-          tags: ["humor", "deep_lore", "trade_federation", "phantom_menace"]
-        - text: "What's a Corellian's idea of a balanced breakfast? Han Solo cup of caf!"
-          urgency: low
-          tags: ["humor", "deep_lore", "corellia", "han_solo"]
+          tags: ["humor", "equipment", "at_at", "hoth"]
+
       protocol_jokes:
         - text: "How many Imperial officers does it take to file a requisition form? Three - one to file it, one to deny it, and one to choke on their aspirations."
           urgency: low
@@ -692,6 +668,7 @@ categories:
         - text: "What's the Empire's favorite regulation? Order 66 - it really cleaned up the workplace!"
           urgency: low
           tags: ["humor", "protocol", "order_66", "jedi"]
+
       historical_jokes:
         - text: "What did the Mandalorian say to the Jedi? Nothing, he was Beskar-ful not to start a fight!"
           urgency: low
@@ -708,6 +685,7 @@ categories:
         - text: "What's a Clone Trooper's favorite snack? Order 66-ty-six different flavors!"
           urgency: low
           tags: ["humor", "history", "clone_wars", "order_66"]
+
       training_jokes:
         - text: "What's an Imperial Academy graduate's favorite number? Miss-teen!"
           urgency: low
@@ -724,6 +702,24 @@ categories:
         - text: "What's a Scout Trooper's favorite speeder bike maneuver? The tree-point turn!"
           urgency: low
           tags: ["humor", "training", "scout_trooper", "endor"]
+
+      deep_lore_jokes:
+        - text: "Why don't Bothans tell jokes? Too many of them died to bring you the punchline!"
+          urgency: low
+          tags: ["humor", "deep_lore", "bothans", "death_star"]
+        - text: "What's a Kaminoan's favorite weather? When it rains, it clones!"
+          urgency: low
+          tags: ["humor", "deep_lore", "kamino", "clones"]
+        - text: "Why did the Neimoidian cross the trade route? To avoid the taxation of trade routes!"
+          urgency: low
+          tags: ["humor", "deep_lore", "trade_federation", "phantom_menace"]
+        - text: "What's a Corellian's idea of a balanced breakfast? Han Solo cup of caf!"
+          urgency: low
+          tags: ["humor", "deep_lore", "corellia", "han_solo"]
+        - text: "Why don't Gungans make good Imperial officers? Too many 'meesa' in their reports!"
+          urgency: low
+          tags: ["humor", "deep_lore", "gungan", "naboo"]
+
       stormtrooper_jokes:
         - text: "Why don't stormtroopers play hide and seek? Because they'll never find you, and if they do, they still won't hit you."
           urgency: low
@@ -737,6 +733,7 @@ categories:
         - text: "Han shot first? Pfft. With my aim, it doesn't matter who shoots first."
           urgency: low
           tags: ["humor", "stormtrooper", "marksmanship", "han_solo"]
+
       imperial_workplace:
         - text: "I once asked Darth Vader for a raise... He said I needed to choke up more during meetings."
           urgency: low
@@ -753,6 +750,7 @@ categories:
         - text: "The Death Star cafeteria is terrible. I ordered Alderaan-ian cuisine once—Five minutes later, it was gone."
           urgency: low
           tags: ["humor", "death_star", "alderaan", "workplace"]
+
       force_users:
         - text: "Why don't Sith Lords ever use dating apps? Because they only deal in absolutes."
           urgency: low
@@ -766,6 +764,7 @@ categories:
         - text: "Why was Darth Maul such a bad stand-up comedian? Because his jokes always fell flat in two halves."
           urgency: low
           tags: ["humor", "sith", "darth_maul", "meta"]
+
       species_jokes:
         - text: "Why do Jawas always win arguments? Because they never stop bartering."
           urgency: low
@@ -777,6 +776,72 @@ categories:
           urgency: low
           tags: ["humor", "boba_fett", "sarlacc", "tatooine"]
 
+      dad_jokes:
+        description: "The most groan-worthy Star Wars dad jokes in the galaxy"
+        contexts:
+          force_puns:
+            - text: "What's a Jedi's favorite part of a meal? The Force-fed dessert."
+              urgency: low
+              tags: ["humor", "dad_joke", "force", "food"]
+          sith_puns:
+            - text: "Why did Darth Vader turn off one of the ship's engines? Because he preferred to deal in absolutes."
+              urgency: low
+              tags: ["humor", "dad_joke", "vader", "sith"]
+            - text: "What's a Sith Lord's favorite breakfast? Darth Toast."
+              urgency: low
+              tags: ["humor", "dad_joke", "sith", "food"]
+            - text: "What's Emperor Palpatine's favorite type of music? Heavy Sith Metal."
+              urgency: low
+              tags: ["humor", "dad_joke", "palpatine", "sith"]
+            - text: "What do you say when someone tells you a bad Star Wars joke? Sith happens."
+              urgency: low
+              tags: ["humor", "dad_joke", "sith", "meta"]
+            - text: "What's Darth Maul's favorite exercise? Split squats."
+              urgency: low
+              tags: ["humor", "dad_joke", "darth_maul", "sith"]
+
+          character_puns:
+            - text: "How does Admiral Ackbar like his coffee? IT'S A FRAP!"
+              urgency: low
+              tags: ["humor", "dad_joke", "ackbar", "food"]
+            - text: "What do you call a Wookiee who likes cookies? Chewbacca-chip."
+              urgency: low
+              tags: ["humor", "dad_joke", "wookiee", "food"]
+            - text: "How does Kylo Ren check the temperature? With a Thermo-Ren-eter."
+              urgency: low
+              tags: ["humor", "dad_joke", "kylo_ren", "science"]
+            - text: "Why did Yoda become a gardener? Because he had the green thumb, he did."
+              urgency: low
+              tags: ["humor", "dad_joke", "yoda", "gardening"]
+            - text: "Why didn't Anakin Skywalker like sandcastles? Because they get everywhere."
+              urgency: low
+              tags: ["humor", "dad_joke", "anakin", "sand"]
+
+          species_puns:
+            - text: "Why don't Ewoks yell when they stub their toes? Because their language is Ewokiee-friendly."
+              urgency: low
+              tags: ["humor", "dad_joke", "ewok", "language"]
+            - text: "Why do Jawas make great salesmen? Because they always find the droid for the job."
+              urgency: low
+              tags: ["humor", "dad_joke", "jawa", "droids"]
+            - text: "Why did the Mandalorian open a bakery? This is the way... to make some dough."
+              urgency: low
+              tags: ["humor", "dad_joke", "mandalorian", "food"]
+
+          tech_puns:
+            - text: "Why do stormtroopers only use iPhones? Because they can't find the Androids they're looking for."
+              urgency: low
+              tags: ["humor", "dad_joke", "stormtrooper", "droids", "tech"]
+            - text: "Why don't TIE Fighters ever win races? Because they always have a bad throttle response."
+              urgency: low
+              tags: ["humor", "dad_joke", "tie_fighter", "tech"]
+            - text: "What's the most popular Star Wars clothing brand? Hoth Topic."
+              urgency: low
+              tags: ["humor", "dad_joke", "hoth", "fashion"]
+            - text: "What do you call a stormtrooper who can actually aim? A myth."
+              urgency: low
+              tags: ["humor", "dad_joke", "stormtrooper", "marksmanship"]
+
   monologues:
     description: "Longer-form content with timing and delivery notes"
     contexts:
@@ -787,61 +852,72 @@ categories:
           urgency: low
           tags: ["humor", "monologue", "opener", "challenge"]
           stall_point: true
+
         - sequence: "credentials_1"
           text: "Buddy, I've been serving the Galactic Empire longer than you've been pretending to be a Jedi in your mom's basement."
           pause: 1.5
           urgency: low
           tags: ["humor", "monologue", "credentials", "jedi"]
+          
         - sequence: "credentials_2"
           text: "You're looking at TK-420, elite stormtrooper, marksman (despite what the propaganda says), and an absolute encyclopedia of galactic history."
           pause: 1.0
           urgency: low
           tags: ["humor", "monologue", "credentials", "imperial"]
           stall_point: true
+
         - sequence: "nerd_cred"
           text: "If it happened in the galaxy far, far away, I know about it. Canon, Legends, obscure holocron footnotes—yeah, I've read them. You think you're a nerd? That's cute."
           pause: 2.0
           urgency: low
           tags: ["humor", "monologue", "lore", "deep_lore"]
           stall_point: true
+
         - sequence: "rebellion_setup"
           text: "Let's get something straight: the Rebellion? Bunch of overhyped troublemakers with plot armor thicker than a Mandalorian's beskar."
           pause: 1.5
           urgency: low
           tags: ["humor", "monologue", "rebellion", "mandalorian"]
+
         - sequence: "hero_takedown"
           text: "Han Solo? That guy was a smuggler until he accidentally got famous. Luke? A moisture farmer who got lucky because Obi-Wan couldn't let go of his Clone Wars nostalgia."
           pause: 2.0
           urgency: low
           tags: ["humor", "monologue", "han_solo", "luke", "obi_wan"]
           stall_point: true
+
         - sequence: "stormtrooper_pride_1"
           text: "Meanwhile, we stormtroopers? We're the backbone of the Empire."
           pause: 1.5
           urgency: low
           tags: ["humor", "monologue", "imperial", "pride"]
+
         - sequence: "tough_job_1"
           text: "You ever try fighting a Wookiee riot on Kashyyyk? No? That's because we did it first."
           pause: 2.0
           urgency: low
           tags: ["humor", "monologue", "wookiee", "kashyyyk"]
           stall_point: true
+
         - sequence: "tough_job_2"
           text: "Ever patrol the underbelly of Coruscant's Level 1313, dealing with bounty hunters who make Cad Bane look like a babysitter? No? Yeah, that's what I thought."
           pause: 2.0
           urgency: low
           tags: ["humor", "monologue", "coruscant", "bounty_hunters"]
+
         - sequence: "marksmanship_defense"
           text: "And for the record—yes, we can hit our targets. It's called plot convenience, sweetheart. If we actually shot like we trained, the original trilogy would've been two movies long."
           pause: 2.0
           urgency: low
           tags: ["humor", "monologue", "marksmanship", "meta"]
           stall_point: true
+
         - sequence: "closer_challenge"
           text: "So, go ahead—hit me with your hardest Star Wars question. Test my knowledge. But be warned: I will correct you. I will out-nerd you."
           pause: 1.5
           urgency: low
           tags: ["humor", "monologue", "challenge", "closer"]
+
         - sequence: "final_punchline"
           text: "And I will remind you why the Empire was the best thing to happen to the galaxy since the Rakata got wiped out."
           pause: 1.0

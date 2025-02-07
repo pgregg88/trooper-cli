@@ -5,10 +5,16 @@ from typing import Dict, List
 # Quote contexts by category
 CONTEXTS: Dict[str, List[str]] = {
     "spotted": ["combat", "patrol"],
-    "taunt": ["arrest", "combat", "pursuit"],
+    "taunt": ["arrest", "combat", "pursuit", "interrogation"],
     "squad_commands": ["combat", "formation", "tactical"],
-    "conversation": ["casual", "inspection", "warning"],
-    "announcements": ["alert", "update"]
+    "conversation": ["casual", "inspection", "warning", "verification", "reassurance"],
+    "announcements": ["alert", "update"],
+    "stall": ["suspicion", "observation", "warning", "dismissive", 
+              "processing_combat", "processing_radio", "processing_short", "processing_verification"],
+    "humor": ["dad_jokes", "equipment_jokes", "deep_lore_jokes", "protocol_jokes", 
+             "historical_jokes", "training_jokes", "stormtrooper_jokes", 
+             "imperial_workplace", "force_users", "species_jokes"],
+    "monologues": ["standup"]
 }
 
 # Common tags for quotes
@@ -22,7 +28,28 @@ COMMON_TAGS = [
     "pursuit",
     "official",
     "casual",
-    "warning"
+    "warning",
+    "humor",
+    "monologue",
+    "dad_joke",
+    "equipment",
+    "lore",
+    "imperial",
+    "vader",
+    "sith",
+    "force",
+    "species",
+    "stall",
+    "verification",
+    "suspicion",
+    "observation",
+    "dismissive",
+    "radio",
+    "short",
+    "threat",
+    "interrogation",
+    "legal",
+    "reassurance"
 ]
 
 # Audio effect parameters by urgency
