@@ -40,6 +40,7 @@ from audio.effects import StormtrooperEffect
 from audio.polly import PollyClient
 from audio.processor import process_and_play_text
 from quotes import QuoteManager
+from src.openai import get_stormtrooper_response
 
 # Type alias for sounddevice device info
 DeviceInfo = Dict[str, Any]
@@ -462,6 +463,43 @@ def handle_update(args: argparse.Namespace) -> int:
         logger.error(f"Update error: {str(e)}")
         return 2
 
+def handle_ask(args: argparse.Namespace) -> int:
+    """Handle the 'ask' command.
+    
+    This function processes user input through the AI pipeline and speaks the response:
+    1. Sends user input to OpenAI for Stormtrooper response
+    2. Processes the response through TTS pipeline
+    3. Plays the processed audio
+    
+    Args:
+        args: Parsed command line arguments containing:
+            - text: The user's question/input
+            - cliff_clavin_mode: Whether to enable Cliff Clavin mode
+            - volume: Optional volume level (1-11)
+            - urgency: Voice urgency level
+            - context: Voice context
+            
+    Returns:
+        Exit code (0 for success, non-zero for error)
+    """
+    try:
+        # Get AI response
+        response = get_stormtrooper_response(args.text, cliff_clavin_mode=args.cliff_clavin_mode)
+        
+        # Process and play the response
+        process_and_play_text(
+            text=response,
+            urgency=args.urgency,
+            context=args.context,
+            volume=args.volume
+        )
+        
+        return 0
+        
+    except Exception as e:
+        logger.error(f"Failed to process ask command: {str(e)}")
+        return 1
+
 def create_parser() -> argparse.ArgumentParser:
     """Create argument parser for CLI.
     
@@ -671,6 +709,45 @@ Note: If your text contains special characters, wrap it in single quotes (')
         help="Show current version and update status"
     )
 
+    # 'ask' command
+    ask_parser = subparsers.add_parser(
+        "ask",
+        help="Process user input through AI pipeline",
+        formatter_class=argparse.RawDescriptionHelpFormatter
+    )
+    
+    ask_parser.add_argument(
+        "text",
+        help="The user's question/input"
+    )
+    
+    ask_parser.add_argument(
+        "--cliff-clavin-mode",
+        action="store_true",
+        help="Enable Cliff Clavin mode"
+    )
+    
+    ask_parser.add_argument(
+        "-v", "--volume",
+        type=float,
+        choices=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+        help="Volume level (1-11, default: 5)"
+    )
+    
+    ask_parser.add_argument(
+        "-u", "--urgency",
+        choices=["low", "normal", "medium", "high"],
+        default="normal",
+        help="Voice urgency level (default: normal, 'normal' and 'medium' are equivalent)"
+    )
+    
+    ask_parser.add_argument(
+        "-c", "--context",
+        choices=["general", "combat", "alert", "patrol"],
+        default="general",
+        help="Voice context (default: general)"
+    )
+
     return parser
 
 def handle_say(args: argparse.Namespace) -> int:
@@ -774,6 +851,8 @@ def main() -> int:
         return handle_config(args)
     elif args.command == "update":
         return handle_update(args)
+    elif args.command == "ask":
+        return handle_ask(args)
     
     return 0
 

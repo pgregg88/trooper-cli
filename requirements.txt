@@ -9,6 +9,8 @@ loguru==0.7.3
 pyyaml==6.0.2
 python-dotenv==1.0.1  # For environment variable management
 cffi==1.17.1  # Required by sounddevice
+openai==1.12.0  # For Stormtrooper AI responses
+websocket-client==1.7.0  # For real-time OpenAI WebSocket API
 
 # Development dependencies
 pylint==3.3.4  # Code linting and style checking
