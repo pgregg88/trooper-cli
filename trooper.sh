@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Get the directory where trooper is installed
-TROOPER_PATH="$HOME/github_curser/trooper-cli"
+# Use TROOPER_INSTALL_PATH if set, otherwise use current directory
+TROOPER_PATH="${TROOPER_INSTALL_PATH:-$HOME/github_curser/trooper-cli}"
 VENV_PATH="$TROOPER_PATH/.venv"
 
 # Check if virtual environment exists

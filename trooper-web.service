@@ -6,8 +6,9 @@ After=network.target
 Type=simple
 Environment="PATH=/usr/local/bin:/usr/bin:/bin"
 Environment="PYTHONUNBUFFERED=1"
-WorkingDirectory=%h/github_curser/trooper-cli
-ExecStart=%h/github_curser/trooper-cli/.venv/bin/python -m src.web.server
+EnvironmentFile=%h/.env
+WorkingDirectory=${TROOPER_INSTALL_PATH}
+ExecStart=${TROOPER_INSTALL_PATH}/.venv/bin/python -m src.web.server
 Restart=always
 RestartSec=3
 

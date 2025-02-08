@@ -6,6 +6,14 @@ set -e  # Exit on error
 OS="$(uname -s)"
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+# Load environment variables if .env exists
+if [ -f "${SCRIPT_DIR}/.env" ]; then
+    source "${SCRIPT_DIR}/.env"
+fi
+
+# Set TROOPER_INSTALL_PATH if not already set
+export TROOPER_INSTALL_PATH="${TROOPER_INSTALL_PATH:-${SCRIPT_DIR}}"
+
 # Print functions
 print_status() {
     echo "$1"
@@ -29,8 +37,12 @@ install_cli() {
         exit 1
     fi
     
+    # Create a temporary file with the correct path
+    TMP_TROOPER=$(mktemp)
+    sed "s|TROOPER_PATH=.*|TROOPER_PATH=\"${TROOPER_INSTALL_PATH}\"|" "${SCRIPT_DIR}/trooper.sh" > "$TMP_TROOPER"
+    
     # Install wrapper
-    sudo cp "${SCRIPT_DIR}/trooper.sh" /usr/local/bin/trooper
+    sudo mv "$TMP_TROOPER" /usr/local/bin/trooper
     sudo chmod +x /usr/local/bin/trooper
     print_status "CLI wrapper installed successfully"
 }
@@ -49,8 +61,12 @@ install_web_service() {
         # Create user systemd directory if it doesn't exist
         mkdir -p ~/.config/systemd/user/
         
+        # Create a temporary file with the correct path
+        TMP_SERVICE=$(mktemp)
+        sed "s|\${TROOPER_INSTALL_PATH}|${TROOPER_INSTALL_PATH}|g" "${SCRIPT_DIR}/trooper-web.service" > "$TMP_SERVICE"
+        
         # Install service file
-        cp "${SCRIPT_DIR}/trooper-web.service" ~/.config/systemd/user/
+        mv "$TMP_SERVICE" ~/.config/systemd/user/trooper-web.service
         systemctl --user daemon-reload
         
         print_status "Web service installed successfully"

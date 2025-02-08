@@ -1,388 +1,257 @@
 # Trooper Voice Assistant
 
-A command-line tool that converts text to speech with a Stormtrooper voice effect and manages a collection of pre-configured quotes.
+A command-line tool and web interface that converts text to speech with a Stormtrooper voice effect, manages pre-configured quotes, and provides an interactive AI chat experience.
 
 ## Features
 
+Core Features:
+
 - Text-to-speech using Amazon Polly's neural voices
-- Stormtrooper voice effect processing
-- Volume control (1-11)
+- Stormtrooper voice effect processing with configurable parameters
+- Interactive AI chat with context memory
+- Web interface with real-time audio responses (Linux)
+- Pre-configured quotes system with sequence playback
+- Volume control (1-11) and voice urgency levels
+- Automatic audio caching and management
+
+Voice Customization:
+
 - Multiple voice contexts (general, combat, alert, patrol)
 - Urgency levels (low, normal, high)
-- Pre-configured quotes system with YAML configuration
-- Audio file management and caching
-- Command-line interface
+- Context-aware responses
+- Cliff Clavin mode for Star Wars trivia
 
-## Installation
+System Integration:
+
+- Command-line interface with extensive commands
+- Systemd service integration (Linux)
+- Configurable audio output
+- Environment-based configuration
+- Automatic updates
+
+## System Requirements
+
+### Operating System Support
+
+- **Linux (Full Support)**
+  - All features including web interface
+  - Systemd service integration
+  - Tested on Ubuntu, Debian, Fedora, RHEL
+- **macOS (Partial Support)**
+  - Core features and CLI
+  - No web interface support
+  - Audio compatibility may vary
+- **Windows (Limited Support)**
+  - Basic CLI functionality
+  - Some features may not work
+  - No web interface support
 
 ### Prerequisites
 
-1. Python 3.11.2 (recommended) or higher
+1. Python 3.11.2 or higher
 2. pip (Python package installer)
 3. pyenv (Python version manager)
 4. AWS account with Polly access (neural voices enabled)
 5. Audio output device
 6. OpenAI API key (for chat functionality)
-7. System Dependencies:
-   - **Linux (Ubuntu/Debian):**
-     ```bash
-     sudo apt-get install portaudio19-dev python3-pyaudio
-     ```
-   - **Linux (Fedora):**
-     ```bash
-     sudo dnf install portaudio-devel python3-pyaudio
-     ```
-   - **Linux (CentOS/RHEL):**
-     ```bash
-     sudo yum install portaudio-devel python3-pyaudio
-     ```
-   - **macOS:**
-     ```bash
-     brew install portaudio
-     ```
+7. Git (for installation and updates)
 
-### System Integration
+## Quick Start
 
-After installing the package, you can integrate it with your system:
+Get up and running with Trooper CLI in minutes:
 
-1. **Add to System PATH**
-   The installation script will create a wrapper at `/usr/local/bin/trooper` that handles virtual environment activation automatically.
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/trooper-cli.git
+cd trooper-cli
 
-2. **Enable Web Interface as Service (Linux)**
-   To run the web interface as a systemd user service:
+# Install dependencies and CLI
+chmod +x install.sh
+./install.sh
+
+# Configure environment
+cp .env-example .env
+# Edit .env with your AWS and OpenAI API credentials
+
+# Test the installation
+trooper say "Reporting for duty!"
+
+# Start interactive chat
+trooper chat start
+
+# Try the web interface (Linux only)
+systemctl --user enable trooper-web.service
+systemctl --user start trooper-web.service
+# Visit http://localhost:5001 in your browser
+```
+
+See detailed sections below for complete setup and usage instructions.
+
+## Installation
+
+### System Dependencies
+
+Install required system packages based on your OS:
+
+#### Linux (Ubuntu/Debian)
+
+```bash
+sudo apt-get update
+sudo apt-get install -y portaudio19-dev python3-pyaudio make build-essential \
+    libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget \
+    curl llvm libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev \
+    libffi-dev liblzma-dev
+```
+
+#### Linux (Fedora)
+
+```bash
+sudo dnf install portaudio-devel python3-pyaudio
+```
+
+#### Linux (CentOS/RHEL)
+
+```bash
+sudo yum install portaudio-devel python3-pyaudio
+```
+
+#### macOS
+
+```bash
+brew install portaudio
+```
+
+### Python Environment Setup
+
+1. **Install pyenv** (if not already installed)
+
+   macOS:
+
    ```bash
-   # Enable the service
-   systemctl --user enable trooper-web.service
-   
-   # Start the service
-   systemctl --user start trooper-web.service
-   
-   # Check status
-   systemctl --user status trooper-web.service
-   ```
-
-   The web interface will now:
-   - Start automatically on login
-   - Restart automatically if it crashes
-   - Handle proper logging
-   
-   To view logs:
-   ```bash
-   journalctl --user -u trooper-web.service
-   ```
-
-### Installing pyenv
-
-1. **macOS (using Homebrew)**
-
-   ```bash
-   # Install Homebrew if not already installed
-   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-   # Install pyenv
    brew install pyenv
-
-   # Add pyenv to your shell configuration
+   
+   # Add to shell configuration
    echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.zshrc
    echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.zshrc
    echo 'eval "$(pyenv init -)"' >> ~/.zshrc
-
-   # Reload shell configuration
    source ~/.zshrc
    ```
 
-2. **Linux**
+   Linux:
 
    ```bash
-   # Install dependencies
-   sudo apt-get update
-   sudo apt-get install -y make build-essential libssl-dev zlib1g-dev \
-   libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm \
-   libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
-
-   # Install pyenv
    curl https://pyenv.run | bash
-
-   # Add pyenv to your shell configuration
+   
+   # Add to shell configuration
    echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
    echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
    echo 'eval "$(pyenv init -)"' >> ~/.bashrc
-
-   # Reload shell configuration
    source ~/.bashrc
    ```
 
-3. **Windows**
-
-   ```powershell
-   # Using PowerShell (Run as Administrator)
-
-   # Install pyenv-win using PowerShell
-   Invoke-WebRequest -UseBasicParsing -Uri "https://raw.githubusercontent.com/pyenv-win/pyenv-win/master/pyenv-win/install-pyenv-win.ps1" -OutFile "./install-pyenv-win.ps1"; &"./install-pyenv-win.ps1"
-
-   # After installation, close and reopen PowerShell, then verify installation:
-   pyenv --version
-
-   # If you get execution policy errors, you may need to run:
-   Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-
-   # Common issues and fixes:
-   # 1. If pyenv command is not found after installation:
-   #    - Check if these environment variables are set:
-   #      PYENV: %USERPROFILE%\.pyenv\pyenv-win
-   #      PYENV_HOME: %USERPROFILE%\.pyenv\pyenv-win
-   #      Path: includes %USERPROFILE%\.pyenv\pyenv-win\bin and %USERPROFILE%\.pyenv\pyenv-win\shims
-   
-   # 2. If you need to set environment variables manually:
-   [System.Environment]::SetEnvironmentVariable('PYENV', $env:USERPROFILE + "\.pyenv\pyenv-win", 'User')
-   [System.Environment]::SetEnvironmentVariable('PYENV_HOME', $env:USERPROFILE + "\.pyenv\pyenv-win", 'User')
-   $path = [System.Environment]::GetEnvironmentVariable('Path', 'User')
-   [System.Environment]::SetEnvironmentVariable('Path', $path + ";" + $env:USERPROFILE + "\.pyenv\pyenv-win\bin;" + $env:USERPROFILE + "\.pyenv\pyenv-win\shims", 'User')
-   ```
-
-### Step-by-Step Installation
-
-1. **Clone the Repository**
+2. **Install Python and Create Environment**
 
    ```bash
-   git clone <repository-url>
-   cd trooper
-   
-   # Set up environment configuration
-   cp .env-example .env
-   # Edit .env with your configuration values
-   ```
-
-2. **Set Up Python Environment**
-
-   ```bash
-   # Install Python 3.11.2 if not already installed
+   # Install Python 3.11.2
    pyenv install 3.11.2
-
-   # Set local Python version
    pyenv local 3.11.2
-
-   # Verify Python version
-   python --version  # Should show Python 3.11.2
-
-   # If you get a "command not found" error after installing pyenv:
-   # 1. Make sure you've reloaded your shell configuration
-   # 2. Try opening a new terminal window
-   # 3. Verify pyenv is in your PATH: echo $PATH
-   ```
-
-3. **Create and Activate Virtual Environment**
-
-   ```bash
+   
    # Create virtual environment
    python -m venv .venv
-
-   # Activate it
-   # On macOS/Linux:
-   source .venv/bin/activate
-   # On Windows:
-   .venv\Scripts\activate
-
-   # Verify you're using the virtual environment
-   which python  # Should point to .venv/bin/python
+   
+   # Activate environment
+   source .venv/bin/activate  # Linux/macOS
+   .venv\Scripts\activate     # Windows
    ```
 
-4. **Install the Package**
+### Package Installation
+
+1. **Install Trooper CLI**
 
    ```bash
    # Install in development mode
    pip install -e .
-
-   # If you get permission errors:
-   # 1. Make sure your virtual environment is activated
-   # 2. Try: pip install --user -e .
    ```
 
-5. **Configure AWS Credentials**
-
-   The tool requires AWS credentials with access to Amazon Polly neural voices. Configure these in one of these ways:
-
-   a. Using AWS CLI with a specific profile (recommended):
+2. **Verify Installation**
 
    ```bash
-   # Install AWS CLI if not already installed
-   pip install awscli
-
-   # Configure a specific profile for trooper
-   aws configure --profile trooper
-
-   # Set the profile in your environment
-   export AWS_PROFILE=trooper
-   # Or add to your shell configuration:
-   echo 'export AWS_PROFILE=trooper' >> ~/.zshrc  # for zsh
-   echo 'export AWS_PROFILE=trooper' >> ~/.bashrc  # for bash
-   ```
-
-   b. Environment variables:
-
-   ```bash
-   export AWS_ACCESS_KEY_ID="your_access_key"
-   export AWS_SECRET_ACCESS_KEY="your_secret_key"
-   export AWS_DEFAULT_REGION="us-east-1"  # Region must support neural voices
-   ```
-
-   c. Credentials file:
-
-   ```ini
-   # ~/.aws/credentials
-   [trooper]
-   aws_access_key_id = your_access_key
-   aws_secret_access_key = your_secret_key
-   region = us-east-1  # Region must support neural voices
-   ```
-
-6. **Configure OpenAI API**
-
-   The chat functionality requires an OpenAI API key. Configure it in one of these ways:
-
-   a. Environment variable:
-   ```bash
-   export OPENAI_API_KEY="your_api_key"
-   # Or add to your shell configuration:
-   echo 'export OPENAI_API_KEY="your_api_key"' >> ~/.zshrc  # for zsh
-   echo 'export OPENAI_API_KEY="your_api_key"' >> ~/.bashrc  # for bash
-   ```
-
-   b. Add to .env file:
-   ```ini
-   OPENAI_API_KEY=your_api_key
-   ```
-
-7. **Verify Installation**
-
-   ```bash
-   # Check if trooper command is available
    which trooper  # Should point to .venv/bin/trooper
-
-   # Check help
    trooper --help
-
-   # Common issues:
-   # 1. Command not found: Make sure virtual environment is activated
-   # 2. Import errors: Try reinstalling the package
-   # 3. AWS errors: Verify credentials and region
    ```
 
-### Troubleshooting
+### System Integration
 
-1. **Python Version Issues**
+1. **CLI Integration**
+   The installation script creates a wrapper at `/usr/local/bin/trooper` that handles:
+   - Virtual environment activation
+   - Project path resolution
+   - Command execution
 
-   ```bash
-   # List available Python versions
-   pyenv versions
-
-   # Show current Python version
-   pyenv version
-
-   # If Python version is not changing:
-   pyenv rehash
-   exec "$SHELL"  # Reload shell
-   ```
-
-2. **Virtual Environment Issues**
+2. **Web Interface (Linux Only)**
 
    ```bash
-   # If venv creation fails:
-   python -m pip install --upgrade pip
-   python -m pip install --upgrade virtualenv
-
-   # If activation fails:
-   # 1. Remove existing venv
-   rm -rf .venv
-   # 2. Create new venv
-   python -m venv .venv
-   ```
-
-3. **AWS Configuration Issues**
-
-   ```bash
-   # Test AWS configuration
-   aws polly describe-voices --engine neural --profile trooper
-
-   # If region doesn't support neural voices, try:
-   aws configure set region us-east-1 --profile trooper
-   ```
-
-4. **OpenAI API Issues**
-
-   ```bash
-   # Test OpenAI configuration
-   trooper ask "Test message"
-
-   # Common issues:
-   # 1. API key not found: Check OPENAI_API_KEY in environment or .env file
-   # 2. Rate limits: Check your OpenAI account usage and limits
-   # 3. API errors: Verify your API key is valid and has sufficient credits
-   ```
-
-### Installation
-
-#### Quick Install
-
-After cloning the repository and setting up your Python environment:
-
-```bash
-# Make the installation script executable
-chmod +x install.sh
-
-# Run the installation script
-./install.sh
-```
-
-This will:
-1. Install the CLI wrapper to your system PATH
-2. Set up the web service (Linux only)
-3. Configure permissions
-
-If you get a "permission denied" error when running the installation script:
-```bash
-# Add executable permissions to the script
-chmod +x install.sh
-```
-
-The installation script will:
-- Create a wrapper script at `/usr/local/bin/trooper` that automatically:
-  - Locates your trooper installation
-  - Activates the virtual environment
-  - Runs the trooper command with your arguments
-- Set up the web service (Linux only)
-  - Creates systemd user service
-  - Configures auto-restart and logging
-  - Note: Web interface is currently only supported on Linux
-- Configure all necessary permissions
-
-Common Installation Issues:
-
-1. **Missing Files**
-   ```bash
-   # If you see "trooper.sh not found":
-   ls trooper.sh  # Verify file exists
+   # Enable and start the service
+   systemctl --user enable trooper-web.service
+   systemctl --user start trooper-web.service
    
-   # If you see "trooper-web.service not found" (Linux):
-   ls trooper-web.service  # Verify file exists
-   ```
-
-2. **Web Service Issues (Linux)**
-   ```bash
-   # Check service status
+   # Verify status
    systemctl --user status trooper-web.service
-   
-   # View service logs
-   journalctl --user -u trooper-web.service
-   
-   # If service fails to start:
-   # 1. Check Python path in service file
-   cat ~/.config/systemd/user/trooper-web.service
-   # 2. Verify virtual environment
-   ls .venv/bin/python
    ```
 
-3. **Permission Issues**
+   The web interface:
+   - Runs on <http://localhost:5001> by default
+   - Starts automatically on login
+   - Auto-restarts on crashes
+   - Provides systemd logging
+
+### Configuration
+
+1. **Environment Setup**
+
+   ```bash
+   # Copy example configuration
+   cp .env-example .env
+   
+   # Edit with your settings
+   nano .env
+   ```
+
+2. **AWS Configuration**
+
+   ```bash
+   # Configure AWS CLI
+   pip install awscli
+   aws configure --profile trooper
+   
+   # Test configuration
+   aws polly describe-voices --engine neural --profile trooper
+   ```
+
+3. **OpenAI Setup**
+
+   ```bash
+   # Add to .env file
+   echo "OPENAI_API_KEY=your_api_key_here" >> .env
+   
+   # Test configuration
+   trooper ask "Test message"
+   ```
+
+4. **Audio Configuration**
+
+   ```bash
+   # List available devices
+   trooper devices
+   
+   # Set default device
+   trooper config device <device_id>
+   ```
+
+### Troubleshooting Installation
+
+1. **Permission Issues**
+
    ```bash
    # Fix script permissions
    chmod +x install.sh trooper.sh
@@ -391,91 +260,170 @@ Common Installation Issues:
    sudo chmod +x /usr/local/bin/trooper
    ```
 
-#### Manual Installation
+2. **Virtual Environment Issues**
 
-If you prefer to install manually or need more control over the installation process:
-
-1. **Create the Wrapper Script**
    ```bash
-   # Create trooper.sh
-   cat > trooper.sh << 'EOL'
-   #!/bin/bash
-   TROOPER_PATH="$HOME/github_curser/trooper-cli"
-   VENV_PATH="$TROOPER_PATH/.venv"
-   
-   # Check virtual environment
-   if [ ! -d "$VENV_PATH" ]; then
-       echo "Error: Virtual environment not found at $VENV_PATH"
-       echo "Please make sure you have installed trooper correctly"
-       exit 1
-   fi
-   
-   # Activate virtual environment and run trooper
-   source "$VENV_PATH/bin/activate"
-   trooper "$@"
-   EOL
-   
-   # Make it executable
-   chmod +x trooper.sh
-   
-   # Install to system PATH
-   sudo mv trooper.sh /usr/local/bin/trooper
-   ```
-
-2. **Set Up Web Service (Linux Only)**
-   ```bash
-   # Create service directory
-   mkdir -p ~/.config/systemd/user/
-   
-   # Install service file
-   cp trooper-web.service ~/.config/systemd/user/
-   
-   # Reload systemd
-   systemctl --user daemon-reload
-   ```
-
-### Troubleshooting Installation
-
-1. **Permission Denied Errors**
-   ```bash
-   # If you see "permission denied" when running install.sh:
-   chmod +x install.sh
-   
-   # If you see "permission denied" when running trooper:
-   sudo chmod +x /usr/local/bin/trooper
-   ```
-
-2. **Virtual Environment Not Found**
-   ```bash
-   # Check if virtual environment exists
-   ls -l .venv
-   
-   # If missing, create it
+   # Recreate environment
+   rm -rf .venv
    python -m venv .venv
    source .venv/bin/activate
    pip install -e .
    ```
 
-3. **Path Issues**
+3. **Web Service Issues (Linux)**
+
    ```bash
-   # Verify trooper is in PATH
-   which trooper
+   # Check service status
+   systemctl --user status trooper-web.service
    
-   # Should show: /usr/local/bin/trooper
-   # If not, check permissions:
-   ls -l /usr/local/bin/trooper
+   # View logs
+   journalctl --user -u trooper-web.service
    ```
 
-4. **Installation Script Errors**
-   - Make sure you're in the project root directory
-   - Verify all required files exist:
-     ```bash
-     ls install.sh trooper.sh
-     ```
-   - Check log output for specific errors
-   - Try manual installation steps if script fails
-
 ## Usage
+
+### Command Reference
+
+Trooper CLI provides several commands for different functionalities:
+
+#### Core Commands
+
+1. **say** - Convert text to Stormtrooper speech
+
+   ```bash
+   trooper say [options] "text"
+   
+   Options:
+   -v, --volume     Volume level (1-11, default: 5)
+   -u, --urgency    Voice urgency (low, normal, high)
+   -c, --context    Voice context (general, combat, alert, patrol)
+   --no-play        Generate audio without playing
+   --keep           Keep generated audio files
+   
+   Examples:
+   trooper say "Stop right there!"
+   trooper say -v 11 --urgency high --context combat "Enemy spotted!"
+   ```
+
+2. **ask** - Get a single AI response
+
+   ```bash
+   trooper ask [options] "question"
+   
+   Options:
+   --cliff-clavin-mode    Enable Star Wars trivia mode
+   -v, --volume           Volume level (1-11)
+   -u, --urgency          Voice urgency
+   -c, --context          Voice context
+   --reset                Clear conversation history
+   --debug                Show debug information
+   
+   Examples:
+   trooper ask "What's your designation?"
+   trooper ask --cliff-clavin-mode "Tell me about TIE Fighters"
+   ```
+
+3. **chat** - Interactive conversation mode
+
+   ```bash
+   trooper chat [command] [options]
+   
+   Commands:
+   start              Start chat session
+   mode               Toggle Cliff Clavin mode
+   
+   Options:
+   --cliff-mode       Start in Cliff Clavin mode
+   -v, --verbose      Enable verbose logging
+   
+   Examples:
+   trooper chat start
+   trooper chat start --cliff-mode
+   trooper chat mode
+   ```
+
+4. **sequence** - Play quote sequences
+
+   ```bash
+   trooper sequence [options]
+   
+   Options:
+   -c, --category    Quote category
+   --context         Quote context
+   -n, --count       Number of quotes (default: 3)
+   -v, --volume      Volume level (1-11)
+   --tags            Filter quotes by tags
+   
+   Commands:
+   play              Play a sequence (default)
+   stop              Stop current sequence
+   
+   Examples:
+   trooper sequence -c combat -n 3
+   trooper sequence -c patrol --tags alert warning
+   trooper sequence stop
+   ```
+
+#### System Commands
+
+1. **devices** - List audio devices
+
+   ```bash
+   trooper devices
+   ```
+
+2. **config** - Manage configuration
+
+   ```bash
+   trooper config [command] [options]
+   
+   Commands:
+   device [id]       Set audio output device
+   show              Show current configuration
+   init              Create new configuration file
+   
+   Examples:
+   trooper config device 1
+   trooper config show
+   ```
+
+3. **update** - Manage software updates
+
+   ```bash
+   trooper update [command]
+   
+   Commands:
+   check             Check for updates
+   pull              Install updates
+   status            Show version status
+   
+   Examples:
+   trooper update check
+   trooper update pull
+   ```
+
+4. **process-quotes** - Process quote audio files
+
+   ```bash
+   trooper process-quotes [options]
+   
+   Options:
+   --quotes-file     Custom quotes YAML file
+   --clean           Regenerate all audio files
+   
+   Examples:
+   trooper process-quotes
+   trooper process-quotes --clean
+   ```
+
+#### Global Options
+
+These options are available for all commands:
+
+```bash
+-v, --verbose       Enable verbose logging
+-h, --help         Show command help
+```
 
 ### Basic Commands
 
@@ -551,259 +499,683 @@ The sequence system automatically:
 
 ### Quotes System
 
-The `process-quotes` command generates audio files for pre-configured quotes:
+The Trooper CLI includes a sophisticated quote system that allows you to manage and play pre-recorded Stormtrooper quotes.
 
-1. **Process All Quotes**
+#### Quote Configuration
+
+Quotes are defined in YAML format in the `quotes.yml` file:
+
+```yaml
+categories:
+  combat:
+    - text: "Enemy spotted!"
+      tags: [alert, combat]
+      context: combat
+      urgency: high
+    
+  patrol:
+    - text: "Area secure."
+      tags: [status, patrol]
+      context: patrol
+      urgency: normal
+
+  alert:
+    - text: "Intruder detected!"
+      tags: [alert, security]
+      context: alert
+      urgency: high
+```
+
+#### Quote Properties
+
+- **text**: The actual quote text (required)
+- **tags**: List of tags for filtering (optional)
+- **context**: Voice context for the quote (optional)
+- **urgency**: Voice urgency level (optional)
+- **volume**: Override default volume (optional)
+
+#### Audio File Management
+
+Audio files are automatically generated and cached:
+
+```text
+audio/
+├── cache/
+│   ├── combat/
+│   │   └── enemy_spotted.wav
+│   ├── patrol/
+│   │   └── area_secure.wav
+│   └── alert/
+│       └── intruder_detected.wav
+└── custom/
+    └── your_custom_files.wav
+```
+
+#### Managing Quotes
+
+1. **Add New Quotes**
+   - Add entries to `quotes.yml`
+   - Run `trooper process-quotes`
+
+2. **Regenerate Audio**
+   - Use `trooper process-quotes --clean`
+   - Audio files will be regenerated
+
+3. **Custom Audio**
+   - Place WAV files in `audio/custom/`
+   - Reference in `quotes.yml` with `file: custom/filename.wav`
+
+#### Playing Quotes
+
+1. **Single Quote**
 
    ```bash
-   trooper process-quotes
+   trooper sequence -c combat -n 1
    ```
 
-2. **Regenerate All Quotes**
+2. **Quote Sequence**
 
    ```bash
+   trooper sequence -c patrol -n 3
+   ```
+
+3. **Filtered Quotes**
+
+   ```bash
+   trooper sequence --tags alert combat
+   ```
+
+#### Best Practices
+
+1. Keep quotes short and clear
+2. Use appropriate categories and tags
+3. Maintain consistent naming conventions
+4. Regular backup of `quotes.yml`
+5. Test new quotes before deployment
+
+### Audio System
+
+The Trooper CLI uses a sophisticated audio system for text-to-speech conversion and playback.
+
+#### Audio Configuration
+
+Configure audio settings in your `.env` file:
+
+```bash
+# Audio Settings
+TROOPER_AUDIO_DEVICE=default    # Audio output device
+TROOPER_VOLUME=5                # Default volume (1-11)
+TROOPER_CACHE_DIR=audio/cache   # Audio cache directory
+```
+
+#### Audio Devices
+
+List and manage audio devices:
+
+```bash
+# List available devices
+trooper devices
+
+# Set default device
+trooper config device <device_id>
+```
+
+#### Voice Parameters
+
+1. **Volume Levels**
+   - Range: 1-11 (Spinal Tap style)
+   - Default: 5
+   - Override: `-v` or `--volume` flag
+
+2. **Urgency Levels**
+   - low: Casual conversation
+   - normal: Standard reporting
+   - high: Combat or alerts
+
+3. **Voice Contexts**
+   - general: Default context
+   - combat: Battle situations
+   - alert: Warning messages
+   - patrol: Routine duties
+
+#### Audio Caching
+
+The system automatically caches generated audio:
+
+1. **Cache Location**
+   - Default: `audio/cache/`
+   - Organized by categories
+   - Automatic cleanup of old files
+
+2. **Cache Management**
+
+   ```bash
+   # Clear cache
+   rm -rf audio/cache/*
+   
+   # Regenerate cache
    trooper process-quotes --clean
    ```
 
-3. **Use Custom Quotes File**
+#### Performance Optimization
+
+1. **Memory Usage**
+   - Cached files reduce CPU load
+   - Automatic garbage collection
+   - Configurable cache size
+
+2. **Playback Settings**
+   - Buffer size optimization
+   - Device-specific settings
+   - Latency management
+
+#### Troubleshooting
+
+1. **No Audio Output**
+   - Check device selection
+   - Verify volume levels
+   - Test system audio
+
+2. **Poor Audio Quality**
+   - Check input text formatting
+   - Verify urgency settings
+   - Test different contexts
+
+3. **High Latency**
+   - Check cache status
+   - Verify device settings
+   - Monitor system resources
+
+## Advanced Features
+
+This section covers advanced features and customization options.
+
+### Cliff Clavin Mode
+
+The Cliff Clavin mode transforms your Stormtrooper into a Star Wars trivia expert:
+
+1. **Activation**
 
    ```bash
-   trooper process-quotes --quotes-file custom_quotes.yaml
-   ```
-
-### Quotes Configuration
-
-Quotes are configured in YAML format (`config/quotes.yaml`):
-
-```yaml
-quotes:
-  - text: "Stop right there!"
-    category: patrol
-    context: spotted_patrol
-    urgency: high
-
-  - text: "All clear, resuming patrol."
-    category: patrol
-    context: status_update
-    urgency: low
-```
-
-### Audio File Organization
-
-Generated audio files are organized in two directories:
-
-- `assets/audio/polly_raw/`: Raw audio files from Amazon Polly
-- `assets/audio/processed/`: Processed audio files with Stormtrooper effect
-
-Files are named using this pattern:
-`{voice}_{engine}_{category}_{context}_{text_preview}_processed.wav`
-
-### Command Options
-
-#### Say Command
-
-- `-v, --volume`: Set volume level (1-11, default: 5)
-- `-u, --urgency`: Set urgency level (low, normal, high)
-- `-c, --context`: Set voice context (general, combat, alert, patrol)
-- `--no-play`: Generate audio without playing
-- `--keep`: Keep generated audio files
-
-#### Process-Quotes Command
-
-- `--quotes-file`: Path to custom quotes YAML file
-- `--clean`: Delete existing files before processing
-
-### Audio Device Configuration
-
-The tool supports multiple ways to select the audio output device:
-
-1. **List Available Devices**
-
-   ```bash
-   # Show all available audio output devices
-   trooper devices
-   ```
-
-2. **Environment Variable**
-
-   ```bash
-   # Set the audio device by ID (from 'trooper devices' output)
-   export TROOPER_AUDIO_DEVICE=1
+   # Command line
+   trooper ask --cliff-clavin-mode "Tell me about TIE Fighters"
    
-   # Test the selected device
-   trooper say 'Testing audio device'
-   ```
-
-3. **Automatic Selection**
-   If no device is specified, the tool will try:
-   1. Use `TROOPER_AUDIO_DEVICE` if set
-   2. Use system default output device
-   3. Fall back to first available output device
-
-Common audio device issues:
-
-1. **Wrong Output Device**
-
-   ```bash
-   # List available devices
-   trooper devices
+   # Chat mode
+   trooper chat start --cliff-mode
    
-   # Set the correct device ID
-   export TROOPER_AUDIO_DEVICE=1  # Replace with your desired device ID
+   # Web interface
+   Toggle "Cliff Mode" button
    ```
 
-2. **No Audio Output**
-   - Verify the device exists: `trooper devices`
-   - Check system volume
-   - Try a different device ID
-   - Verify audio file generation: `trooper say --no-play --keep 'Test'`
-
-## Troubleshooting Commands
-
-### Common Issues
-
-1. **Command Not Found**
+2. **Configuration**
 
    ```bash
-   # Solution: Make sure virtual environment is activated
-   source .venv/bin/activate  # macOS/Linux
-   .venv\Scripts\activate     # Windows
+   # Environment variable
+   TROOPER_CLIFF_MODE=1
+   
+   # Token limits
+   TROOPER_CLIFF_TOKEN_LIMIT=200
    ```
 
-2. **Import Errors**
+3. **Best Practices**
+   - Use specific questions
+   - Allow context building
+   - Engage with responses
+
+### Custom Voice Profiles
+
+Create and manage custom voice profiles:
+
+1. **Profile Configuration**
+
+   ```yaml
+   # profiles.yml
+   profiles:
+     combat:
+       urgency: high
+       volume: 8
+       context: combat
+     
+     patrol:
+       urgency: normal
+       volume: 5
+       context: patrol
+   ```
+
+2. **Usage**
 
    ```bash
-   # Solution: Reinstall the package
-   pip uninstall trooper
-   pip install -e .
+   trooper say --profile combat "Enemy spotted!"
+   trooper say --profile patrol "Area secure"
    ```
 
-3. **Audio Device Issues**
-   - Check if your system's audio device is working
-   - Try adjusting volume
-   - Check system audio settings
+### Sequence Automation
+
+Create complex quote sequences:
+
+1. **Sequence Definition**
+
+   ```yaml
+   # sequences.yml
+   sequences:
+     patrol_start:
+       - category: patrol
+         context: start
+         delay: 1
+       - category: status
+         context: report
+         delay: 2
+   ```
+
+2. **Execution**
 
    ```bash
-   # Test audio
-   trooper say --volume 5 'Test'
+   trooper sequence patrol_start
+   trooper sequence --random patrol
    ```
 
-4. **AWS Polly Issues**
-   - Verify AWS credentials are properly configured
-   - Check AWS IAM permissions for Polly
-   - Ensure region supports neural voices
-   - Check AWS service quotas and limits
+### Web Interface Customization
+
+Customize the web interface:
+
+1. **Theme Configuration**
 
    ```bash
-   # Test AWS configuration
-   aws polly describe-voices --engine neural
+   # .env
+   TROOPER_THEME=dark
+   TROOPER_ACCENT_COLOR=#FF0000
    ```
 
-5. **Quote Processing Issues**
-   - Check YAML file syntax
-   - Verify audio directories exist and are writable
-   - Check disk space for audio files
-   - Use `--clean` flag to regenerate problematic files
+2. **Custom Templates**
+   - Override default templates
+   - Add custom CSS/JS
+   - Modify layout
 
-### Audio Quality Issues
+### Advanced Audio Processing
 
-1. **Volume Too Low**
+Fine-tune audio processing:
+
+1. **Audio Parameters**
 
    ```bash
-   # Increase volume (max 11)
-   trooper say -v 11 'Test volume'
+   # .env
+   TROOPER_AUDIO_QUALITY=high
+   TROOPER_SAMPLE_RATE=48000
+   TROOPER_BUFFER_SIZE=2048
    ```
 
-2. **Audio Distortion**
+2. **Effects Chain**
+   - Custom audio effects
+   - Voice modulation
+   - Sound mixing
+
+### API Integration
+
+Extend functionality with APIs:
+
+1. **Custom Endpoints**
+
+   ```python
+   # custom_endpoints.py
+   @app.route('/custom')
+   def custom_endpoint():
+       return jsonify({"status": "ok"})
+   ```
+
+2. **Webhook Support**
+   - Event notifications
+   - Integration triggers
+   - Status updates
+
+### Performance Tuning
+
+Optimize for your environment:
+
+1. **Cache Configuration**
 
    ```bash
-   # Try lower volume
-   trooper say -v 5 'Test audio'
+   # .env
+   TROOPER_CACHE_SIZE=1GB
+   TROOPER_CACHE_TTL=7d
+   TROOPER_PRELOAD=1
    ```
 
-3. **Playback Issues**
+2. **Resource Management**
+   - Memory optimization
+   - CPU utilization
+   - Network usage
+
+### Development Tools
+
+Advanced development features:
+
+1. **Debug Tools**
 
    ```bash
-   # Generate file without playing
-   trooper say --no-play --keep 'Test'
-   # Then play with system audio player
+   # Enable development mode
+   export TROOPER_DEV=1
+   
+   # Start debug server
+   trooper debug server
    ```
+
+2. **Testing Utilities**
+   - Mock responses
+   - Performance profiling
+   - Coverage analysis
+
+## Performance & Maintenance
+
+This section covers performance optimization and system maintenance.
+
+### Performance Monitoring
+
+1. **System Resources**
+
+   ```bash
+   # Monitor CPU and memory
+   top -p $(pgrep -f trooper)
+   
+   # Check disk usage
+   du -sh audio/cache/
+   ```
+
+2. **Response Times**
+   - API latency
+   - Audio generation speed
+   - Playback performance
+
+3. **Resource Limits**
+
+   ```bash
+   # Environment settings
+   TROOPER_MAX_MEMORY=1GB
+   TROOPER_MAX_CACHE=5GB
+   TROOPER_MAX_PROCESSES=4
+   ```
+
+### Cache Management
+
+1. **Audio Cache**
+
+   ```bash
+   # Clear cache
+   trooper cache clear
+   
+   # Optimize cache
+   trooper cache optimize
+   
+   # View cache stats
+   trooper cache status
+   ```
+
+2. **Cache Configuration**
+
+   ```bash
+   # .env settings
+   TROOPER_CACHE_STRATEGY=lru
+   TROOPER_CACHE_MAX_AGE=7d
+   TROOPER_CACHE_MIN_FREE=1GB
+   ```
+
+### System Maintenance
+
+1. **Regular Tasks**
+
+   ```bash
+   # Daily maintenance
+   trooper maintenance daily
+   
+   # Weekly cleanup
+   trooper maintenance weekly
+   ```
+
+2. **Backup Management**
+
+   ```bash
+   # Backup configuration
+   trooper backup config
+   
+   # Backup audio cache
+   trooper backup cache
+   ```
+
+### Log Management
+
+1. **Log Rotation**
+
+   ```bash
+   # Configure rotation
+   TROOPER_LOG_MAX_SIZE=100MB
+   TROOPER_LOG_BACKUP_COUNT=5
+   ```
+
+2. **Log Analysis**
+
+   ```bash
+   # View recent errors
+   trooper logs --level ERROR
+   
+   # Search logs
+   trooper logs --search "audio device"
+   ```
+
+### Health Checks
+
+1. **System Status**
+
+   ```bash
+   # Check all components
+   trooper status
+   
+   # Detailed health report
+   trooper health --verbose
+   ```
+
+2. **Monitoring Endpoints**
+
+   ```bash
+   # Health endpoint
+   curl http://localhost:5001/health
+   
+   # Metrics endpoint
+   curl http://localhost:5001/metrics
+   ```
+
+### Performance Optimization
+
+1. **Audio Processing**
+   - Buffer size tuning
+   - Sample rate optimization
+   - Compression settings
+
+2. **API Optimization**
+   - Request batching
+   - Response caching
+   - Connection pooling
+
+### System Updates
+
+1. **Software Updates**
+
+   ```bash
+   # Check for updates
+   trooper update check
+   
+   # Apply updates
+   trooper update apply
+   ```
+
+2. **Dependencies**
+
+   ```bash
+   # Update dependencies
+   pip install -U -r requirements.txt
+   
+   # Check for vulnerabilities
+   safety check
+   ```
+
+### Disaster Recovery
+
+1. **Backup Strategy**
+   - Configuration files
+   - Audio cache
+   - Custom profiles
+   - Log files
+
+2. **Recovery Procedures**
+   - System restore
+   - Cache rebuild
+   - Configuration reset
 
 ## Development
 
+This section provides information for developers who want to contribute to or modify the Trooper CLI.
+
 ### Development Setup
 
-1. **Install Development Dependencies**
+1. **Clone the Repository**
 
    ```bash
-   # After activating your virtual environment
-   pip install -r requirements.txt
+   git clone https://github.com/yourusername/trooper-cli.git
+   cd trooper-cli
    ```
 
-2. **Configure IDE (VS Code)**
-   - Open the project in VS Code
-   - Select the Python interpreter from your virtual environment
-   - Install recommended VS Code extensions:
-     - Python
-     - Pylance
+2. **Create Development Environment**
 
-### Code Quality Tools
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # Linux/macOS
+   # or
+   .\venv\Scripts\activate  # Windows
+   ```
 
-We use two main tools to maintain code quality:
+3. **Install Development Dependencies**
 
-1. **Pylint**
-   - Code style checking and error detection
-   - Configuration in `.pylintrc`
-   - Run with:
+   ```bash
+   pip install -e ".[dev]"
+   ```
 
-     ```bash
-     pylint src/
-     ```
+### Project Structure
 
-2. **MyPy**
-   - Static type checking
-   - Helps catch type-related errors early
-   - Run with:
+```bash
+trooper-cli/
+├── src/
+│   ├── cli/            # Command-line interface
+│   ├── audio/          # Audio processing
+│   ├── openai/         # AI integration
+│   ├── web/            # Web interface
+│   └── utils/          # Shared utilities
+├── tests/              # Test suite
+├── docs/               # Documentation
+└── scripts/            # Development scripts
+```
 
-     ```bash
-     mypy src/
-     ```
+### Testing
 
-### VS Code Integration
+1. **Run Test Suite**
 
-The project includes VS Code settings (`.vscode/settings.json`) that configure:
+   ```bash
+   pytest
+   pytest tests/test_audio.py  # Single module
+   pytest -v                   # Verbose output
+   ```
 
-- Python interpreter path
-- Linting with Pylint
-- Type checking with MyPy
-- Auto-formatting on save
-- Import organization
+2. **Coverage Report**
 
-### Development Best Practices
+   ```bash
+   pytest --cov=src tests/
+   ```
 
-1. **Type Hints**
-   - Use type hints for all function parameters and return values
-   - Example:
+### Code Style
 
-     ```python
-     def process_audio(data: np.ndarray, sample_rate: int) -> np.ndarray:
-         ...
-     ```
+1. **Format Code**
 
-2. **Documentation**
-   - Add docstrings to all functions and classes
-   - Follow Google docstring format
-   - Include examples in docstrings for complex functions
+   ```bash
+   black src/ tests/
+   isort src/ tests/
+   ```
 
-3. **Error Handling**
-   - Use custom exceptions where appropriate
-   - Log errors with loguru
-   - Provide helpful error messages
+2. **Lint Code**
 
-4. **Code Organization**
-   - Keep modules focused and single-purpose
-   - Use clear, descriptive names
-   - Follow Python naming conventions
+   ```bash
+   flake8 src/ tests/
+   pylint src/ tests/
+   ```
+
+### Documentation
+
+1. **Build Documentation**
+
+   ```bash
+   cd docs
+   make html
+   ```
+
+2. **View Documentation**
+
+   ```bash
+   python -m http.server -d docs/_build/html
+   ```
+
+### Git Workflow
+
+1. **Create Feature Branch**
+
+   ```bash
+   git checkout -b feature/your-feature
+   ```
+
+2. **Commit Changes**
+
+   ```bash
+   git add .
+   git commit -m "feat: your feature description"
+   ```
+
+3. **Push Changes**
+
+   ```bash
+   git push origin feature/your-feature
+   ```
+
+### Release Process
+
+1. **Update Version**
+   - Update version in `setup.py`
+   - Update CHANGELOG.md
+
+2. **Create Release**
+
+   ```bash
+   git tag -a v1.0.0 -m "Release v1.0.0"
+   git push origin v1.0.0
+   ```
+
+3. **Build Distribution**
+
+   ```bash
+   python -m build
+   ```
+
+### Contributing Guidelines
+
+1. **Before Contributing**
+   - Read CONTRIBUTING.md
+   - Check existing issues
+   - Discuss major changes
+
+2. **Pull Request Process**
+   - Follow code style
+   - Add tests
+   - Update documentation
+   - Request review
+
+3. **Code Review**
+   - Address feedback
+   - Keep changes focused
+   - Maintain clean history
 
 ## License
 
@@ -1010,3 +1382,262 @@ The system includes robust error handling for:
 2. Clear chat history when switching contexts
 3. Monitor memory usage for long sessions
 4. Use appropriate urgency levels for context
+
+### Web Interface
+
+The Trooper CLI includes a web interface that provides a graphical way to interact with the Stormtrooper AI. The web interface is currently supported on Linux systems only.
+
+#### Features
+
+- Real-time chat with audio responses
+- Toggle Cliff Clavin (trivia) mode
+- Toggle standup mode
+- View and manage conversation history
+- Adjustable audio settings
+- Mobile-friendly responsive design
+
+#### Configuration
+
+The web interface can be configured using environment variables:
+
+```bash
+TROOPER_WEB_PORT=5001        # Web server port (default: 5001)
+TROOPER_WEB_HOST=0.0.0.0     # Web server host (default: 0.0.0.0)
+```
+
+#### Installation (Linux Only)
+
+1. Install the systemd service:
+
+   ```bash
+   sudo cp trooper-web.service /etc/systemd/system/
+   sudo systemctl daemon-reload
+   ```
+
+2. Enable and start the service:
+
+   ```bash
+   sudo systemctl enable trooper-web
+   sudo systemctl start trooper-web
+   ```
+
+3. Check service status:
+
+   ```bash
+   sudo systemctl status trooper-web
+   ```
+
+#### Manual Start
+
+To run the web interface manually without systemd:
+
+```bash
+python -m src.web.server
+```
+
+The web interface will be available at:
+
+- Local: <http://localhost:5001>
+- Network: http://<your-ip>:5001
+
+#### Troubleshooting
+
+1. **Port Already in Use**
+   - Check what's using the port: `sudo lsof -i :5001`
+   - Configure a different port in your `.env` file
+   - Restart the service: `sudo systemctl restart trooper-web`
+
+2. **Service Won't Start**
+   - Check logs: `journalctl -u trooper-web`
+   - Verify Python environment path in service file
+   - Ensure proper permissions on project directory
+
+3. **Audio Not Working**
+   - Check browser audio permissions
+   - Verify audio device configuration
+   - Test audio with `trooper say` command
+
+## Troubleshooting
+
+This section covers common issues and their solutions.
+
+### Installation Issues
+
+1. **Command Not Found**
+
+   ```bash
+   # Verify virtual environment is activated
+   source venv/bin/activate  # Linux/macOS
+   # or
+   .\venv\Scripts\activate  # Windows
+   
+   # Verify installation
+   pip list | grep trooper
+   ```
+
+2. **Import Errors**
+
+   ```bash
+   # Reinstall the package
+   pip uninstall trooper-cli
+   pip install -e .
+   ```
+
+3. **Missing Dependencies**
+
+   ```bash
+   # Install all dependencies
+   pip install -r requirements.txt
+   
+   # Install optional dependencies
+   pip install -e ".[all]"
+   ```
+
+### Audio Issues
+
+1. **No Audio Output**
+   - Check system audio
+   - Verify audio device:
+
+     ```bash
+     trooper devices
+     trooper config device <id>
+     ```
+
+   - Test with maximum volume:
+
+     ```bash
+     trooper say -v 11 "Test"
+     ```
+
+2. **Poor Audio Quality**
+   - Check input text formatting
+   - Try different urgency levels
+   - Verify audio device capabilities
+   - Test with different volume levels
+
+3. **Audio Device Problems**
+
+   ```bash
+   # List available devices
+   trooper devices
+   
+   # Set specific device
+   export TROOPER_AUDIO_DEVICE=1
+   
+   # Test configuration
+   trooper say "Testing audio device"
+   ```
+
+### API Integration Issues
+
+1. **AWS Polly**
+   - Verify credentials:
+
+     ```bash
+     aws configure list
+     aws polly describe-voices
+     ```
+
+   - Check IAM permissions
+   - Verify region support
+   - Monitor service quotas
+
+2. **OpenAI API**
+   - Verify API key
+   - Check rate limits
+   - Monitor usage
+   - Test connection:
+
+     ```bash
+     trooper ask "Test message"
+     ```
+
+### Web Interface Issues
+
+1. **Service Won't Start**
+
+   ```bash
+   # Check service status
+   sudo systemctl status trooper-web
+   
+   # View logs
+   journalctl -u trooper-web
+   
+   # Restart service
+   sudo systemctl restart trooper-web
+   ```
+
+2. **Port Conflicts**
+
+   ```bash
+   # Check port usage
+   sudo lsof -i :5001
+   
+   # Configure different port
+   # Edit .env file:
+   TROOPER_WEB_PORT=5002
+   ```
+
+3. **Browser Issues**
+   - Clear cache/cookies
+   - Check console errors
+   - Verify WebSocket connection
+   - Test different browser
+
+### Quote System Issues
+
+1. **Quote Processing**
+
+   ```bash
+   # Regenerate all quotes
+   trooper process-quotes --clean
+   
+   # Verify YAML syntax
+   trooper process-quotes --debug
+   ```
+
+2. **Missing Audio Files**
+   - Check directory permissions
+   - Verify disk space
+   - Regenerate specific categories
+   - Check file naming
+
+### Common Error Messages
+
+1. **"Failed to initialize audio device"**
+   - Verify device exists
+   - Check permissions
+   - Try different device
+
+2. **"API rate limit exceeded"**
+   - Wait and retry
+   - Check quota usage
+   - Implement rate limiting
+
+3. **"Invalid configuration"**
+   - Verify .env file
+   - Check YAML syntax
+   - Validate settings
+
+### Getting Help
+
+1. **Debug Mode**
+
+   ```bash
+   # Enable debug logging
+   export TROOPER_DEBUG=1
+   
+   # Run with verbose output
+   trooper -v command
+   ```
+
+2. **Logging**
+   - Check log files
+   - Enable debug logging
+   - Monitor system logs
+
+3. **Support**
+   - Check documentation
+   - Search issues
+   - Create detailed bug report
