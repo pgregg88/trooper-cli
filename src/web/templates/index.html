@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trooper Chat</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h1>Trooper Chat</h1>
+            <div class="controls">
+                <button id="toggleStandupMode">Standup Mode</button>
+                <button id="toggleCliffMode">Trivia Mode</button>
+                <button id="clearHistory">Clear History</button>
+            </div>
+        </div>
+        
+        <div class="chat-messages" id="messages"></div>
+        
+        <div class="status-bar" id="status">
+            <span class="status-text">Connecting...</span>
+        </div>
+        
+        <div class="chat-input">
+            <form id="messageForm">
+                <input type="text" id="messageInput" placeholder="Type your message..." autocomplete="off">
+                <button type="submit">Send</button>
+            </form>
+        </div>
+        
+        <!-- Debug audio element (hidden) -->
+        <div class="debug-audio" style="display: none !important;">
+            <audio id="debugAudio" controls style="display: none;"></audio>
+        </div>
+    </div>
+    
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html> 

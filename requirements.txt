@@ -11,6 +11,8 @@ python-dotenv==1.0.1  # For environment variable management
 cffi==1.17.1  # Required by sounddevice
 openai==1.61.1  # For Stormtrooper AI responses
 websocket-client==1.7.0  # For real-time OpenAI WebSocket API
+flask==3.0.2  # Web server
+flask-socketio==5.3.6  # WebSocket support
 
 # Development dependencies
 pylint==3.3.4  # Code linting and style checking

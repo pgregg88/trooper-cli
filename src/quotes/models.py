@@ -53,6 +53,7 @@ class Quote:
     can_follow: List[str] = field(default_factory=list)  # Categories that can follow this quote
     min_pause: float = 0.0  # Minimum pause after this quote
     max_pause: float = 1.0  # Maximum pause after this quote
+    metadata: dict = field(default_factory=dict)  # Store additional YAML metadata
     
     def to_dict(self) -> dict:
         """Convert quote to dictionary format.
@@ -65,7 +66,8 @@ class Quote:
             "category": self.category.value,
             "context": self.context,
             "urgency": self.urgency.value,
-            "tags": self.tags
+            "tags": self.tags,
+            **self.metadata  # Include all metadata in output
         }
         
         # Add optional fields if they have non-default values
@@ -90,6 +92,12 @@ class Quote:
         Returns:
             Quote instance
         """
+        # Extract known fields
+        known_fields = {"text", "category", "context", "urgency", "tags", 
+                       "audio_file", "can_follow", "min_pause", "max_pause"}
+        # Store remaining fields as metadata
+        metadata = {k: v for k, v in data.items() if k not in known_fields}
+        
         return cls(
             text=data["text"],
             category=QuoteCategory(data["category"]),
@@ -99,5 +107,6 @@ class Quote:
             audio_file=data.get("audio_file"),
             can_follow=data.get("can_follow", []),
             min_pause=data.get("min_pause", 0.0),
-            max_pause=data.get("max_pause", 1.0)
+            max_pause=data.get("max_pause", 1.0),
+            metadata=metadata
         ) 

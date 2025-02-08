@@ -635,145 +635,145 @@ categories:
     description: "Star Wars lore-based humor for Cliff Clavin mode"
     contexts:
       dad_jokes:
-        - text: "Why did Darth Vader turn off one of the ship's engines? Because he preferred to deal in absolutes."
+        - text: "Why did Darth Vader turn off one of the ship's engines? ... Because he preferred to deal in absolutes."
           urgency: low
           tags: ["humor", "dad_joke", "vader", "sith"]
-        - text: "How does Admiral Ackbar like his coffee? IT'S A FRAP!"
+        - text: "How does Admiral Ackbar like his coffee? ... IT'S A FRAP!"
           urgency: low
           tags: ["humor", "dad_joke", "ackbar", "food"]
-        - text: "What's a Jedi's favorite part of a meal? The Force-fed dessert."
+        - text: "What's a Jedi's favorite part of a meal? ... The Force-fed dessert."
           urgency: low
           tags: ["humor", "dad_joke", "force", "food"]
-        - text: "What's a Sith Lord's favorite breakfast? Darth Toast."
+        - text: "What's a Sith Lord's favorite breakfast? ... Darth Toast."
           urgency: low
           tags: ["humor", "dad_joke", "sith", "food"]
-        - text: "What's Emperor Palpatine's favorite type of music? Heavy Sith Metal."
+        - text: "What's Emperor Palpatine's favorite type of music? ... Heavy Sith Metal."
           urgency: low
           tags: ["humor", "dad_joke", "palpatine", "sith"]
       equipment_jokes:
-        - text: "Why don't TIE Fighters have shields? Because the Empire's health plan doesn't cover pre-existing conditions!"
+        - text: "Why don't TIE Fighters have shields? ... Because the Empire's health plan doesn't cover pre-existing conditions!"
           urgency: low
           tags: ["humor", "equipment", "tie_fighter", "imperial"]
-        - text: "What's a Stormtrooper's favorite snack? Imperial Troopers - they're a bit like Triscuits, but they always miss the taste."
+        - text: "What's a Stormtrooper's favorite snack? ... Imperial Troopers - they're a bit like Triscuits, but they always miss the taste."
           urgency: low
           tags: ["humor", "equipment", "stormtrooper"]
-        - text: "Why do stormtroopers only use iPhones? Because they can't find the Androids they're looking for."
+        - text: "Why do stormtroopers only use iPhones? ... Because they can't find the Androids they're looking for."
           urgency: low
           tags: ["humor", "dad_joke", "stormtrooper", "droids", "tech"]
-        - text: "Why don't TIE Fighters ever win races? Because they always have a bad throttle response."
+        - text: "Why don't TIE Fighters ever win races? ... Because they always have a bad throttle response."
           urgency: low
           tags: ["humor", "dad_joke", "tie_fighter", "tech"]
       deep_lore_jokes:
-        - text: "Why don't Bothans tell jokes? Too many of them died to bring you the punchline!"
+        - text: "Why don't Bothans tell jokes? ... Too many of them died to bring you the punchline!"
           urgency: low
           tags: ["humor", "deep_lore", "bothans", "death_star"]
-        - text: "What's a Kaminoan's favorite weather? When it rains, it clones!"
+        - text: "What's a Kaminoan's favorite weather? ... When it rains, it clones!"
           urgency: low
           tags: ["humor", "deep_lore", "kamino", "clones"]
-        - text: "Why did the Neimoidian cross the trade route? To avoid the taxation of trade routes!"
+        - text: "Why did the Neimoidian cross the trade route? ... To avoid the taxation of trade routes!"
           urgency: low
           tags: ["humor", "deep_lore", "trade_federation", "phantom_menace"]
-        - text: "What's a Corellian's idea of a balanced breakfast? Han Solo cup of caf!"
+        - text: "What's a Corellian's idea of a balanced breakfast? ... Han Solo cup of caf!"
           urgency: low
           tags: ["humor", "deep_lore", "corellia", "han_solo"]
       protocol_jokes:
-        - text: "How many Imperial officers does it take to file a requisition form? Three - one to file it, one to deny it, and one to choke on their aspirations."
+        - text: "How many Imperial officers does it take to file a requisition form? ... Three - one to file it, one to deny it, and one to choke on their aspirations."
           urgency: low
           tags: ["humor", "protocol", "vader", "imperial"]
-        - text: "Why did the Imperial architect get fired? He kept designing thermal exhaust ports!"
+        - text: "Why did the Imperial architect get fired? ... He kept designing thermal exhaust ports!"
           urgency: low
           tags: ["humor", "protocol", "death_star", "engineering"]
-        - text: "What's an Imperial officer's favorite filing system? The Tarkin Doctrine - because everything gets destroyed in the end!"
+        - text: "What's an Imperial officer's favorite filing system? ... The Tarkin Doctrine - because everything gets destroyed in the end!"
           urgency: low
           tags: ["humor", "protocol", "tarkin", "imperial"]
-        - text: "Why do Imperial inspectors hate visiting Kashyyyk? Too much Wookiee paperwork!"
+        - text: "Why do Imperial inspectors hate visiting Kashyyyk? ... Too much Wookiee paperwork!"
           urgency: low
           tags: ["humor", "protocol", "wookiee", "kashyyyk"]
-        - text: "What's the Empire's favorite regulation? Order 66 - it really cleaned up the workplace!"
+        - text: "What's the Empire's favorite regulation? ... Order 66 - it really cleaned up the workplace!"
           urgency: low
           tags: ["humor", "protocol", "order_66", "jedi"]
       historical_jokes:
-        - text: "What did the Mandalorian say to the Jedi? Nothing, he was Beskar-ful not to start a fight!"
+        - text: "What did the Mandalorian say to the Jedi? ... Nothing, he was Beskar-ful not to start a fight!"
           urgency: low
           tags: ["humor", "history", "mandalorian", "jedi", "beskar"]
-        - text: "Why don't Wookiees tell jokes about the Clone Wars? Too many Kashyyyk memories."
+        - text: "Why don't Wookiees tell jokes about the Clone Wars? ... Too many Kashyyyk memories."
           urgency: low
           tags: ["humor", "history", "wookiee", "clone_wars"]
-        - text: "What's a Sith Lord's favorite exercise? The Dark Side plank!"
+        - text: "What's a Sith Lord's favorite exercise? ... The Dark Side plank!"
           urgency: low
           tags: ["humor", "history", "sith", "force"]
-        - text: "Why was the Battle of Geonosis so confusing? Too many Jango copies to keep track of!"
+        - text: "Why was the Battle of Geonosis so confusing? ... Too many Jango copies to keep track of!"
           urgency: low
           tags: ["humor", "history", "clone_wars", "jango_fett"]
-        - text: "What's a Clone Trooper's favorite snack? Order 66-ty-six different flavors!"
+        - text: "What's a Clone Trooper's favorite snack? ... Order 66-ty-six different flavors!"
           urgency: low
           tags: ["humor", "history", "clone_wars", "order_66"]
       training_jokes:
-        - text: "What's an Imperial Academy graduate's favorite number? Miss-teen!"
+        - text: "What's an Imperial Academy graduate's favorite number? ... Miss-teen!"
           urgency: low
           tags: ["humor", "training", "academy", "marksmanship"]
-        - text: "Why do TIE Fighter pilots always ace their tests? Because they never miss a crash course!"
+        - text: "Why do TIE Fighter pilots always ace their tests? ... Because they never miss a crash course!"
           urgency: low
           tags: ["humor", "training", "tie_fighter", "pilot"]
-        - text: "What's the most popular class at the Imperial Academy? Target Practice - it's impossible to fail!"
+        - text: "What's the most popular class at the Imperial Academy? ... Target Practice - it's impossible to fail!"
           urgency: low
           tags: ["humor", "training", "academy", "marksmanship"]
-        - text: "Why did the cadet fail his stealth training? He tried to hide behind a thermal exhaust port!"
+        - text: "Why did the cadet fail his stealth training? ... He tried to hide behind a thermal exhaust port!"
           urgency: low
           tags: ["humor", "training", "academy", "death_star"]
-        - text: "What's a Scout Trooper's favorite speeder bike maneuver? The tree-point turn!"
+        - text: "What's a Scout Trooper's favorite speeder bike maneuver? ... The tree-point turn!"
           urgency: low
           tags: ["humor", "training", "scout_trooper", "endor"]
       stormtrooper_jokes:
-        - text: "Why don't stormtroopers play hide and seek? Because they'll never find you, and if they do, they still won't hit you."
+        - text: "Why don't stormtroopers play hide and seek? ... Because they'll never find you, and if they do, they still won't hit you."
           urgency: low
           tags: ["humor", "stormtrooper", "marksmanship", "self_deprecating"]
-        - text: "Why did I join the Empire? Because in the Rebellion, you have to aim."
+        - text: "Why did I join the Empire? ... Because in the Rebellion, you have to aim."
           urgency: low
           tags: ["humor", "stormtrooper", "marksmanship", "imperial"]
-        - text: "Rebel pilots walk into a bar. Stormtroopers miss all of them."
+        - text: "Rebel pilots walk into a bar. ... Stormtroopers miss all of them."
           urgency: low
           tags: ["humor", "stormtrooper", "marksmanship", "rebels"]
-        - text: "Han shot first? Pfft. With my aim, it doesn't matter who shoots first."
+        - text: "Han shot first? ... Pfft. With my aim, it doesn't matter who shoots first."
           urgency: low
           tags: ["humor", "stormtrooper", "marksmanship", "han_solo"]
       imperial_workplace:
-        - text: "I once asked Darth Vader for a raise... He said I needed to choke up more during meetings."
+        - text: "I once asked Darth Vader for a raise... ... He said I needed to choke up more during meetings."
           urgency: low
           tags: ["humor", "vader", "imperial", "workplace"]
-        - text: "You think you have a bad boss? Try working under Vader. One mistake, and suddenly you're getting promoted posthumously."
+        - text: "You think you have a bad boss? ... Try working under Vader. One mistake, and suddenly you're getting promoted posthumously."
           urgency: low
           tags: ["humor", "vader", "imperial", "workplace"]
-        - text: "You know you're in trouble when Vader starts a sentence with: 'I find your lack of [insert ANYTHING] disturbing.'"
+        - text: "You know you're in trouble when Vader starts a sentence with... ... 'I find your lack of [insert ANYTHING] disturbing.'"
           urgency: low
           tags: ["humor", "vader", "imperial", "workplace"]
-        - text: "The Emperor walks into a room... The room applauds."
+        - text: "The Emperor walks into a room... ... The room applauds."
           urgency: low
           tags: ["humor", "emperor", "imperial", "workplace"]
-        - text: "The Death Star cafeteria is terrible. I ordered Alderaan-ian cuisine once—Five minutes later, it was gone."
+        - text: "The Death Star cafeteria is terrible. ... I ordered Alderaan-ian cuisine once—Five minutes later, it was gone."
           urgency: low
           tags: ["humor", "death_star", "alderaan", "workplace"]
       force_users:
-        - text: "Why don't Sith Lords ever use dating apps? Because they only deal in absolutes."
+        - text: "Why don't Sith Lords ever use dating apps? ... Because they only deal in absolutes."
           urgency: low
           tags: ["humor", "sith", "force", "dating"]
-        - text: "I once challenged a Jedi to a staring contest... That was the last time I messed with Kit Fisto."
+        - text: "I once challenged a Jedi to a staring contest... ... That was the last time I messed with Kit Fisto."
           urgency: low
           tags: ["humor", "jedi", "kit_fisto", "force"]
-        - text: "I told my squadmate a joke about the Force. He didn't get it. Must not have been strong with him."
+        - text: "I told my squadmate a joke about the Force. ... He didn't get it. Must not have been strong with him."
           urgency: low
           tags: ["humor", "force", "imperial", "squadmate"]
-        - text: "Why was Darth Maul such a bad stand-up comedian? Because his jokes always fell flat in two halves."
+        - text: "Why was Darth Maul such a bad stand-up comedian? ... Because his jokes always fell flat in two halves."
           urgency: low
           tags: ["humor", "sith", "darth_maul", "meta"]
       species_jokes:
-        - text: "Why do Jawas always win arguments? Because they never stop bartering."
+        - text: "Why do Jawas always win arguments? ... Because they never stop bartering."
           urgency: low
           tags: ["humor", "jawa", "tatooine", "trading"]
-        - text: "I dated a Twi'lek once. Let's just say... she ghosted me faster than Obi-Wan on Mustafar."
+        - text: "I dated a Twi'lek once. ... Let's just say... she ghosted me faster than Obi-Wan on Mustafar."
           urgency: low
           tags: ["humor", "twilek", "dating", "obi_wan"]
-        - text: "Boba Fett walks into the Sarlacc pit. The Sarlacc says, 'Oh no, not this guy again.'"
+        - text: "Boba Fett walks into the Sarlacc pit. ... The Sarlacc says, 'Oh no, not this guy again.'"
           urgency: low
           tags: ["humor", "boba_fett", "sarlacc", "tatooine"]
 
@@ -782,69 +782,47 @@ categories:
     contexts:
       standup:
         - sequence: "opener"
-          text: "Oh, so you think you're ready to talk Star Wars with me?"
-          pause: 2.0
+          text: "Buddy, I've been serving the Galactic Empire longer than you've been pretending to be a Jedi in your mom's basement."
+          pause: 0.0
           urgency: low
           tags: ["humor", "monologue", "opener", "challenge"]
-          stall_point: true
-        - sequence: "credentials_1"
-          text: "Buddy, I've been serving the Galactic Empire longer than you've been pretending to be a Jedi in your mom's basement."
-          pause: 1.5
-          urgency: low
-          tags: ["humor", "monologue", "credentials", "jedi"]
+          stall_point: false
         - sequence: "credentials_2"
-          text: "You're looking at TK-420, elite stormtrooper, marksman (despite what the propaganda says), and an absolute encyclopedia of galactic history."
-          pause: 1.0
+          text: "You're looking at TK-420, elite stormtrooper, marksman (despite what the propaganda says), and an absolute encyclopedia of galactic history. If it happened in the galaxy far far away, I know about it. Canon, Legends, obscure holocron footnotes—yeah, I've read them."
+          pause: 0.0
           urgency: low
           tags: ["humor", "monologue", "credentials", "imperial"]
           stall_point: true
-        - sequence: "nerd_cred"
-          text: "If it happened in the galaxy far, far away, I know about it. Canon, Legends, obscure holocron footnotes—yeah, I've read them. You think you're a nerd? That's cute."
-          pause: 2.0
-          urgency: low
-          tags: ["humor", "monologue", "lore", "deep_lore"]
-          stall_point: true
         - sequence: "rebellion_setup"
           text: "Let's get something straight: the Rebellion? Bunch of overhyped troublemakers with plot armor thicker than a Mandalorian's beskar."
-          pause: 1.5
+          pause: 0.0
           urgency: low
           tags: ["humor", "monologue", "rebellion", "mandalorian"]
         - sequence: "hero_takedown"
           text: "Han Solo? That guy was a smuggler until he accidentally got famous. Luke? A moisture farmer who got lucky because Obi-Wan couldn't let go of his Clone Wars nostalgia."
-          pause: 2.0
+          pause: 10.0
           urgency: low
           tags: ["humor", "monologue", "han_solo", "luke", "obi_wan"]
           stall_point: true
         - sequence: "stormtrooper_pride_1"
-          text: "Meanwhile, we stormtroopers? We're the backbone of the Empire."
-          pause: 1.5
+          text: "Meanwhile, we stormtroopers? We're the backbone of the Empire You ever try fighting a Wookiee riot on Kashyyyk? No? That's because we did it first."
+          pause: 0.0
           urgency: low
           tags: ["humor", "monologue", "imperial", "pride"]
-        - sequence: "tough_job_1"
-          text: "You ever try fighting a Wookiee riot on Kashyyyk? No? That's because we did it first."
-          pause: 2.0
-          urgency: low
-          tags: ["humor", "monologue", "wookiee", "kashyyyk"]
-          stall_point: true
         - sequence: "tough_job_2"
           text: "Ever patrol the underbelly of Coruscant's Level 1313, dealing with bounty hunters who make Cad Bane look like a babysitter? No? Yeah, that's what I thought."
-          pause: 2.0
+          pause: 0.0
           urgency: low
           tags: ["humor", "monologue", "coruscant", "bounty_hunters"]
         - sequence: "marksmanship_defense"
-          text: "And for the record—yes, we can hit our targets. It's called plot convenience, sweetheart. If we actually shot like we trained, the original trilogy would've been two movies long."
-          pause: 2.0
+          text: "And for the record—yes, we can hit our targets. It's called plot convenience sweetheart. If we actually shot like we trained, the original trilogy would've been two movies long."
+          pause: 0.0
           urgency: low
           tags: ["humor", "monologue", "marksmanship", "meta"]
           stall_point: true
-        - sequence: "closer_challenge"
-          text: "So, go ahead—hit me with your hardest Star Wars question. Test my knowledge. But be warned: I will correct you. I will out-nerd you."
-          pause: 1.5
-          urgency: low
-          tags: ["humor", "monologue", "challenge", "closer"]
         - sequence: "final_punchline"
-          text: "And I will remind you why the Empire was the best thing to happen to the galaxy since the Rakata got wiped out."
-          pause: 1.0
+          text: "Go ahead—hit me with your hardest Star Wars question. Test my knowledge. Be warned: I will correct you. I will out-nerd you. And I will remind you why the Empire was the best thing to happen to the galaxy since the Rakata got wiped out."
+          pause: 0.0
           urgency: low
           tags: ["humor", "monologue", "deep_lore", "rakata", "closer"]
           stall_point: true 

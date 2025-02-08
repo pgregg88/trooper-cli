@@ -58,6 +58,7 @@ class PollyClient:
         text = text.replace('<', '&lt;').replace('>', '&gt;')
         
         # Add breaks between key phrases (after punctuation)
+        text = text.replace('... ', '<break time="750ms"/> ')  # Longer pause for joke setup
         text = text.replace('. ', '.<break time="250ms"/> ')
         text = text.replace('! ', '!<break time="200ms"/> ')
         text = text.replace('? ', '?<break time="250ms"/> ')

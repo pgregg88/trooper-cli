@@ -252,6 +252,49 @@ class QuoteManager:
             
         return sequence
         
+    def select_random_humor_quotes(self, count: int = 5) -> List[Quote]:
+        """Select random humor quotes from different contexts.
+        
+        Args:
+            count: Number of jokes to select
+            
+        Returns:
+            List of randomly selected humor quotes
+        """
+        # Get all humor quotes
+        humor_quotes = [q for q in self.quotes if q.category == QuoteCategory.HUMOR]
+        if not humor_quotes:
+            return []
+            
+        # Get unique contexts
+        contexts = {q.context for q in humor_quotes}
+        
+        selected_quotes: List[Quote] = []
+        used_texts: Set[str] = set()
+        
+        for _ in range(count):
+            # Pick a random context
+            context = random.choice(list(contexts))
+            
+            # Get available quotes for this context
+            available_quotes = [
+                q for q in humor_quotes 
+                if q.context == context and q.text not in used_texts
+            ]
+            
+            if not available_quotes:
+                continue
+                
+            # Select a random quote
+            quote = random.choice(available_quotes)
+            selected_quotes.append(quote)
+            used_texts.add(quote.text)
+            
+            if len(used_texts) == len(humor_quotes):
+                break  # Stop if we've used all available quotes
+                
+        return selected_quotes
+        
     def get_pause_duration(self, quote: Quote) -> float:
         """Get the pause duration after a quote.
         

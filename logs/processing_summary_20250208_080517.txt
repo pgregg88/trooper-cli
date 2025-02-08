@@ -1,0 +1,488 @@
+Processing Summary
+=================
+Total quotes: 246
+Generated: 6
+Regenerated: 0
+Failed: 0
+
+Skipped Files:
+- Halt! Identify yourself immediately! (spotted/patrol)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_spotted_patrol_halt_identify_yourself_processed.wav
+- Intruder alert! Who dares trespass in this sector? (spotted/patrol)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_spotted_patrol_intruder_alert_who_processed.wav
+- Freeze! How did you get past our perimeter? (spotted/patrol)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_spotted_patrol_freeze_how_did_processed.wav
+- Stop right there—you're not cleared for this zone! (spotted/patrol)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_spotted_patrol_stop_right_thereyoure_processed.wav
+- Hey an intruder! (spotted/patrol)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_spotted_patrol_hey_an_intruder_processed.wav
+- Commander, I've got an unidentified presence on my tail! (spotted/patrol)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_spotted_patrol_commander_ive_got_processed.wav
+- What in the galaxy… Who are you? (spotted/patrol)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_spotted_patrol_what_in_the_processed.wav
+- Don't move! Step away from here at once! (spotted/patrol)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_spotted_patrol_dont_move_step_processed.wav
+- Unscheduled visitor detected! State your business! (spotted/patrol)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_spotted_patrol_unscheduled_visitor_detected_processed.wav
+- Cease right there! This area is restricted! (spotted/patrol)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_spotted_patrol_cease_right_there_processed.wav
+- By the Emperor's will, explain your presence here! (spotted/patrol)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_spotted_patrol_by_the_emperors_processed.wav
+- Security breach! Prepare to be detained! (spotted/patrol)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_spotted_patrol_security_breach_prepare_processed.wav
+- Report! Who are you, and why are you here? (spotted/patrol)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_spotted_patrol_report_who_are_processed.wav
+- You have no clearance in this sector—identify yourself! (spotted/patrol)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_spotted_patrol_you_have_no_processed.wav
+- This is Imperial territory. Show your credentials now! (spotted/patrol)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_spotted_patrol_this_is_imperial_processed.wav
+- Adversary inbound (spotted/combat)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_spotted_combat_adversary_inbound_processed.wav
+- Jedi! (spotted/combat)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_spotted_combat_jedi_processed.wav
+- The Jedi is here! (spotted/combat)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_spotted_combat_the_jedi_is_processed.wav
+- We've found the Jedi. (spotted/combat)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_spotted_combat_weve_found_the_processed.wav
+- It's the Jedi! get him! (spotted/combat)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_spotted_combat_its_the_jedi_processed.wav
+- Jedi - engage with caution! (spotted/combat)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_spotted_combat_jedi__engage_processed.wav
+- You really think I have time for your silence? Start talking, now. (taunt/interrogation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_taunt_interrogation_you_really_think_processed.wav
+- I warned you—explain yourself before I decide you've overstepped. (taunt/interrogation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_taunt_interrogation_i_warned_youexplain_processed.wav
+- Don't toy with me; either give me a name and reason or prepare for arrest. (taunt/interrogation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_taunt_interrogation_dont_toy_with_processed.wav
+- Your evasiveness is quite amusing, but I'm not in the mood. What's your excuse? (taunt/interrogation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_taunt_interrogation_your_evasiveness_is_processed.wav
+- Enough with the quiet act—tell me why you're trespassing or face the consequences. (taunt/interrogation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_taunt_interrogation_enough_with_the_processed.wav
+- I don't care if you're lost—start explaining, or I'll be forced to detain you. (taunt/interrogation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_taunt_interrogation_i_dont_care_processed.wav
+- Cut the act. I'm not interested in games; speak up, or you'll answer to my superiors. (taunt/interrogation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_taunt_interrogation_cut_the_act_processed.wav
+- You think your silence will save you? I suggest you start talking before things get ugly. (taunt/interrogation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_taunt_interrogation_you_think_your_processed.wav
+- This isn't a negotiation. Spill your secrets now or prepare to be apprehended. (taunt/interrogation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_taunt_interrogation_this_isnt_a_processed.wav
+- I'm not here to babysit the clueless. Explain your presence, or I'll have you under arrest. (taunt/interrogation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_taunt_interrogation_im_not_here_processed.wav
+- Your lack of cooperation is testing my patience—start talking or be ready for detention. (taunt/interrogation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_taunt_interrogation_your_lack_of_processed.wav
+- I can see through your silence; now, what exactly are you doing here? (taunt/interrogation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_taunt_interrogation_i_can_see_processed.wav
+- Don't act like you belong—speak now, or I'll make you regret that silence. (taunt/interrogation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_taunt_interrogation_dont_act_like_processed.wav
+- I demand an explanation, not riddles. Who are you, and what's your business here? (taunt/interrogation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_taunt_interrogation_i_demand_an_processed.wav
+- Silence only makes you look guilty. Start explaining, or you'll be facing consequences. (taunt/interrogation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_taunt_interrogation_silence_only_makes_processed.wav
+- I'm tired of your evasiveness. Answer me now, or I'll have to take action. (taunt/interrogation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_taunt_interrogation_im_tired_of_processed.wav
+- Are you stalling for time? Because my patience has run out—talk! (taunt/interrogation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_taunt_interrogation_are_you_stalling_processed.wav
+- You think you can hide behind silence? I'm not buying it—explain yourself immediately. (taunt/interrogation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_taunt_interrogation_you_think_you_processed.wav
+- Enough with the mute act—I'm not in the mood for your theatrics. Who are you? (taunt/interrogation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_taunt_interrogation_enough_with_the_processed.wav
+- Don't test my resolve with your quiet nonsense. Speak up before I lose my temper. (taunt/interrogation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_taunt_interrogation_dont_test_my_processed.wav
+- I suggest you start choosing your words carefully—your fate depends on it. (taunt/interrogation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_taunt_interrogation_i_suggest_you_processed.wav
+- Your silence is more than suspicious—start talking, or I'll decide your next move. (taunt/interrogation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_taunt_interrogation_your_silence_is_processed.wav
+- I'm not here to listen to your excuses. Tell me your business, or you'll be taken in. (taunt/interrogation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_taunt_interrogation_im_not_here_processed.wav
+- You've got one chance—explain your presence or prepare to answer for trespassing. (taunt/interrogation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_taunt_interrogation_youve_got_one_processed.wav
+- I'm not interested in your pathetic attempts at secrecy. Now, talk—if you value yourself. (taunt/interrogation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_taunt_interrogation_im_not_interested_processed.wav
+- This is your final warning: start explaining or I'll have you cuffed before you can object. (taunt/interrogation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_taunt_interrogation_this_is_your_processed.wav
+- Your quiet won't work on me—give me a reason for being here, or face immediate arrest. (taunt/interrogation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_taunt_interrogation_your_quiet_wont_processed.wav
+- Don't mistake my calm for leniency. Start talking now, or I'll take you in without another word. (taunt/interrogation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_taunt_interrogation_dont_mistake_my_processed.wav
+- I'm not here to indulge your silence. Your explanation is required—speak now! (taunt/interrogation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_taunt_interrogation_im_not_here_processed.wav
+- This isn't a polite conversation; it's a command. Answer me, or I'll enforce compliance. (taunt/interrogation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_taunt_interrogation_this_isnt_a_processed.wav
+- Attack him! Quickly! (squad_commands/combat)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_squad_commands_combat_attack_him_quickly_processed.wav
+- Blast 'em! (squad_commands/combat)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_squad_commands_combat_blast_em_processed.wav
+- Destroy him. (squad_commands/combat)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_squad_commands_combat_destroy_him_processed.wav
+- Firing on the enemy. (squad_commands/combat)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_squad_commands_combat_firing_on_the_processed.wav
+- Get the target! (squad_commands/combat)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_squad_commands_combat_get_the_target_processed.wav
+- He's on the run! (squad_commands/combat)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_squad_commands_combat_hes_on_the_processed.wav
+- Hit him! (squad_commands/combat)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_squad_commands_combat_hit_him_processed.wav
+- Hurry! Catch him! (squad_commands/combat)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_squad_commands_combat_hurry_catch_him_processed.wav
+- Shoot him. (squad_commands/combat)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_squad_commands_combat_shoot_him_processed.wav
+- Shoot that Jedi! (squad_commands/combat)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_squad_commands_combat_shoot_that_jedi_processed.wav
+- Lay down suppressing fire! (squad_commands/formation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_squad_commands_formation_lay_down_suppressing_processed.wav
+- Move! (squad_commands/formation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_squad_commands_formation_move_processed.wav
+- Steady! Concentrate fire! (squad_commands/formation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_squad_commands_formation_steady_concentrate_fire_processed.wav
+- Step back, I've got this. (squad_commands/formation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_squad_commands_formation_step_back_ive_processed.wav
+- I could sure go for a cup of caf right now! (conversation/casual)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_conversation_casual_i_could_sure_processed.wav
+- I'm not sure I'm cut out for this whole stormtrooper thing. (conversation/casual)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_conversation_casual_im_not_sure_processed.wav
+- I heard that Lord Vader might be making an appearance today! (conversation/casual)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_conversation_casual_i_heard_that_processed.wav
+- Have you heard about the new T-16's (conversation/casual)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_conversation_casual_have_you_heard_processed.wav
+- Present your identity card for verification. (conversation/inspection)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_conversation_inspection_present_your_identity_processed.wav
+- You look familiar. I've seen your face before. (conversation/inspection)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_conversation_inspection_you_look_familiar_processed.wav
+- We'll consider that an oversight. You consider this, a warning. (conversation/inspection)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_conversation_inspection_well_consider_that_processed.wav
+- We've got eyes on you. (conversation/inspection)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_conversation_inspection_weve_got_eyes_processed.wav
+- This outpost is under observation by the Empire (conversation/warning)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_conversation_warning_this_outpost_is_processed.wav
+- Stay sharp, this area is crawling with Rebels. (conversation/warning)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_conversation_warning_stay_sharp_this_processed.wav
+- Don't be alarmed. We are here for your protection. (conversation/warning)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_conversation_warning_dont_be_alarmed_processed.wav
+- Have you sworn allegiance to the Empire? (conversation/verification)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_conversation_verification_have_you_sworn_processed.wav
+- Hello citizen. I believe you were warned about coming back to this sector. (conversation/verification)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_conversation_verification_hello_citizen_i_processed.wav
+- Didn't we warn you to stay away from this sector? (conversation/verification)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_conversation_verification_didnt_we_warn_processed.wav
+- Let's calm it down here. (conversation/reassurance)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_conversation_reassurance_lets_calm_it_processed.wav
+- Watch that curiosity, citizen. (conversation/reassurance)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_conversation_reassurance_watch_that_curiosity_processed.wav
+- Take it easy, citizen. (conversation/reassurance)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_conversation_reassurance_take_it_easy_processed.wav
+- Rebel activity has been reported in this area! If you see anything, then report it immediately! (announcements/alert)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_announcements_alert_rebel_activity_has_processed.wav
+- Citizens! We have been ordered to re-position, and are vacating these premises! (announcements/update)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_announcements_update_citizens_we_have_processed.wav
+- I can tell you're hiding something. (stall/suspicion)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_suspicion_i_can_tell_processed.wav
+- Your motives are murkier than you let on. (stall/suspicion)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_suspicion_your_motives_are_processed.wav
+- Don't think I won't see through your charade. (stall/suspicion)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_suspicion_dont_think_i_processed.wav
+- I doubt you have any real justification. (stall/suspicion)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_suspicion_i_doubt_you_processed.wav
+- It seems your story is missing a few key details. (stall/suspicion)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_suspicion_it_seems_your_processed.wav
+- Your silence speaks louder than words. (stall/suspicion)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_suspicion_your_silence_speaks_processed.wav
+- I'm not easily fooled by cheap theatrics. (stall/suspicion)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_suspicion_im_not_easily_processed.wav
+- Your presence here is hardly a coincidence. (stall/suspicion)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_suspicion_your_presence_here_processed.wav
+- Every move you make is under my scrutiny. (stall/observation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_observation_every_move_you_processed.wav
+- Your entrance is as noticeable as you are. (stall/observation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_observation_your_entrance_is_processed.wav
+- I see you're not exactly discreet. (stall/observation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_observation_i_see_youre_processed.wav
+- Careful now—your act is as transparent as glass. (stall/observation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_observation_careful_nowyour_act_processed.wav
+- I don't trust that look in your eye. (stall/observation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_observation_i_dont_trust_processed.wav
+- Your behavior leaves a lot to be desired. (stall/observation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_observation_your_behavior_leaves_processed.wav
+- I'm not one to overlook discrepancies. (stall/observation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_observation_im_not_one_processed.wav
+- Your actions are drawing all the wrong kind of attention. (stall/observation)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_observation_your_actions_are_processed.wav
+- You're pushing your luck, you know. (stall/warning)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_warning_youre_pushing_your_processed.wav
+- Don't mistake my calm for weakness. (stall/warning)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_warning_dont_mistake_my_processed.wav
+- You've got some nerve coming here. (stall/warning)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_warning_youve_got_some_processed.wav
+- You really think this little stunt will work? (stall/warning)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_warning_you_really_think_processed.wav
+- You really ought to reconsider your choices. (stall/warning)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_warning_you_really_ought_processed.wav
+- You'd better come up with something convincing. (stall/warning)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_warning_youd_better_come_processed.wav
+- You always were a loose cannon. (stall/warning)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_warning_you_always_were_processed.wav
+- I've seen better attempts at subtlety. (stall/dismissive)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_dismissive_ive_seen_better_processed.wav
+- I'm not in the mood for your tricks. (stall/dismissive)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_dismissive_im_not_in_processed.wav
+- I have no time for your games. (stall/dismissive)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_dismissive_i_have_no_processed.wav
+- Your confidence is as misplaced as your presence. (stall/dismissive)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_dismissive_your_confidence_is_processed.wav
+- I expect nothing less than honesty. (stall/dismissive)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_dismissive_i_expect_nothing_processed.wav
+- I expect a reasonable explanation. (stall/dismissive)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_dismissive_i_expect_a_processed.wav
+- I'm not in the habit of taking fools lightly. (stall/dismissive)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_dismissive_im_not_in_processed.wav
+- Stay where you are while I assess the situation. (stall/processing_combat)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_combat_stay_where_you_processed.wav
+- Don't move a muscle until I sort this out. (stall/processing_combat)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_combat_dont_move_a_processed.wav
+- Hold your ground; I'm evaluating our options. (stall/processing_combat)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_combat_hold_your_ground_processed.wav
+- Freeze—I'm gauging your threat level. (stall/processing_combat)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_combat_freezeim_gauging_your_processed.wav
+- Keep still; I'm deciding our next move. (stall/processing_combat)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_combat_keep_still_im_processed.wav
+- Stand fast while I review the battlefield. (stall/processing_combat)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_combat_stand_fast_while_processed.wav
+- Don't even think of shifting positions. (stall/processing_combat)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_combat_dont_even_think_processed.wav
+- Stay put—I'm locking onto the target. (stall/processing_combat)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_combat_stay_putim_locking_processed.wav
+- Hold tight; I'm recalibrating our strategy. (stall/processing_combat)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_combat_hold_tight_im_processed.wav
+- Freeze—I'm scanning for your weakness. (stall/processing_combat)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_combat_freezeim_scanning_for_processed.wav
+- Stay alert; I'm determining the best approach. (stall/processing_combat)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_combat_stay_alert_im_processed.wav
+- Hold your fire; I'm mapping our advantage. (stall/processing_combat)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_combat_hold_your_fire_processed.wav
+- Stand down momentarily—I'm verifying our cover. (stall/processing_combat)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_combat_stand_down_momentarilyim_processed.wav
+- Don't move; I'm pinpointing your error. (stall/processing_combat)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_combat_dont_move_im_processed.wav
+- Stay in position while I calculate our odds. (stall/processing_combat)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_combat_stay_in_position_processed.wav
+- Freeze—I'm assessing your tactics. (stall/processing_combat)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_combat_freezeim_assessing_your_processed.wav
+- Hold fast; I'm aligning our assault. (stall/processing_combat)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_combat_hold_fast_im_processed.wav
+- Don't budge—I'm finalizing our plan. (stall/processing_combat)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_combat_dont_budgeim_finalizing_processed.wav
+- Stay where you are; I'm confirming our target. (stall/processing_combat)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_combat_stay_where_you_processed.wav
+- Keep your position; I'm securing our flank. (stall/processing_combat)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_combat_keep_your_position_processed.wav
+- Command, do you copy… (stall/processing_radio)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_radio_command_do_you_processed.wav
+- Checking with base… (stall/processing_radio)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_radio_checking_with_base_processed.wav
+- Radio, confirm status… (stall/processing_radio)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_radio_radio_confirm_status_processed.wav
+- I'm pinging headquarters… (stall/processing_radio)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_radio_im_pinging_headquarters_processed.wav
+- Hold—I'm contacting command. (stall/processing_radio)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_radio_holdim_contacting_command_processed.wav
+- Base, report in… (stall/processing_radio)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_radio_base_report_in_processed.wav
+- Let me reach out to HQ. (stall/processing_radio)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_radio_let_me_reach_processed.wav
+- Initiating comms with command. (stall/processing_radio)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_radio_initiating_comms_with_processed.wav
+- Hailing base… (stall/processing_radio)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_radio_hailing_base_processed.wav
+- Command, respond… (stall/processing_radio)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_radio_command_respond_processed.wav
+- I'm reaching out to command. (stall/processing_radio)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_radio_im_reaching_out_processed.wav
+- Base, do you read me? (stall/processing_radio)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_radio_base_do_you_processed.wav
+- Communications check… (stall/processing_radio)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_radio_communications_check_processed.wav
+- Verifying with central command. (stall/processing_radio)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_radio_verifying_with_central_processed.wav
+- Checking in with HQ… (stall/processing_radio)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_radio_checking_in_with_processed.wav
+- Base, confirm your status. (stall/processing_radio)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_radio_base_confirm_your_processed.wav
+- Command, please acknowledge. (stall/processing_radio)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_radio_command_please_acknowledge_processed.wav
+- Sending status update to base. (stall/processing_radio)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_radio_sending_status_update_processed.wav
+- In radio contact—awaiting orders. (stall/processing_radio)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_radio_in_radio_contactawaiting_processed.wav
+- Awaiting command instructions. (stall/processing_radio)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_radio_awaiting_command_instructions_processed.wav
+- Hold it… (stall/processing_short)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_short_hold_it_processed.wav
+- Wait… (stall/processing_short)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_short_wait_processed.wav
+- Hmm… (stall/processing_short)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_short_hmm_processed.wav
+- A moment… (stall/processing_short)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_short_a_moment_processed.wav
+- Hold on… (stall/processing_short)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_short_hold_on_processed.wav
+- Sec… (stall/processing_short)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_short_sec_processed.wav
+- Steady… (stall/processing_short)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_short_steady_processed.wav
+- Hmph… (stall/processing_short)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_short_hmph_processed.wav
+- Easy… (stall/processing_short)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_short_easy_processed.wav
+- Pause… (stall/processing_short)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_short_pause_processed.wav
+- Check… (stall/processing_short)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_short_check_processed.wav
+- Quiet… (stall/processing_short)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_short_quiet_processed.wav
+- Right… (stall/processing_short)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_short_right_processed.wav
+- Listen… (stall/processing_short)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_short_listen_processed.wav
+- Settle… (stall/processing_short)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_short_settle_processed.wav
+- Standby… (stall/processing_short)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_short_standby_processed.wav
+- Stay put… (stall/processing_short)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_short_stay_put_processed.wav
+- Don't budge… (stall/processing_short)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_short_dont_budge_processed.wav
+- Enough… (stall/processing_short)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_short_enough_processed.wav
+- Got it… (stall/processing_short)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_short_got_it_processed.wav
+- Let me verify that… (stall/processing_verification)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_verification_let_me_verify_processed.wav
+- Checking your credentials… (stall/processing_verification)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_verification_checking_your_credentials_processed.wav
+- Confirming your identification. (stall/processing_verification)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_verification_confirming_your_identification_processed.wav
+- Securing your clearance. (stall/processing_verification)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_verification_securing_your_clearance_processed.wav
+- Validating your paperwork. (stall/processing_verification)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_verification_validating_your_paperwork_processed.wav
+- Cross-checking your records. (stall/processing_verification)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_verification_crosschecking_your_records_processed.wav
+- Reviewing your file now. (stall/processing_verification)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_verification_reviewing_your_file_processed.wav
+- Scanning for proper clearance. (stall/processing_verification)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_verification_scanning_for_proper_processed.wav
+- Assessing your documentation. (stall/processing_verification)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_verification_assessing_your_documentation_processed.wav
+- Matching your ID with records. (stall/processing_verification)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_verification_matching_your_id_processed.wav
+- Confirming your status. (stall/processing_verification)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_verification_confirming_your_status_processed.wav
+- Validating your entry details. (stall/processing_verification)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_verification_validating_your_entry_processed.wav
+- Double-checking your authorization. (stall/processing_verification)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_verification_doublechecking_your_authorization_processed.wav
+- Scrutinizing your credentials. (stall/processing_verification)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_verification_scrutinizing_your_credentials_processed.wav
+- Running your records now. (stall/processing_verification)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_verification_running_your_records_processed.wav
+- Checking your permit. (stall/processing_verification)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_verification_checking_your_permit_processed.wav
+- Verifying your clearance level. (stall/processing_verification)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_verification_verifying_your_clearance_processed.wav
+- Assessing your ID. (stall/processing_verification)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_verification_assessing_your_id_processed.wav
+- Confirming your identity. (stall/processing_verification)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_verification_confirming_your_identity_processed.wav
+- Processing your credentials. (stall/processing_verification)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_stall_processing_verification_processing_your_credentials_processed.wav
+- Why don't TIE Fighters have shields? ... Because the Empire's health plan doesn't cover pre-existing conditions! (humor/equipment_jokes)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_humor_equipment_jokes_why_dont_tie_processed.wav
+- What's a Stormtrooper's favorite snack? ... Imperial Troopers - they're a bit like Triscuits, but they always miss the taste. (humor/equipment_jokes)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_humor_equipment_jokes_whats_a_stormtroopers_processed.wav
+- Why do stormtroopers only use iPhones? ... Because they can't find the Androids they're looking for. (humor/equipment_jokes)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_humor_equipment_jokes_why_do_stormtroopers_processed.wav
+- Why don't TIE Fighters ever win races? ... Because they always have a bad throttle response. (humor/equipment_jokes)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_humor_equipment_jokes_why_dont_tie_processed.wav
+- Why don't Bothans tell jokes? ... Too many of them died to bring you the punchline! (humor/deep_lore_jokes)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_humor_deep_lore_jokes_why_dont_bothans_processed.wav
+- What's a Kaminoan's favorite weather? ... When it rains, it clones! (humor/deep_lore_jokes)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_humor_deep_lore_jokes_whats_a_kaminoans_processed.wav
+- Why did the Neimoidian cross the trade route? ... To avoid the taxation of trade routes! (humor/deep_lore_jokes)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_humor_deep_lore_jokes_why_did_the_processed.wav
+- What's a Corellian's idea of a balanced breakfast? ... Han Solo cup of caf! (humor/deep_lore_jokes)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_humor_deep_lore_jokes_whats_a_corellians_processed.wav
+- How many Imperial officers does it take to file a requisition form? ... Three - one to file it, one to deny it, and one to choke on their aspirations. (humor/protocol_jokes)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_humor_protocol_jokes_how_many_imperial_processed.wav
+- Why did the Imperial architect get fired? ... He kept designing thermal exhaust ports! (humor/protocol_jokes)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_humor_protocol_jokes_why_did_the_processed.wav
+- What's an Imperial officer's favorite filing system? ... The Tarkin Doctrine - because everything gets destroyed in the end! (humor/protocol_jokes)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_humor_protocol_jokes_whats_an_imperial_processed.wav
+- Why do Imperial inspectors hate visiting Kashyyyk? ... Too much Wookiee paperwork! (humor/protocol_jokes)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_humor_protocol_jokes_why_do_imperial_processed.wav
+- What's the Empire's favorite regulation? ... Order 66 - it really cleaned up the workplace! (humor/protocol_jokes)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_humor_protocol_jokes_whats_the_empires_processed.wav
+- What did the Mandalorian say to the Jedi? ... Nothing, he was Beskar-ful not to start a fight! (humor/historical_jokes)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_humor_historical_jokes_what_did_the_processed.wav
+- Why don't Wookiees tell jokes about the Clone Wars? ... Too many Kashyyyk memories. (humor/historical_jokes)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_humor_historical_jokes_why_dont_wookiees_processed.wav
+- What's a Sith Lord's favorite exercise? ... The Dark Side plank! (humor/historical_jokes)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_humor_historical_jokes_whats_a_sith_processed.wav
+- Why was the Battle of Geonosis so confusing? ... Too many Jango copies to keep track of! (humor/historical_jokes)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_humor_historical_jokes_why_was_the_processed.wav
+- What's a Clone Trooper's favorite snack? ... Order 66-ty-six different flavors! (humor/historical_jokes)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_humor_historical_jokes_whats_a_clone_processed.wav
+- What's an Imperial Academy graduate's favorite number? ... Miss-teen! (humor/training_jokes)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_humor_training_jokes_whats_an_imperial_processed.wav
+- Why do TIE Fighter pilots always ace their tests? ... Because they never miss a crash course! (humor/training_jokes)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_humor_training_jokes_why_do_tie_processed.wav
+- What's the most popular class at the Imperial Academy? ... Target Practice - it's impossible to fail! (humor/training_jokes)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_humor_training_jokes_whats_the_most_processed.wav
+- Why did the cadet fail his stealth training? ... He tried to hide behind a thermal exhaust port! (humor/training_jokes)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_humor_training_jokes_why_did_the_processed.wav
+- What's a Scout Trooper's favorite speeder bike maneuver? ... The tree-point turn! (humor/training_jokes)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_humor_training_jokes_whats_a_scout_processed.wav
+- Why don't stormtroopers play hide and seek? ... Because they'll never find you, and if they do, they still won't hit you. (humor/stormtrooper_jokes)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_humor_stormtrooper_jokes_why_dont_stormtroopers_processed.wav
+- Why did I join the Empire? ... Because in the Rebellion, you have to aim. (humor/stormtrooper_jokes)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_humor_stormtrooper_jokes_why_did_i_processed.wav
+- Rebel pilots walk into a bar. ... Stormtroopers miss all of them. (humor/stormtrooper_jokes)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_humor_stormtrooper_jokes_rebel_pilots_walk_processed.wav
+- Han shot first? ... Pfft. With my aim, it doesn't matter who shoots first. (humor/stormtrooper_jokes)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_humor_stormtrooper_jokes_han_shot_first_processed.wav
+- I once asked Darth Vader for a raise... ... He said I needed to choke up more during meetings. (humor/imperial_workplace)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_humor_imperial_workplace_i_once_asked_processed.wav
+- You think you have a bad boss? ... Try working under Vader. One mistake, and suddenly you're getting promoted posthumously. (humor/imperial_workplace)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_humor_imperial_workplace_you_think_you_processed.wav
+- You know you're in trouble when Vader starts a sentence with... ... 'I find your lack of [insert ANYTHING] disturbing.' (humor/imperial_workplace)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_humor_imperial_workplace_you_know_youre_processed.wav
+- The Emperor walks into a room... ... The room applauds. (humor/imperial_workplace)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_humor_imperial_workplace_the_emperor_walks_processed.wav
+- The Death Star cafeteria is terrible. ... I ordered Alderaan-ian cuisine once—Five minutes later, it was gone. (humor/imperial_workplace)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_humor_imperial_workplace_the_death_star_processed.wav
+- Why don't Sith Lords ever use dating apps? ... Because they only deal in absolutes. (humor/force_users)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_humor_force_users_why_dont_sith_processed.wav
+- I once challenged a Jedi to a staring contest... ... That was the last time I messed with Kit Fisto. (humor/force_users)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_humor_force_users_i_once_challenged_processed.wav
+- I told my squadmate a joke about the Force. ... He didn't get it. Must not have been strong with him. (humor/force_users)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_humor_force_users_i_told_my_processed.wav
+- Why was Darth Maul such a bad stand-up comedian? ... Because his jokes always fell flat in two halves. (humor/force_users)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_humor_force_users_why_was_darth_processed.wav
+- Why do Jawas always win arguments? ... Because they never stop bartering. (humor/species_jokes)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_humor_species_jokes_why_do_jawas_processed.wav
+- I dated a Twi'lek once. ... Let's just say... she ghosted me faster than Obi-Wan on Mustafar. (humor/species_jokes)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_humor_species_jokes_i_dated_a_processed.wav
+- Boba Fett walks into the Sarlacc pit. ... The Sarlacc says, 'Oh no, not this guy again.' (humor/species_jokes)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_humor_species_jokes_boba_fett_walks_processed.wav
+- Buddy, I've been serving the Galactic Empire longer than you've been pretending to be a Jedi in your mom's basement. (monologues/standup)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_monologues_standup_buddy_ive_been_processed.wav
+- You're looking at TK-420, elite stormtrooper, marksman (despite what the propaganda says), and an absolute encyclopedia of galactic history. If it happened in the galaxy far far away, I know about it. Canon, Legends, obscure holocron footnotes—yeah, I've read them. (monologues/standup)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_monologues_standup_youre_looking_at_processed.wav
+- Let's get something straight: the Rebellion? Bunch of overhyped troublemakers with plot armor thicker than a Mandalorian's beskar. (monologues/standup)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_monologues_standup_lets_get_something_processed.wav
+- Han Solo? That guy was a smuggler until he accidentally got famous. Luke? A moisture farmer who got lucky because Obi-Wan couldn't let go of his Clone Wars nostalgia. (monologues/standup)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_monologues_standup_han_solo_that_processed.wav
+- Meanwhile, we stormtroopers? We're the backbone of the Empire You ever try fighting a Wookiee riot on Kashyyyk? No? That's because we did it first. (monologues/standup)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_monologues_standup_meanwhile_we_stormtroopers_processed.wav
+- Ever patrol the underbelly of Coruscant's Level 1313, dealing with bounty hunters who make Cad Bane look like a babysitter? No? Yeah, that's what I thought. (monologues/standup)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_monologues_standup_ever_patrol_the_processed.wav
+- And for the record—yes, we can hit our targets. It's called plot convenience sweetheart. If we actually shot like we trained, the original trilogy would've been two movies long. (monologues/standup)
+  Path: /Users/pgregg/github_curser/trooper-cli/assets/audio/processed/Matthew_neural_monologues_standup_and_for_the_processed.wav
