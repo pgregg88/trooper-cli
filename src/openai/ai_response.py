@@ -13,6 +13,10 @@ from .conversation import get_context_window
 # Load environment variables
 load_dotenv()
 
+# Constants for token limits
+BASE_TOKEN_LIMIT = 75
+CLIFF_MODE_TOKEN_LIMIT = 200
+
 # Retrieve API key from environment variables
 api_key = os.getenv("OPENAI_API_KEY")
 if not api_key:
@@ -32,7 +36,7 @@ def get_stormtrooper_response(
     
     Args:
         user_input: The current user's question/input
-        cliff_clavin_mode: Whether to enable Cliff Clavin mode
+        cliff_clavin_mode: Whether to enable Cliff Clavin mode (increases token limit for detailed trivia)
         previous_user_input: The last user message (optional)
         previous_response: The last assistant response (optional)
         
@@ -83,7 +87,7 @@ maximum maneuverability.'"""
         model="gpt-4",
         messages=messages,
         temperature=0.7,
-        max_tokens=75
+        max_tokens=CLIFF_MODE_TOKEN_LIMIT if cliff_clavin_mode else BASE_TOKEN_LIMIT
     )
 
     # Extract response text
