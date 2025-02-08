@@ -16,6 +16,10 @@ dependencies = [
     "loguru",
     "pyyaml",
     "python-dotenv",
+    "openai",
+    "flask",
+    "flask-socketio",
+    "websocket-client"
 ]
 
 [tool.setuptools]

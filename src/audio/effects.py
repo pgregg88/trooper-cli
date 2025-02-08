@@ -18,7 +18,7 @@ class EffectParams:
     """Parameters for Stormtrooper voice effects."""
     
     # Audio Format
-    sample_rate: int = 44100
+    sample_rate: int = 44100  # CD-quality audio, matches system default
     output_format: str = "WAV"
     
     # Filter Curve EQ - More "tinny" radio sound

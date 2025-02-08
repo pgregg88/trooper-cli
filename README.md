@@ -22,6 +22,24 @@ A command-line tool that converts text to speech with a Stormtrooper voice effec
 3. pyenv (Python version manager)
 4. AWS account with Polly access (neural voices enabled)
 5. Audio output device
+6. OpenAI API key (for chat functionality)
+7. System Dependencies:
+   - **Linux (Ubuntu/Debian):**
+     ```bash
+     sudo apt-get install portaudio19-dev python3-pyaudio
+     ```
+   - **Linux (Fedora):**
+     ```bash
+     sudo dnf install portaudio-devel python3-pyaudio
+     ```
+   - **Linux (CentOS/RHEL):**
+     ```bash
+     sudo yum install portaudio-devel python3-pyaudio
+     ```
+   - **macOS:**
+     ```bash
+     brew install portaudio
+     ```
 
 ### Installing pyenv
 
@@ -99,6 +117,10 @@ A command-line tool that converts text to speech with a Stormtrooper voice effec
    ```bash
    git clone <repository-url>
    cd trooper
+   
+   # Set up environment configuration
+   cp .env-example .env
+   # Edit .env with your configuration values
    ```
 
 2. **Set Up Python Environment**
@@ -184,7 +206,24 @@ A command-line tool that converts text to speech with a Stormtrooper voice effec
    region = us-east-1  # Region must support neural voices
    ```
 
-6. **Verify Installation**
+6. **Configure OpenAI API**
+
+   The chat functionality requires an OpenAI API key. Configure it in one of these ways:
+
+   a. Environment variable:
+   ```bash
+   export OPENAI_API_KEY="your_api_key"
+   # Or add to your shell configuration:
+   echo 'export OPENAI_API_KEY="your_api_key"' >> ~/.zshrc  # for zsh
+   echo 'export OPENAI_API_KEY="your_api_key"' >> ~/.bashrc  # for bash
+   ```
+
+   b. Add to .env file:
+   ```ini
+   OPENAI_API_KEY=your_api_key
+   ```
+
+7. **Verify Installation**
 
    ```bash
    # Check if trooper command is available
@@ -237,6 +276,18 @@ A command-line tool that converts text to speech with a Stormtrooper voice effec
 
    # If region doesn't support neural voices, try:
    aws configure set region us-east-1 --profile trooper
+   ```
+
+4. **OpenAI API Issues**
+
+   ```bash
+   # Test OpenAI configuration
+   trooper ask "Test message"
+
+   # Common issues:
+   # 1. API key not found: Check OPENAI_API_KEY in environment or .env file
+   # 2. Rate limits: Check your OpenAI account usage and limits
+   # 3. API errors: Verify your API key is valid and has sufficient credits
    ```
 
 ## Usage
@@ -584,7 +635,11 @@ The tool supports persistent configuration through a `.env` file. You can manage
 1. **Initialize Configuration**
 
    ```bash
-   # Create a new .env file with default settings
+   # Create a new .env file from example
+   cp .env-example .env
+   
+   # Edit the .env file with your settings
+   # Or use the config command:
    trooper config init
    ```
 
