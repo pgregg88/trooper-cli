@@ -27,6 +27,30 @@ print_error() {
     echo "Error: $1"
 }
 
+# Setup environment files
+setup_environment() {
+    print_status "Setting up environment configuration..."
+    
+    # Create config directories
+    mkdir -p ~/.trooper
+    mkdir -p ~/.config/trooper
+    
+    # Copy environment file to home directory if it doesn't exist
+    if [ ! -f ~/.env ] || [ ! -f ~/.trooper/env ]; then
+        # Create environment file with install path
+        echo "TROOPER_INSTALL_PATH=${TROOPER_INSTALL_PATH}" > ~/.trooper/env
+        
+        # Copy other environment variables if .env exists
+        if [ -f "${SCRIPT_DIR}/.env" ]; then
+            grep -v "TROOPER_INSTALL_PATH" "${SCRIPT_DIR}/.env" >> ~/.trooper/env
+        fi
+        
+        print_status "Environment configuration created at ~/.trooper/env"
+    else
+        print_status "Environment configuration already exists"
+    fi
+}
+
 # Install CLI wrapper
 install_cli() {
     print_status "Installing CLI wrapper..."
@@ -47,6 +71,7 @@ install_cli() {
     print_status "CLI wrapper installed successfully"
 }
 
+
 # Install web service (Linux only)
 install_web_service() {
     if [ "$OS" = "Linux" ]; then
@@ -56,6 +81,22 @@ install_web_service() {
         if [ ! -f "${SCRIPT_DIR}/trooper-web.service" ]; then
             print_error "trooper-web.service not found in ${SCRIPT_DIR}"
             exit 1
+        fi
+        
+        # Stop and disable existing service if it exists
+        if systemctl --user --quiet is-active trooper-web.service; then
+            print_status "Stopping existing service..."
+            systemctl --user stop trooper-web.service
+        fi
+        if systemctl --user --quiet is-enabled trooper-web.service; then
+            print_status "Disabling existing service..."
+            systemctl --user disable trooper-web.service
+        fi
+        
+        # Remove existing service file
+        if [ -f "$HOME/.config/systemd/user/trooper-web.service" ]; then
+            print_status "Removing existing service file..."
+            rm -f "$HOME/.config/systemd/user/trooper-web.service"
         fi
         
         # Create user systemd directory if it doesn't exist
@@ -114,6 +155,9 @@ if [ "$OS" = "Linux" ] && [ ! -f "${SCRIPT_DIR}/trooper-web.service" ]; then
     print_error "Required file trooper-web.service not found for Linux installation"
     exit 1
 fi
+
+# Setup environment
+setup_environment
 
 # Perform installation
 install_cli
