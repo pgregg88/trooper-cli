@@ -65,6 +65,11 @@ Get up and running with Trooper CLI in minutes:
 git clone https://github.com/yourusername/trooper-cli.git
 cd trooper-cli
 
+# Set installation path (optional)
+export TROOPER_INSTALL_PATH=$(pwd)  # Use current directory
+# or
+export TROOPER_INSTALL_PATH=/opt/trooper-cli  # Use custom path
+
 # Install dependencies and CLI
 chmod +x install.sh
 ./install.sh
@@ -72,6 +77,7 @@ chmod +x install.sh
 # Configure environment
 cp .env-example .env
 # Edit .env with your AWS and OpenAI API credentials
+nano .env
 
 # Test the installation
 trooper say "Reporting for duty!"
@@ -120,6 +126,21 @@ sudo yum install portaudio-devel python3-pyaudio
 ```bash
 brew install portaudio
 ```
+
+### Installation Path Configuration
+
+The Trooper CLI supports configurable installation paths through the `TROOPER_INSTALL_PATH` environment variable:
+
+```bash
+# In your .env file
+TROOPER_INSTALL_PATH=/opt/trooper-cli  # Custom installation directory
+```
+
+Default behavior:
+- If not set: Uses the directory where the script is installed
+- If set: Uses the specified path for all components (CLI, web interface, virtual environment)
+
+This allows for flexible deployment in different environments while maintaining consistent paths across all components.
 
 ### Python Environment Setup
 
@@ -216,6 +237,16 @@ brew install portaudio
    # Edit with your settings
    nano .env
    ```
+
+   Key environment variables:
+   - `TROOPER_INSTALL_PATH`: Installation directory
+   - `TROOPER_WEB_PORT`: Web interface port (default: 5001)
+   - `TROOPER_WEB_HOST`: Web interface host (default: 0.0.0.0)
+   - `TROOPER_AUDIO_DEVICE`: Audio output device ID
+   - `TROOPER_CLIFF_MODE`: Enable Cliff Clavin mode (0/1)
+   - `AWS_PROFILE`: AWS credentials profile
+   - `AWS_DEFAULT_REGION`: AWS region for Polly
+   - `OPENAI_API_KEY`: OpenAI API key
 
 2. **AWS Configuration**
 
@@ -1398,64 +1429,132 @@ The Trooper CLI includes a web interface that provides a graphical way to intera
 
 #### Configuration
 
-The web interface can be configured using environment variables:
+The web interface can be configured using environment variables in your `.env` file:
 
 ```bash
+# Web Interface Configuration
 TROOPER_WEB_PORT=5001        # Web server port (default: 5001)
 TROOPER_WEB_HOST=0.0.0.0     # Web server host (default: 0.0.0.0)
+TROOPER_INSTALL_PATH=/opt/trooper-cli  # Installation directory
 ```
 
 #### Installation (Linux Only)
 
-1. Install the systemd service:
+1. Configure installation path and environment:
 
    ```bash
-   sudo cp trooper-web.service /etc/systemd/system/
-   sudo systemctl daemon-reload
+   # Set up environment
+   cp .env-example .env
+   # Edit .env with your settings
+   nano .env
    ```
 
-2. Enable and start the service:
+2. Install the systemd service:
 
    ```bash
-   sudo systemctl enable trooper-web
-   sudo systemctl start trooper-web
+   # The install script will handle this automatically
+   ./install.sh
    ```
 
-3. Check service status:
+3. Enable and start the service:
 
    ```bash
-   sudo systemctl status trooper-web
+   systemctl --user enable trooper-web
+   systemctl --user start trooper-web
    ```
 
-#### Manual Start
+4. Check service status:
 
-To run the web interface manually without systemd:
-
-```bash
-python -m src.web.server
-```
+   ```bash
+   systemctl --user status trooper-web
+   ```
 
 The web interface will be available at:
-
-- Local: <http://localhost:5001>
+- Local: http://localhost:5001 (or your configured port)
 - Network: http://<your-ip>:5001
 
-#### Troubleshooting
+### Troubleshooting
 
-1. **Port Already in Use**
-   - Check what's using the port: `sudo lsof -i :5001`
-   - Configure a different port in your `.env` file
-   - Restart the service: `sudo systemctl restart trooper-web`
+#### Installation Issues
 
-2. **Service Won't Start**
-   - Check logs: `journalctl -u trooper-web`
-   - Verify Python environment path in service file
-   - Ensure proper permissions on project directory
+1. **Command Not Found**
 
-3. **Audio Not Working**
-   - Check browser audio permissions
-   - Verify audio device configuration
-   - Test audio with `trooper say` command
+   ```bash
+   # Check if TROOPER_INSTALL_PATH is set correctly
+   echo $TROOPER_INSTALL_PATH
+   
+   # Verify virtual environment exists
+   ls -l $TROOPER_INSTALL_PATH/.venv
+   
+   # Reinstall CLI wrapper
+   sudo ./install.sh
+   ```
+
+2. **Import Errors**
+
+   ```bash
+   # Verify installation path
+   echo $TROOPER_INSTALL_PATH
+   
+   # Reinstall in the correct location
+   export TROOPER_INSTALL_PATH=/your/desired/path
+   ./install.sh
+   ```
+
+3. **Missing Dependencies**
+
+   ```bash
+   # Ensure you're in the correct directory
+   cd $TROOPER_INSTALL_PATH
+   
+   # Install all dependencies
+   pip install -r requirements.txt
+   ```
+
+#### Web Interface Issues
+
+1. **Service Won't Start**
+
+   ```bash
+   # Check environment file
+   systemctl --user show-environment | grep TROOPER
+   
+   # Verify paths in service file
+   cat ~/.config/systemd/user/trooper-web.service
+   
+   # Check service status
+   systemctl --user status trooper-web
+   
+   # View logs
+   journalctl --user -u trooper-web
+   ```
+
+2. **Port Conflicts**
+
+   ```bash
+   # Check port usage
+   sudo lsof -i :5001
+   
+   # Configure different port in .env
+   TROOPER_WEB_PORT=5002
+   
+   # Restart service
+   systemctl --user restart trooper-web
+   ```
+
+3. **Path-Related Issues**
+
+   ```bash
+   # Verify installation path
+   echo $TROOPER_INSTALL_PATH
+   
+   # Check if virtual environment exists
+   ls -l $TROOPER_INSTALL_PATH/.venv
+   
+   # Reinstall with correct path
+   export TROOPER_INSTALL_PATH=/correct/path
+   ./install.sh
+   ```
 
 ## Troubleshooting
 
@@ -1478,19 +1577,22 @@ This section covers common issues and their solutions.
 2. **Import Errors**
 
    ```bash
-   # Reinstall the package
-   pip uninstall trooper-cli
-   pip install -e .
+   # Verify installation path
+   echo $TROOPER_INSTALL_PATH
+   
+   # Reinstall in the correct location
+   export TROOPER_INSTALL_PATH=/your/desired/path
+   ./install.sh
    ```
 
 3. **Missing Dependencies**
 
    ```bash
+   # Ensure you're in the correct directory
+   cd $TROOPER_INSTALL_PATH
+   
    # Install all dependencies
    pip install -r requirements.txt
-   
-   # Install optional dependencies
-   pip install -e ".[all]"
    ```
 
 ### Audio Issues
@@ -1558,14 +1660,17 @@ This section covers common issues and their solutions.
 1. **Service Won't Start**
 
    ```bash
+   # Check environment file
+   systemctl --user show-environment | grep TROOPER
+   
+   # Verify paths in service file
+   cat ~/.config/systemd/user/trooper-web.service
+   
    # Check service status
-   sudo systemctl status trooper-web
+   systemctl --user status trooper-web
    
    # View logs
-   journalctl -u trooper-web
-   
-   # Restart service
-   sudo systemctl restart trooper-web
+   journalctl --user -u trooper-web
    ```
 
 2. **Port Conflicts**
@@ -1574,16 +1679,26 @@ This section covers common issues and their solutions.
    # Check port usage
    sudo lsof -i :5001
    
-   # Configure different port
-   # Edit .env file:
+   # Configure different port in .env
    TROOPER_WEB_PORT=5002
+   
+   # Restart service
+   systemctl --user restart trooper-web
    ```
 
-3. **Browser Issues**
-   - Clear cache/cookies
-   - Check console errors
-   - Verify WebSocket connection
-   - Test different browser
+3. **Path-Related Issues**
+
+   ```bash
+   # Verify installation path
+   echo $TROOPER_INSTALL_PATH
+   
+   # Check if virtual environment exists
+   ls -l $TROOPER_INSTALL_PATH/.venv
+   
+   # Reinstall with correct path
+   export TROOPER_INSTALL_PATH=/correct/path
+   ./install.sh
+   ```
 
 ### Quote System Issues
 
