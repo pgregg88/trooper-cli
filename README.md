@@ -41,6 +41,36 @@ A command-line tool that converts text to speech with a Stormtrooper voice effec
      brew install portaudio
      ```
 
+### System Integration
+
+After installing the package, you can integrate it with your system:
+
+1. **Add to System PATH**
+   The installation script will create a wrapper at `/usr/local/bin/trooper` that handles virtual environment activation automatically.
+
+2. **Enable Web Interface as Service (Linux)**
+   To run the web interface as a systemd user service:
+   ```bash
+   # Enable the service
+   systemctl --user enable trooper-web.service
+   
+   # Start the service
+   systemctl --user start trooper-web.service
+   
+   # Check status
+   systemctl --user status trooper-web.service
+   ```
+
+   The web interface will now:
+   - Start automatically on login
+   - Restart automatically if it crashes
+   - Handle proper logging
+   
+   To view logs:
+   ```bash
+   journalctl --user -u trooper-web.service
+   ```
+
 ### Installing pyenv
 
 1. **macOS (using Homebrew)**
@@ -289,6 +319,123 @@ A command-line tool that converts text to speech with a Stormtrooper voice effec
    # 2. Rate limits: Check your OpenAI account usage and limits
    # 3. API errors: Verify your API key is valid and has sufficient credits
    ```
+
+### Installation
+
+#### Quick Install
+
+After cloning the repository and setting up your Python environment:
+
+```bash
+# Make the installation script executable
+chmod +x install.sh
+
+# Run the installation script
+./install.sh
+```
+
+This will:
+1. Install the CLI wrapper to your system PATH
+2. Set up the web service (Linux only)
+3. Configure permissions
+
+If you get a "permission denied" error when running the installation script:
+```bash
+# Add executable permissions to the script
+chmod +x install.sh
+```
+
+The installation script will:
+- Create a wrapper script at `/usr/local/bin/trooper` that automatically:
+  - Locates your trooper installation
+  - Activates the virtual environment
+  - Runs the trooper command with your arguments
+- Set up the web service (Linux only)
+- Configure all necessary permissions
+
+#### Manual Installation
+
+If you prefer to install manually or need more control over the installation process:
+
+1. **Create the Wrapper Script**
+   ```bash
+   # Create trooper.sh
+   cat > trooper.sh << 'EOL'
+   #!/bin/bash
+   TROOPER_PATH="$HOME/github_curser/trooper-cli"
+   VENV_PATH="$TROOPER_PATH/.venv"
+   
+   # Check virtual environment
+   if [ ! -d "$VENV_PATH" ]; then
+       echo "Error: Virtual environment not found at $VENV_PATH"
+       echo "Please make sure you have installed trooper correctly"
+       exit 1
+   fi
+   
+   # Activate virtual environment and run trooper
+   source "$VENV_PATH/bin/activate"
+   trooper "$@"
+   EOL
+   
+   # Make it executable
+   chmod +x trooper.sh
+   
+   # Install to system PATH
+   sudo mv trooper.sh /usr/local/bin/trooper
+   ```
+
+2. **Set Up Web Service (Linux Only)**
+   ```bash
+   # Create service directory
+   mkdir -p ~/.config/systemd/user/
+   
+   # Install service file
+   cp trooper-web.service ~/.config/systemd/user/
+   
+   # Reload systemd
+   systemctl --user daemon-reload
+   ```
+
+### Troubleshooting Installation
+
+1. **Permission Denied Errors**
+   ```bash
+   # If you see "permission denied" when running install.sh:
+   chmod +x install.sh
+   
+   # If you see "permission denied" when running trooper:
+   sudo chmod +x /usr/local/bin/trooper
+   ```
+
+2. **Virtual Environment Not Found**
+   ```bash
+   # Check if virtual environment exists
+   ls -l .venv
+   
+   # If missing, create it
+   python -m venv .venv
+   source .venv/bin/activate
+   pip install -e .
+   ```
+
+3. **Path Issues**
+   ```bash
+   # Verify trooper is in PATH
+   which trooper
+   
+   # Should show: /usr/local/bin/trooper
+   # If not, check permissions:
+   ls -l /usr/local/bin/trooper
+   ```
+
+4. **Installation Script Errors**
+   - Make sure you're in the project root directory
+   - Verify all required files exist:
+     ```bash
+     ls install.sh trooper.sh
+     ```
+   - Check log output for specific errors
+   - Try manual installation steps if script fails
 
 ## Usage
 
