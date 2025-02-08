@@ -412,6 +412,7 @@ def handle_update(args: argparse.Namespace) -> int:
     Args:
         args: Parsed command line arguments containing:
             - action: The update action to perform (check, pull, status)
+            - force: Whether to force overwrite local changes
             
     Returns:
         Exit code (0 for success, non-zero for error)
@@ -501,6 +502,19 @@ def handle_update(args: argparse.Namespace) -> int:
             
             print("\nPulling updates...")
             try:
+                if getattr(args, 'force', False):
+                    # Reset local changes before pulling
+                    subprocess.run(
+                        ["git", "reset", "--hard", "HEAD"],
+                        cwd=str(project_root),
+                        check=True
+                    )
+                    subprocess.run(
+                        ["git", "clean", "-fd"],
+                        cwd=str(project_root),
+                        check=True
+                    )
+                
                 # Pull latest changes
                 subprocess.run(
                     ["git", "pull", "origin", "main"],
@@ -521,6 +535,10 @@ def handle_update(args: argparse.Namespace) -> int:
                 return 0
                 
             except subprocess.CalledProcessError as e:
+                if not getattr(args, 'force', False):
+                    print("\nLocal changes detected!")
+                    print("To overwrite local changes, use: trooper update pull --force")
+                    print("WARNING: This will discard all local modifications!")
                 logger.error(f"Update failed: {e}")
                 return 1
             
@@ -890,9 +908,14 @@ Examples:
     )
     
     # 'update pull' command
-    update_subparsers.add_parser(
+    pull_parser = update_subparsers.add_parser(
         "pull",
         help="Pull and install updates"
+    )
+    pull_parser.add_argument(
+        "--force",
+        action="store_true",
+        help="Force update, overwriting local changes"
     )
     
     # 'update status' command
