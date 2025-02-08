@@ -1,0 +1,15 @@
+[Unit]
+Description=Trooper Web Interface
+After=network.target
+
+[Service]
+Type=simple
+Environment="PATH=/usr/local/bin:/usr/bin:/bin"
+Environment="PYTHONUNBUFFERED=1"
+WorkingDirectory=%h/github_curser/trooper-cli
+ExecStart=%h/github_curser/trooper-cli/.venv/bin/python -m src.web.server
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=default.target 

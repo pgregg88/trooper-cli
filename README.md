@@ -351,7 +351,45 @@ The installation script will:
   - Activates the virtual environment
   - Runs the trooper command with your arguments
 - Set up the web service (Linux only)
+  - Creates systemd user service
+  - Configures auto-restart and logging
+  - Note: Web interface is currently only supported on Linux
 - Configure all necessary permissions
+
+Common Installation Issues:
+
+1. **Missing Files**
+   ```bash
+   # If you see "trooper.sh not found":
+   ls trooper.sh  # Verify file exists
+   
+   # If you see "trooper-web.service not found" (Linux):
+   ls trooper-web.service  # Verify file exists
+   ```
+
+2. **Web Service Issues (Linux)**
+   ```bash
+   # Check service status
+   systemctl --user status trooper-web.service
+   
+   # View service logs
+   journalctl --user -u trooper-web.service
+   
+   # If service fails to start:
+   # 1. Check Python path in service file
+   cat ~/.config/systemd/user/trooper-web.service
+   # 2. Verify virtual environment
+   ls .venv/bin/python
+   ```
+
+3. **Permission Issues**
+   ```bash
+   # Fix script permissions
+   chmod +x install.sh trooper.sh
+   
+   # Fix CLI wrapper permissions
+   sudo chmod +x /usr/local/bin/trooper
+   ```
 
 #### Manual Installation
 
