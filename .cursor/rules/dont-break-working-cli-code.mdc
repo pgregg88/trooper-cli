@@ -1,0 +1,14 @@
+---
+description: Never introduce a breaking change to our CLI code.
+globs: src/realtime, src/cli/*, @src/audio/*, src/openai/*, src/quotes/*, src/web/*, README.md*, pyproject.toml*, 
+---
+
+# Never suggest new code without fully understanding our existing code and considering the impact the suggested change might have on functionality.
+
+# Existing CLI code
+@src/cli/*, @src/audio/*,
+@src/openai/*,
+@src/quotes/*,
+@src/web/*, 
+[README.md](mdc:README.md)*,
+[pyproject.toml](mdc:pyproject.toml)*,

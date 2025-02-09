@@ -15,7 +15,7 @@ load_dotenv()
 
 # Constants for token limits
 BASE_TOKEN_LIMIT = 75
-CLIFF_MODE_TOKEN_LIMIT = 200
+CLIFF_MODE_TOKEN_LIMIT = 250
 
 # Retrieve API key from environment variables
 api_key = os.getenv("OPENAI_API_KEY")
