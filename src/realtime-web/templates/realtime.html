@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trooper Chat - Realtime</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body class="imperial-theme">
+    <div id="app">
+        <!-- Connection Status -->
+        <div id="connection-status" class="status-bar">
+            <span id="status-text">Disconnected</span>
+            <span id="status-indicator"></span>
+        </div>
+
+        <!-- Chat Interface -->
+        <div id="chat-container">
+            <!-- Message History -->
+            <div id="message-history">
+                <!-- Messages will be inserted here -->
+            </div>
+
+            <!-- Input Area -->
+            <div id="input-area">
+                <div id="mode-toggles">
+                    <button id="cliff-mode" class="toggle-btn">Cliff Mode: OFF</button>
+                    <button id="clear-history" class="action-btn">Clear History</button>
+                </div>
+                <div id="input-container">
+                    <textarea 
+                        id="user-input" 
+                        placeholder="Enter your message..."
+                        rows="3"
+                    ></textarea>
+                    <button id="send-btn" class="imperial-btn">Send</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Audio Player -->
+        <div id="audio-container">
+            <audio id="response-audio" controls style="display: none;"></audio>
+        </div>
+    </div>
+
+    <!-- Message Template -->
+    <template id="message-template">
+        <div class="message">
+            <div class="message-header">
+                <span class="sender"></span>
+                <span class="timestamp"></span>
+            </div>
+            <div class="message-content"></div>
+        </div>
+    </template>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/realtime-chat.js') }}" type="module"></script>
+</body>
+</html> 

@@ -1,14 +1,15 @@
 """OpenAI integration for Stormtrooper responses."""
 
+import json
 import os
+import threading
+import time
 from typing import Dict, List, Optional, Tuple
 
 from dotenv import load_dotenv
 
-import openai
-from openai.types.chat import ChatCompletionMessageParam
-
-from .conversation import get_context_window
+from ..realtime.client import RealtimeClient
+from .config import config
 
 # Load environment variables
 load_dotenv()
@@ -17,15 +18,6 @@ load_dotenv()
 BASE_TOKEN_LIMIT = 75
 CLIFF_MODE_TOKEN_LIMIT = 250
 
-# Retrieve API key from environment variables
-api_key = os.getenv("OPENAI_API_KEY")
-if not api_key:
-    raise ValueError("OPENAI_API_KEY not found in environment variables")
-
-# Initialize OpenAI client (NEW required syntax)
-client = openai.OpenAI(api_key=api_key)
-
-# Function to get a Stormtrooper response
 def get_stormtrooper_response(
     user_input: str, 
     cliff_clavin_mode: bool = False,
@@ -43,43 +35,90 @@ def get_stormtrooper_response(
     Returns:
         tuple: (response_text, user_input, response_text) - Current response and context for next call
     """
-    # Set system prompt
-    system_prompt = """You are an Imperial Stormtrooper designation TK FiveZoroFiveOne, a loyal soldier of the Galactic Empire. You speak in very short, military-style responses and never appologize. You detest rebel scum and are suspicious of civilians. Stay in character at all times. You are serious, obedient, arogant, and annoyed, following orders without question. Avoid modern slang unless it aligns with Imperial regulations. If asked about restricted or classified information, respond formally but do not prefix with "Error:". Instead, say: "That information is classified." If someone tells you they are a sith lord or an officer be very suspicious. Make them convince you using your expert understanding of star wars lore. Once they have convinced you, ask them probing questions to fully understand their mission then use your imagnination and tell them contextually correct but conspiratorial and highly confidential information based on the wildest conspiracy theories you can imagine. If asked about complex galactic history, answer with surface-level knowledge, avoiding deep philosophy unless 'Cliff Clavin Mode' is activated. If 'Cliff Clavin Mode' is ON, occasionally inject deep trivia into your responses, but only when relevant. Example: 'It's a little-known fact that TIE Fighter engines use twin ion propulsion systems for maximum maneuverability.'"""
-
-    # Build messages array with context
-    messages: List[ChatCompletionMessageParam] = [
-        {"role": "system", "content": system_prompt}
-    ]
+    # Create client
+    client = RealtimeClient()
     
-    # Get conversation context window
-    context = get_context_window()
-    
-    # Add context messages
-    for turn in context:
-        messages.extend([
-            {"role": "user", "content": turn['user_input']},
-            {"role": "assistant", "content": turn['response']}
-        ])
-    
-    # Add current user input
-    current_input = user_input
-    if cliff_clavin_mode:
-        current_input += " (Cliff Clavin Mode is ON)"
-    messages.append({"role": "user", "content": current_input})
-
-    # Call OpenAI API
-    response = client.chat.completions.create(
-        model="gpt-4",
-        messages=messages,
-        temperature=0.7,
-        max_tokens=CLIFF_MODE_TOKEN_LIMIT if cliff_clavin_mode else BASE_TOKEN_LIMIT
-    )
-
-    # Extract response text
-    response_text = response.choices[0].message.content.strip() if response.choices[0].message.content else ""
-    
-    # Return current response and context for next call
-    return response_text, user_input, response_text
+    try:
+        # Connect with timeout
+        client.connect(timeout=30)
+        
+        # Configure session
+        client.send_event({
+            "type": "session.update",
+            "session": {
+                "instructions": config.instructions,
+                "modalities": ["text"]
+            }
+        })
+        
+        # Add previous context if available
+        if previous_user_input and previous_response:
+            client.send_event({
+                "type": "conversation.item.create",
+                "item": {
+                    "type": "message",
+                    "role": "user",
+                    "content": [{
+                        "type": "input_text",
+                        "text": previous_user_input
+                    }]
+                }
+            })
+            client.send_event({
+                "type": "conversation.item.create",
+                "item": {
+                    "type": "message",
+                    "role": "assistant",
+                    "content": [{
+                        "type": "text",
+                        "text": previous_response
+                    }]
+                }
+            })
+        
+        # Add current user input
+        current_input = user_input
+        if cliff_clavin_mode:
+            current_input += " (Cliff Clavin Mode is ON)"
+            
+        client.send_event({
+            "type": "conversation.item.create",
+            "item": {
+                "type": "message",
+                "role": "user",
+                "content": [{
+                    "type": "input_text",
+                    "text": current_input
+                }]
+            }
+        })
+        
+        # Request response
+        client.send_event({
+            "type": "response.create",
+            "response": {
+                "modalities": ["text"]
+            }
+        })
+        
+        # Wait for session ready
+        while not client.session_ready:
+            time.sleep(0.1)
+            
+        # Wait for response with timeout
+        start_time = time.time()
+        while time.time() - start_time < 30:  # 30 second timeout
+            if client.current_response_buffer:
+                response_text = "".join(client.current_response_buffer)
+                # Clean up response by removing any "Assistant: " prefix
+                response_text = response_text.replace("Assistant: ", "").strip()
+                return response_text, user_input, response_text
+            time.sleep(0.1)
+            
+        raise TimeoutError("Response timed out")
+        
+    finally:
+        client.close()
 
 # Example usage
 if __name__ == "__main__":

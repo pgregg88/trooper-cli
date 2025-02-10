@@ -20,9 +20,10 @@ if str(project_root) not in sys.path:
 
 from flask import Flask, make_response, render_template, send_file
 from flask_socketio import SocketIO, emit
+from loguru import logger
 
 from src.audio.processor import process_and_play_text
-from src.openai import get_stormtrooper_response
+from src.openai.ai_response import get_stormtrooper_response
 from src.openai.conversation import clear_history, load_history, save_history
 from src.quotes.manager import QuoteCategory, QuoteManager
 
@@ -69,51 +70,69 @@ def handle_message(data):
         # Notify client that trooper is "typing"
         emit('status', {'message': 'Trooper is typing...'})
         
-        # Get AI response with context
-        response, new_input, new_response = get_stormtrooper_response(
-            user_input,
-            cliff_clavin_mode=trivia_mode,
-            previous_user_input=previous_input,
-            previous_response=previous_response
-        )
+        try:
+            # Get AI response with context
+            response, new_input, new_response = get_stormtrooper_response(
+                user_input,
+                cliff_clavin_mode=trivia_mode,
+                previous_user_input=previous_input,
+                previous_response=previous_response
+            )
+            
+            # Log successful response
+            logger.debug(f"Got response: {response[:50]}...")
+            
+        except Exception as e:
+            logger.error(f"Error getting AI response: {e}")
+            emit('error', {'message': f"Failed to get response: {str(e)}"})
+            return
         
         # Save the new context
         save_history(new_input, new_response)
         
-        # Generate audio without playing
-        output_path = process_and_play_text(
-            text=response,
-            urgency="normal",
-            context="general",
-            play_immediately=False,  # Don't play on server
-            cleanup=False  # Keep file temporarily
-        )
-        
-        if output_path and output_path.exists():
-            try:
-                # Read the audio file and encode it
-                with open(output_path, 'rb') as audio_file:
-                    audio_data = audio_file.read()
-                    audio_base64 = base64.b64encode(audio_data).decode('utf-8')
+        try:
+            # Generate audio without playing
+            output_path = process_and_play_text(
+                text=response,
+                urgency="normal",
+                context="general",
+                play_immediately=False,  # Don't play on server
+                cleanup=False  # Keep file temporarily
+            )
+            
+            if not output_path or not output_path.exists():
+                raise ValueError("Failed to generate audio file")
                 
-                # Send response with audio
-                emit('response', {
-                    'message': response,
-                    'cliff_mode': trivia_mode,
-                    'audio': audio_base64,
-                    'content_type': 'audio/wav'  # Explicitly specify content type
-                })
-                
-                # Clean up the file
-                output_path.unlink()
-            except Exception as e:
-                emit('error', {'message': f"Audio processing failed: {str(e)}"})
-                if output_path.exists():
+            # Read the audio file and encode it
+            with open(output_path, 'rb') as audio_file:
+                audio_data = audio_file.read()
+                audio_base64 = base64.b64encode(audio_data).decode('utf-8')
+            
+            # Send response with audio
+            emit('response', {
+                'message': response,
+                'cliff_mode': trivia_mode,
+                'audio': audio_base64,
+                'content_type': 'audio/wav'
+            })
+            
+            # Log successful audio processing
+            logger.debug("Successfully processed and sent audio")
+            
+        except Exception as e:
+            logger.error(f"Audio processing failed: {e}")
+            emit('error', {'message': f"Audio processing failed: {str(e)}"})
+            
+        finally:
+            # Always try to clean up the audio file
+            if output_path and output_path.exists():
+                try:
                     output_path.unlink()
-        else:
-            emit('error', {'message': "Failed to generate audio"})
+                except Exception as e:
+                    logger.error(f"Failed to clean up audio file: {e}")
         
     except Exception as e:
+        logger.error(f"Message handling failed: {e}")
         emit('error', {'message': str(e)})
 
 @socketio.on('toggle_cliff_mode')

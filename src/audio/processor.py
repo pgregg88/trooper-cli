@@ -31,12 +31,18 @@ from typing import Dict, List, Optional, TypedDict, Union, cast
 import numpy as np
 import sounddevice as sd
 import soundfile as sf
+from dotenv import load_dotenv
 from loguru import logger
 
 # Add project root to Python path
 project_root = Path(__file__).parent.parent.parent
 if str(project_root) not in sys.path:
     sys.path.append(str(project_root))
+
+# Load audio-specific environment variables
+audio_env_path = Path(__file__).parent / ".env"
+if audio_env_path.exists():
+    load_dotenv(audio_env_path)
 
 from src.audio import AudioError, AudioPlayer
 from src.audio.effects import StormtrooperEffect
